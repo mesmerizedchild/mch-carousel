@@ -1,0 +1,43 @@
+/** mch-responsive-tiny.less
+  *
+  * Tiny responsive implementation.
+  *
+  */
+
+@switchToMobile: 360px; // Not-so-small mobile phones
+@switchToTablet: 550px; // Tablets/Phablets
+@switchToDesktop: 800px; // Desktop or desktop-like
+
+// Extract element and produce all variants
+.mch-rule-extract-element(@symbol; @it) {
+    @el: extract(@symbol, @it);
+    @sym1: '@{el}Tiny';
+    @sym2: '@{el}Mobile';
+    @sym3: '@{el}Tablet';
+    @sym4: '@{el}Desktop';
+}
+// Entry point
+.mch-rule(@what; @symbol) {
+    .mch-rule-extract-element(@symbol; 1);
+    .mch-rule(@what; @symbol; 2; @@sym1, @@sym2, @@sym3, @@sym4);
+}
+// Second to second-to-last round
+.mch-rule(@what; @symbol; @it; @list) when (@it <= length(@symbol)) {
+    .mch-rule-extract-element(@symbol; @it);
+    .mch-rule(@what; @symbol; @it + 1; 
+        extract(@list, 1) @@sym1, extract(@list, 2) @@sym2, extract(@list, 3) @@sym3, extract(@list, 4) @@sym4);
+}
+// Last round, producing the final CSS output
+.mch-rule(@what; @symbol; @it; @list) when (@it > length(@symbol)) {
+    @{what}: extract(@list, 1);
+    @media (min-width: @switchToMobile) {
+        @{what}: extract(@list, 2);
+    }
+    @media (min-width: @switchToTablet) {
+        @{what}: extract(@list, 3);
+    }
+    @media (min-width: @switchToDesktop) {
+        @{what}: extract(@list, 4);
+    }
+}
+

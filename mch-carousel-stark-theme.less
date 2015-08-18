@@ -1,0 +1,142 @@
+/** MCh Carousel Default Theme.
+  *
+  * Bare-bone non-responsive theme.
+  *
+  * It depends on Roboto for the buttons,
+  * and thus requires the following link in your HTML:
+  *
+  * <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  *
+  */
+
+@imageHorizontalGap: 5px;
+@captionStartGap: 5px;
+@captionTopGap: 5px;
+
+@buttonHeight: 43px;
+@buttonWidth: 86px;
+
+#mch-visible-carousel {
+    position: relative;
+}
+
+#mch-scrollable-viewport {
+    .mch-image-container {
+        padding-left: @imageHorizontalGap;
+    }
+    .mch-image-container:first-of-type {
+        padding-left: 0;
+    }
+    [dir="rtl"] & {
+        .mch-image-container:last-of-type {
+            padding-left: 0;
+        }
+        .mch-image-container:first-of-type {
+            padding-left: @imageHorizontalGap;
+        }
+    }
+}
+
+.mch-caption-cntnr {
+    position: absolute;
+    top: @captionTopGap;
+    left: @captionStartGap;
+    right: initial;
+    [dir="rtl"] & {
+        left: initial;
+        right: @captionStartGap;
+    }
+}
+
+.mch-caption-background {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: white;
+    opacity: 0.25;
+}
+
+.mch-caption-lines {
+    padding: 5px 15px 8px 15px;
+    margin: 3px;
+    p {
+        margin: 0;
+        padding: 3px 0 0 0;
+    }
+}
+
+.mch-caption-line1, .mch-caption-line2, .mch-caption-line3 {
+    color: black;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Style for the navigation buttons */
+.mch-button {
+    display: table;
+	color: white;
+	font-family: 'Roboto';
+	font-size: 35px;
+	font-weight: bold;
+    width: @buttonWidth;
+    height: @buttonHeight;
+    position: absolute;
+    bottom:  0;
+    cursor: pointer; 
+    border: 1px #003399 solid;
+    &:hover {
+    	color: #FFCC00;
+    }
+    /* Thanks to the arrangement of z-order's and position's,
+         we can have semi-transparent background... */
+    .mch-button-background {
+    	background-color: #003399;
+    	opacity: .75;
+    	position: absolute;
+    	top: 0;
+    	right: 0;
+    	bottom: 0;
+    	left: 0;
+    }
+    /* ... together with fully-opaque text. */
+    .mch-button-graphics {
+    	display: table-cell;
+    	vertical-align: middle;
+    	text-align: center;
+    	width: 100%;
+        direction: ltr;
+    }
+    &#mch-leftmost {
+    	left: 0;
+    	.mch-button-graphics::after {
+    		content: '«';
+    	}
+    }
+    &#mch-left {
+    	left: @buttonWidth;
+    	.mch-button-graphics::after {
+    		content: '‹';
+    	}
+    }
+    &#mch-right {
+    	right: @buttonWidth;
+    	.mch-button-graphics::after {
+    		content: '›';
+    	}
+    }
+    &#mch-rightmost {
+    	right: 0;
+    	.mch-button-graphics::after {
+    		content: '»';
+    	}
+    }
+}
+
+/* Not interested in displaying the start-end navigation buttons,
+     nor the slide-control buttons. */
+#mch-start-end-group, #mch-slide-control-group {
+    display: none;
+}
