@@ -1,5 +1,11 @@
 /**
  * MCh Carousel
+
+ TODO: add version.
+ Also, is it coherent to put a copyright on a MIT thing? I think so,
+ but let's double-check.
+
+
  * 
  * © 2015 by Roberto Giuntoli [rg@mesmerizedchild.eu] 
  * Dependencies:

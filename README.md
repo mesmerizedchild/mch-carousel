@@ -109,7 +109,7 @@ This software is released under the MIT licence; see LICENCE.txt.
 * **Who is the author?**  
     The author is an Italian guy enjoying life in Barcelona, and who recently embarked on the adventure of web development. This is his first publicly-available web project.  
     His mission is to deliver quality products, and thus tends to test thoroughly his software before releasing it.  
-    He also believes that cooperation is key in any endavour, so please do send suggestions, ideas, [constructive] criticism, kudos and anything else, to his email address: [rg@mesmerizedchild.eu](mailto:rg@mesmerizedchild.eu). Also, do fork this project and feel free to create a pull request if you have an interesting addition [or bug fix!]  
+    He also believes that cooperation is key in any endavour, so please do send suggestions, ideas, [constructive] criticism, kudos and anything else, to his email address: [rg@mesmerizedchild.eu](mailto:rg@mesmerizedchild.eu), or give him a tweet at [@mesmerizedChild](https://twitter.com/mesmerizedChild). Also, do fork this project, log issues and feel free to create a pull request if you have an interesting addition [or bug fix!]  
 
 ## Credits
 Contains [adapted] code from the following sources:  
