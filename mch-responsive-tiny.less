@@ -1,6 +1,6 @@
 /** mch-responsive-tiny.less
   *
-  * Tiny responsive implementation.
+  * Tiny responsive mix-in.
   *
   */
 
@@ -8,6 +8,11 @@
 @switchToTablet: 550px; // Tablets/Phablets
 @switchToDesktop: 800px; // Desktop or desktop-like
 
+// Entry point
+.mch-rule(@what; @symbol) {
+    .mch-rule-extract-element(@symbol; 1);
+    .mch-rule(@what; @symbol; 2; @@sym1, @@sym2, @@sym3, @@sym4);
+}
 // Extract element and produce all variants
 .mch-rule-extract-element(@symbol; @it) {
     @el: extract(@symbol, @it);
@@ -16,18 +21,13 @@
     @sym3: '@{el}Tablet';
     @sym4: '@{el}Desktop';
 }
-// Entry point
-.mch-rule(@what; @symbol) {
-    .mch-rule-extract-element(@symbol; 1);
-    .mch-rule(@what; @symbol; 2; @@sym1, @@sym2, @@sym3, @@sym4);
-}
-// Second to second-to-last round
+// Second to second-to-last round of .mch-rule()
 .mch-rule(@what; @symbol; @it; @list) when (@it <= length(@symbol)) {
     .mch-rule-extract-element(@symbol; @it);
     .mch-rule(@what; @symbol; @it + 1; 
         extract(@list, 1) @@sym1, extract(@list, 2) @@sym2, extract(@list, 3) @@sym3, extract(@list, 4) @@sym4);
 }
-// Last round, producing the final CSS output
+// Last round of .mch-rule(), producing the final CSS output
 .mch-rule(@what; @symbol; @it; @list) when (@it > length(@symbol)) {
     @{what}: extract(@list, 1);
     @media (min-width: @switchToMobile) {
@@ -41,3 +41,23 @@
     }
 }
 
+// Constants
+@zeroTiny: 0;
+@zeroMobile: 0;
+@zeroTablet: 0;
+@zeroDesktop: 0;
+
+@autoTiny: auto;
+@autoMobile: auto;
+@autoTablet: auto;
+@autoDesktop: auto;
+
+@inheritTiny: inherit;
+@inheritMobile: inherit;
+@inheritTablet: inherit;
+@inheritDesktop: inherit;
+
+@initialTiny: initial;
+@initialMobile: initial;
+@initialTablet: initial;
+@initialDesktop: initial;

@@ -1,15 +1,29 @@
-/* * mch-carousel.less
+/** 
+  * mch-carousel.less
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
+  *
+  * Core styles [in some case: Required styles] for MCh Carousel.
+  * This file should be included at the beginning of your LESS files,
+  *   before any MCh Carousel themes.
   * 
   * Typical usage in a LESS file:
   *
   * @import 'mch-carousel.less';
+  * @import 'mch-carousel-basic-theme.less'; // If you want to use a theme
+  *
   * #some-carousel-id, .or-some-carousel-class {
-  *     // And now the customisations for the speficic theme/instance 
+  *     // See below for notes on setting the carousel's height
+  *     .mch-viewport-height({ height: 560px });
+  *     // Now, the customisations for the speficic theme/instance 
   *     #mch-buttons-pane {
   *         max-width: 800px;
   *     }
   * }
   * #some-other-carousel-id, .or-some-other-carousel-class {
+  *     // See below for notes on setting the carousel's height
+  *     .mch-viewport-height({ height: 483px });
   *     // Other customisations for the speficic theme/instance 
   *     .mch-button-background {
   *         background-color: black;
@@ -17,28 +31,35 @@
   * }
   *
   * The following reduces pollution in the CSS namespace, although all selectors
-  *   in this LESS file have the mch prefix and, as such, name conflicts are
+  *   in this LESS file begin with 'mch' and, as such, name conflicts are
   *   unlikely:
   * 
   * #some-carousel-id, .or-some-carousel-class {
   *     @import 'mch-carousel.less'; // No possibility of selector name conflicts,
   *                                  //   as this import is only related to 
   *                                  // this carousel id or class 
+  *     // See below for notes on setting the carousel's height
+  *     .mch-viewport-height({ height: 560px });
   *     #mch-buttons-pane {
   *         max-width: 800px;
   *     }
   * }
   *
   * Note that, due to how Firefox handles [resized] images and the <div> containing
-  *   them, we are forced to use a mix-in in order to set the height of the viewport
-  *   [ideally, we would be able to set the height only on one of the outer elements 
+  *   them, we are forced to use a mix-in in order to set the height of the viewport.
+  *   The mix-in enforces the specified height on a handful of elements within the
+  *   carousel, and this may affect how responsive the carousel may be [ideally, 
+  *   we would be able to set the height only on one of the outer elements 
   *   of the carousel and then the inner elements would all go: 'height: 100%', 
   *   but that has proven to fail in Firefox when images need to be scaled down or
-  *   up in order to match the specified height].
+  *   up in order to match the specified height, and this mix-in is the solution
+  *   I've come up with...]
+  *
   * So... the mix-in is .mch-viewport-height(). How do we use it?
   *
   * @import 'mch-carousel.less';
   * #some-carousel-id, .or-some-carousel-class {
+  *     // Specify a fixed height of 280px
   *     .mch-viewport-height({
   *         height: 280px;
   *     });
@@ -48,34 +69,37 @@
   *
   * @import 'mch-carousel.less';
   * .mch-viewport-height({
+  *     // Specify a responsive height
   *     height: 26em;
   *     @media screen and (min-width: 600px) {
   *         height: 36em;
   *     }
   * });
   *
-  * The height may be specified using "absolute" lengths [px, pt, mm, etc...] without
+  * The height may be specified using "absolute" units [px, pt, mm, etc...] without
   *   any problem whatsoever.
-  * On the other hand, care should be taken when using "relative" lenghts:
+  * On the other hand, care should be taken when using "relative" units:
   *   em, ex, ch:    they are relative to the current font, and the "current font"
   *                    may be different across different DOM elements of the
   *                    carousel. Careful!!
   *   rem, vw, vh,   although "relative" units, they are relative to elements
-  *   vmin, vmax:      outside of the carousel, so they may be used freely.
+  *   vmin, vmax:      outside of the carousel, so they may be used.
   *
-  *   %              definitely a bad idea; for example, '25%' means completely 
-  *                    different things when applied to the viewport, from when 
-  *                    applied to the images. Cannot be used at all!
+  *   %              definitely a bad idea; '25%' means completely different things
+  *                    when applied to different DOM elements of the carousel.
+  *                    This cannot be used at all!
   *
   *
-  * Now, here is the DOM structure of the carousel at run-time, for your reference when
-  *   building or customising a theme:
+  * Now, following is the DOM structure of the carousel at run-time, for your reference 
+  *   when building or customising a theme; indentation corresponds to how 
+  *   the DOM elements are nested. The vertical bars and arrows are simply a visual
+  *   clue to highlight sibling elements, when these are separated by many lines.
   *
   * div.mch-carousel#[carousel ID]
   *    div#image-list, always hidden
   *       img, each img is the source data for the run-time carousel
   *    div#mch-visible-carousel, created at run-time, and contains what we actually see on the screen
-  *    +- div#mch-viewport
+  *    +> div#mch-viewport
   *    |     div#mch-scrollable-viewport
   *    |        div.mch-image-container, with an ID if the original image specified it
   *    |           a.mch-hyperlink, this node not present if no hyperlink
@@ -89,15 +113,15 @@
   *    |                       p, containing caption line 2
   *    |                    div.mch-caption-line3
   *    |                       p, containing caption line 3
-  *    +- div#mch-buttons-pane, the buttons pane
-  *       +- div#mch-slide-control-group, invisible if auto-sliding is not enabled
+  *    +> div#mch-buttons-pane, the buttons pane
+  *       +> div#mch-slide-control-group, invisible if auto-sliding is not enabled
   *       |     div.mch-button#mch-pause
   *       |        div.mch-button-background
   *       |        div.mch-button-graphics
   *       |     div.mch-button#mch-restart
   *       |        div.mch-button-background
   *       |        div.mch-button-graphics
-  *       +- div#mch-left-right-group, "physical" navigation buttons, not RTL-aware
+  *       +> div#mch-left-right-group, "physical" navigation buttons, not RTL-aware
   *       |     div.mch-button#mch-leftmost
   *       |        div.mch-button-background
   *       |        div.mch-button-graphics
@@ -110,7 +134,7 @@
   *       |     div.mch-button#mch-rightmost
   *       |        div.mch-button-background
   *       |        div.mch-button-graphics
-  *       +- div#mch-start-end-group, "logical" navigation buttons, RTL-aware
+  *       +> div#mch-start-end-group, "logical" navigation buttons, RTL-aware
   *             div.mch-button#mch-first
   *                div.mch-button-background
   *                div.mch-button-graphics
@@ -124,6 +148,10 @@
   *                div.mch-button-background
   *                div.mch-button-graphics
   */
+
+#mch-visible-carousel {
+    position: relative; /* Not indispensable, but it won't hurt... */
+}
 
 #mch-image-list {
   /* Must stay hidden, as this is *not* what the carousel will display */
@@ -165,8 +193,10 @@
      Use padding, instead of margin, to build gaps between images. !important   */
   box-sizing: border-box !important;
   img {
+    height: 100%;
     z-index: 0;
     max-width: none;
+    margin: 0 !important; /* Use padding if you need spacing between images. */
   }
 }
 
@@ -212,16 +242,12 @@
   display: none;
 }
 
+/* Mix-in for setting the height of the carousel. */
 .mch-viewport-height(@rules) {
   #mch-viewport {
     @rules();
   }
   .mch-image-container {
     @rules();
-    img {
-      @rules();
-    }
   }
 }
-
-

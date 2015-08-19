@@ -2,7 +2,17 @@
   *
   * A simple, responsive, direction- and language-sensitive theme.
   *
-  * It depends on Roboto for the buttons and caption in Latin scripts,
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
+  *
+  * Typical usage in a LESS file:
+  *
+  * @import 'mch-carousel.less';
+  * @import 'mch-carousel-stark-theme.less';
+  * 
+  * See mch-carousel.less for more details.
+  *
+  * This theme depends on Roboto for the buttons and caption in Latin scripts,
   * and thus requires the following link in your HTML:
   *
   * <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -61,52 +71,35 @@
 @offset3Desktop: ((@buttonWidthDesktop + @borderSpacingDesktop)*2);
 @offset4Desktop: ((@buttonWidthDesktop + @borderSpacingDesktop)*3);
 
-@zeroTiny: 0px;
-@zeroMobile: 0px;
-@zeroTablet: 0px;
-@zeroDesktop: 0px;
-
 @iconsFont: 'Roboto';
 @latinScriptFont: 'Roboto';
 @greekScriptFont: 'Roboto';
 @hebrewScriptFont: 'Tinos';
 @arabicScriptFont: 'Amiri';
 
-#mch-visible-carousel {
-    position: relative;
-}
-
-#mch-scrollable-viewport {
-    .mch-image-container {
-        padding-left: @imageHorizontalGap;
-        opacity: 1;
-        &:hover {
-            opacity: 0.8;
-            transition: 0.2s;
-        }
+/* Best padding when caption is "end-aligned" [right-aligned for
+      left-to-right languages, and left-aligned for right-to-left
+      languages]. */
+.mch-image-container {
+    opacity: 1;
+    padding-right: 0;
+    padding-left: @imageHorizontalGap;
+    &:hover {
+        opacity: 0.8;
+        transition: 0.2s;
     }
-    .mch-image-container:first-of-type {
+    &:first-of-type {
         padding-left: 0;
     }
     [dir="rtl"] & {
-        .mch-image-container:last-of-type {
-            padding-left: 0;
-        }
-        .mch-image-container:first-of-type {
-            padding-left: @imageHorizontalGap;
+        padding-right: @imageHorizontalGap;
+        padding-left: 0;
+        &:first-of-type {
+            padding-right: 0;
         }
     }
 }
 
-#mch-buttons-pane {
-    position: relative;
-    .mch-rule(height, buttonHeight);
-    .mch-rule(margin, borderSpacing zero zero zero);
-}
-
-// TODO: fix gap, because of the variable padding for .mch-image-container
-// Also, organise the two themes in a more-similar fashion [same order of
-//   elements, for example...]
 .mch-caption-cntnr {
     position: absolute;
     top: 0;
@@ -147,6 +140,7 @@
     }
 }
 
+/* Language-dependent font. */
 .mch-scripts() {
     font-family: @latinScriptFont;
     [lang="el"] & {
@@ -178,6 +172,12 @@
     .mch-scripts();
     font-size: 15px;
     line-height: 18px;
+}
+
+#mch-buttons-pane {
+    position: relative;
+    .mch-rule(height, buttonHeight);
+    .mch-rule(margin, borderSpacing zero zero zero);
 }
 
 /* Style for the navigation buttons */

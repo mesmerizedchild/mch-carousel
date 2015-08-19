@@ -115,10 +115,13 @@ This software is released under the MIT licence; see LICENCE.txt.
 Contains [adapted] code from the following sources:  
 * [jQuery RTL Scroll Type Detector](https://github.com/othree/jquery.rtl-scroll-type)  
 * [http://jsfiddle.net/scA63/](http://jsfiddle.net/scA63/), posted as a part of the [accepted] reply to [a question in Stack Overflow](http://stackoverflow.com/questions/24276619/better-way-to-get-the-viewport-of-a-scrollable-div-in-rtl-mode)  
-Many thanks to [David Ferrando](ferr@weareanimals.eu) at [We Are Animals](http://www.weareanimals.eu/) for his input, ideas, creativity and constant support.
+  
+Many thanks to [David Ferrando](mailto:ferr@weareanimals.eu) at [We Are Animals](http://www.weareanimals.eu/) for his input, ideas, creativity and constant support.
 
 ## External tools
 All LESS and Javascript files compiled and minified with [Koala](http://koala-app.com/) for Windows.
 
 ## Th-Th-Th-Th-That's All Folks!
 ...and **Thank You** for your interest!
+
+    Roberto Giuntoli [mesmerizedChild].

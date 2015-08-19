@@ -2,7 +2,17 @@
   *
   * Bare-bone non-responsive theme.
   *
-  * It depends on Roboto for the buttons,
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
+  *
+  * Typical usage in a LESS file:
+  *
+  * @import 'mch-carousel.less';
+  * @import 'mch-carousel-stark-theme.less';
+  * 
+  * See mch-carousel.less for more details.
+  *
+  * This theme depends on Roboto for the buttons,
   * and thus requires the following link in your HTML:
   *
   * <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
@@ -16,28 +26,24 @@
 @buttonHeight: 43px;
 @buttonWidth: 86px;
 
-#mch-visible-carousel {
-    position: relative;
-}
-
-#mch-scrollable-viewport {
-    .mch-image-container {
-        padding-left: @imageHorizontalGap;
-    }
-    .mch-image-container:first-of-type {
-        padding-left: 0;
+/* Best padding when caption is "start-aligned" [left-aligned for
+      left-to-right languages, and right-aligned for right-to-left
+      languages]. */
+.mch-image-container {
+    padding-right: @imageHorizontalGap;
+    padding-left: 0;
+    &:last-of-type {
+        padding-right: 0;
     }
     [dir="rtl"] & {
-        .mch-image-container:last-of-type {
+        padding-right: 0;
+        padding-left: @imageHorizontalGap;
+        &:first-of-type {
             padding-left: 0;
-        }
-        .mch-image-container:first-of-type {
-            padding-left: @imageHorizontalGap;
         }
     }
 }
 
-// TODO: fix gap, because of the variable padding for .mch-image-container
 .mch-caption-cntnr {
     position: absolute;
     top: @captionTopGap;
@@ -74,6 +80,9 @@
     font-size: 24px;
     font-weight: bold;
 }
+
+/* #mch-buttons-pane is not styled, as the buttons overlay the images
+     and need 'position: relative' directly on #mch-visible-carousel. */
 
 /* Style for the navigation buttons */
 .mch-button {

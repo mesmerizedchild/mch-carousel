@@ -1,32 +1,30 @@
 /**
- * MCh Carousel
-
- TODO: add version.
- Also, is it coherent to put a copyright on a MIT thing? I think so,
- but let's double-check.
-
-
+ * MCh Carousel 1.0
  * 
- * © 2015 by Roberto Giuntoli [rg@mesmerizedchild.eu] 
+ * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+ * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
+ *
  * Dependencies:
  *   - jQuery 2 [https://jquery.com/]
  *   - plugin jQuery-mousewheel [https://github.com/jquery/jquery-mousewheel] 
  * Licence:
  *   MIT
  *
- * More information at https://github.com/mesmerizedchild/mch-carousel
- *
  * @preserve 
  */
 (function($) {
 
-    // I don't like messing around with JS prototypes, but this one *is* a nice polyfill :) ...
+    // I don't like messing around with prototypes, but this one *is* a nice polyfill :) ...
     if (typeof String.prototype.endsWith !== 'function') {
         String.prototype.endsWith = function(suffix) {
             return this.indexOf(suffix, this.length - suffix.length) !== -1;
         };
     }
 
+    /**
+     * Some function
+     * @constructor
+     */
     $.fn.mchCarousel = function(options) {
         var retValue = [];
         $(this).each(function() {
@@ -43,14 +41,14 @@
             t.data(_st.f, carousel);
             retValue.push(carousel);
         });
-        switch(retValue.length) {
+        switch (retValue.length) {
             case 0:
                 return undefined;
             case 1:
                 return retValue[0];
         }
         return retValue;
-    }
+    };
 
     var _df = {
             slideAutomatically: true,
@@ -83,42 +81,6 @@
                 mousewheelMultiplier: 40,
                 divCleanup: true,
             },
-        },
-        _ev = {
-            /* Public event names */
-
-            /* The following events receive the DOM for carousel [.mch-carousel]: */
-            p: 'mch-carousel:enter-carousel',
-            r: 'mch-carousel:leave-carousel',
-
-            /* The following events receive the DOM for viewport [#mch-scrollable-viewport]: */
-            c: 'mch-carousel:before-slide-left',
-            d: 'mch-carousel:slide-left',
-            e: 'mch-carousel:before-slide-right',
-            f: 'mch-carousel:slide-right',
-            g: 'mch-carousel:before-slide-leftmost',
-            h: 'mch-carousel:slide-leftmost',
-            i: 'mch-carousel:before-slide-rightmost',
-            j: 'mch-carousel:slide-rightmost',
-            C: 'mch-carousel:before-slide-prev',
-            D: 'mch-carousel:slide-prev',
-            E: 'mch-carousel:before-slide-next',
-            F: 'mch-carousel:slide-next',
-            G: 'mch-carousel:before-slide-first',
-            H: 'mch-carousel:slide-first',
-            I: 'mch-carousel:before-slide-last',
-            J: 'mch-carousel:slide-last',
-
-
-            /* The following events receive the DOM for image container [.mch-image-container]: */
-            a: 'mch-carousel:before-autocentre-image',
-            b: 'mch-carousel:autocentre-image',
-            l: 'mch-carousel:enter-image',
-            n: 'mch-carousel:leave-image',
-
-            /* The following events receive the DOM for button [.mch-button]: */
-            s: 'mch-carousel:enter-button',
-            t: 'mch-carousel:leave-button',
         },
         _st = {
             // Various strings
@@ -173,6 +135,41 @@
             i7: '_mch-carousel:slide-first',
             i8: '_mch-carousel:slide-last',
             i9: '_mch-carousel:auto-next',
+        },
+        _ev = {
+            /* Public event names */
+
+            /* The following events receive the DOM for carousel [.mch-carousel]: */
+            p: 'mch-carousel:enter-carousel',
+            r: 'mch-carousel:leave-carousel',
+
+            /* The following events receive the DOM for viewport [#mch-scrollable-viewport]: */
+            c: 'mch-carousel:before-slide-left',
+            d: 'mch-carousel:slide-left',
+            e: 'mch-carousel:before-slide-right',
+            f: 'mch-carousel:slide-right',
+            g: 'mch-carousel:before-slide-leftmost',
+            h: 'mch-carousel:slide-leftmost',
+            i: 'mch-carousel:before-slide-rightmost',
+            j: 'mch-carousel:slide-rightmost',
+            C: 'mch-carousel:before-slide-prev',
+            D: 'mch-carousel:slide-prev',
+            E: 'mch-carousel:before-slide-next',
+            F: 'mch-carousel:slide-next',
+            G: 'mch-carousel:before-slide-first',
+            H: 'mch-carousel:slide-first',
+            I: 'mch-carousel:before-slide-last',
+            J: 'mch-carousel:slide-last',
+
+            /* The following events receive the DOM for image container [.mch-image-container]: */
+            a: 'mch-carousel:before-autocentre-image',
+            b: 'mch-carousel:autocentre-image',
+            l: 'mch-carousel:enter-image',
+            n: 'mch-carousel:leave-image',
+
+            /* The following events receive the DOM for button [.mch-button]: */
+            s: 'mch-carousel:enter-button',
+            t: 'mch-carousel:leave-button',
         };
     var _en = $.fn.mchCarousel.eventNames = [];
     $.each(_ev, function(key, value) {
@@ -180,73 +177,16 @@
     });
     $.fn.mchCarousel.defaultOptions = _df;
 
-    // TODO: add @constructor and other JS Doc.
-    function MChCarousel(rootElement, options) {
+    /*
+     * The object that generates the carousel from the images in #mch-image-list,
+     *   and handles incoming events.
+     * @constructor
+     */
+    var MChCarousel = function(rootElement, options) {
+
         // Mix the input options [if any] with the default ones.
-        options = $.extend(true, {}, _df, options);
+        var options = $.extend(true, {}, _df, options);
         buildHiddenOptions();
-
-        var // This is our 'data source'
-            imgList = rootElement.find(_st.l);
-
-        /* Εnsure that we start with a clean slate [i.e. no elements
-             other than #mch-image-list in the carousel].
-           This is needed mostly with WordPress, because it 'likes'
-             to throw stray <p>'s into the HTML even when we are editing
-             our page from the Text tab... go figure.
-           Anyway, those stray <p>'s do take space in the carousel,
-             offsetting the viewport and all other elements, thus making it
-             appear as if the carousel itself were defective.
-           Thank you WP :) ... */
-        if (options.advanced.divCleanup) {
-            var el;
-            while ((el = imgList.next())[0])
-                el.remove();
-            while ((el = imgList.prev())[0])
-                el.remove();
-        }
-
-        var evntMngr = new EventManager(),
-
-            // The carousel hosts the viewport and the buttons
-            carousel = new Carousel(),
-            domCarousel = carousel[0],
-
-            // Build the [visible] viewport from the [hidden] list of images...
-            viewport = new Viewport(imgList),
-
-            buttonsPane = new ButtonsPane();
-
-        var autoSlider = new AutoSlider(carousel);
-
-        // Assemble the carousel: first the viewport...
-        domCarousel.setViewport(viewport);
-        // ... then the buttons...
-        domCarousel.setButtonsPane(buttonsPane);
-
-        // ...then add the new carousel to the root element, and the DOM is done!
-        rootElement.append(carousel);
-        rootElement.addClass(_st.f);
-
-        this.pauseAutoslide = evntMngr.pauseAutoslide;
-        this.restartAutoslide = evntMngr.restartAutoslide;
-        this.slideLeft = evntMngr.slideLeft;
-        this.slideRight = evntMngr.slideRight;
-        this.slideLeftmost = evntMngr.slideLeftmost;
-        this.slideRightmost = evntMngr.slideRightmost;
-        this.slideNext = evntMngr.slideNext;
-        this.slidePrev = evntMngr.slidePrev;
-        this.slideFirst = evntMngr.slideFirst;
-        this.slideLast = evntMngr.slideLast;
-
-        this.changeOptions = changeOptions;
-        this.forceResize = windowResized; // TODO: check better responsiveness.
-        this.getObject = getObject;
-        this.getDomObject = getDomObject;
-
-        $(window).on('resize', windowResized);
-
-        // That's it, from now on are only function declarations...
 
         // To which element does this MchCarousel instance belong?
         // Result is a jQuery object wrapping the actual DOM element
@@ -287,10 +227,6 @@
             hid.aav = all ? parseInt(all) : 1500;
         }
 
-        function isPageLtr() {
-            return (rootElement.css('direction') === 'ltr');
-        }
-
         function slidesLtr() {
             // Imposed by the options...
             switch (options.slideAutomaticallyOptions.direction) {
@@ -300,7 +236,7 @@
                     return false;
             }
             // ...or taken from the page itself.
-            return isPageLtr();
+            return isLtr(rootElement);
         }
 
         // Utility methods to reduce the size of the code [especially when minified]
@@ -308,8 +244,64 @@
             rootElement.trigger(_st.iy);
         }
 
-        // Handles events coming in via the API, as well as via the buttons
-        function EventManager() {
+        /*
+         * Very basic timer implementation.
+         * @constructor
+         * @param {string} funct The function to be invoked at every tick
+         * @param {} time It may be an integer or a function returning an integer,
+                            expressing how often the timer should tick. If it's a
+                            function, it's evaluated at every tick to determine
+                            when the next tick should occurr. */
+        var Timer = function(funct, time) {
+            var res = null,
+                paused = false,
+                _time = (typeof time === 'function' ? time : function() {
+                    return time;
+                });
+            this.schedule = schedule;
+            this.cancel = cancel;
+            this.reschedule = reschedule;
+            this.pause = pause;
+            this.restart = restart;
+            this.isPaused = isPaused;
+
+            function schedule() {
+                if (!paused)
+                    res = window.setTimeout(funct, _time());
+            }
+
+            function cancel() {
+                if (res)
+                    window.clearTimeout(res);
+                res = null;
+            }
+
+            function reschedule() {
+                cancel();
+                schedule();
+            }
+
+            function pause() {
+                paused = true;
+                cancel();
+            }
+
+            function restart() {
+                paused = false;
+                reschedule();
+            }
+
+            function isPaused() {
+                return paused;
+            }
+        };
+
+        /*
+         * Handles events coming in via the API, as well as via the buttons
+         *
+         * @constructor
+         */
+        var EventManager = function() {
             this.pauseAutoslide = pauseAutoslide;
             this.restartAutoslide = restartAutoslide;
             this.slideLeft = slideLeft;
@@ -329,16 +321,19 @@
                 rootElement.trigger(_st.iz);
             }
 
+            /** 
+             * Slides the carousel to the left
+             */
             function slideLeft() {
                 var ltr;
                 rescheduleAutoSlide();
                 triggerBeforeSlideLeft();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlidePrev();
-                    rootElement.trigger(_st.i5);
+                    triggerInternalSlidePrev();
                 } else {
                     triggerBeforeSlideNext();
-                    rootElement.trigger(_st.i6);
+                    triggerInternalSlideNext();
                 }
                 triggerSlideLeft();
                 if (ltr)
@@ -353,10 +348,10 @@
                 triggerBeforeSlideRight();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlideNext();
-                    rootElement.trigger(_st.i6);
+                    triggerInternalSlideNext();
                 } else {
                     triggerBeforeSlidePrev();
-                    rootElement.trigger(_st.i5);
+                    triggerInternalSlidePrev();
                 }
                 triggerSlideRight();
                 if (ltr)
@@ -371,10 +366,10 @@
                 triggerBeforeSlideLeftmost();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlideFirst();
-                    rootElement.trigger(_st.i7);
+                    triggerInternalSlideFirst();
                 } else {
                     triggerBeforeSlideLast();
-                    rootElement.trigger(_st.i8);
+                    triggerInternalSlideLast();
                 }
                 triggerSlideLeftmost();
                 if (ltr)
@@ -389,10 +384,10 @@
                 triggerBeforeSlideRightmost();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlideLast();
-                    rootElement.trigger(_st.i8);
+                    triggerInternalSlideLast();
                 } else {
                     triggerBeforeSlideFirst();
-                    rootElement.trigger(_st.i7);
+                    triggerInternalSlideFirst();
                 }
                 triggerSlideRightmost();
                 if (ltr)
@@ -409,7 +404,7 @@
                 else
                     triggerBeforeSlideRight();
                 triggerBeforeSlidePrev();
-                rootElement.trigger(_st.i5);
+                triggerInternalSlidePrev();
                 if (ltr = slidesLtr())
                     triggerSlideLeft();
                 else
@@ -425,7 +420,7 @@
                 else
                     triggerBeforeSlideLeft();
                 triggerBeforeSlideNext();
-                rootElement.trigger(_st.i6);
+                triggerInternalSlideNext();
                 if (ltr = slidesLtr())
                     triggerSlideRight();
                 else
@@ -441,7 +436,7 @@
                 else
                     triggerBeforeSlideRightmost();
                 triggerBeforeSlideFirst();
-                rootElement.trigger(_st.i7);
+                triggerInternalSlideFirst();
                 if (ltr = slidesLtr())
                     triggerSlideLeftmost();
                 else
@@ -457,16 +452,12 @@
                 else
                     triggerBeforeSlideLeftmost();
                 triggerBeforeSlideLast();
-                rootElement.trigger(_st.i8);
+                triggerInternalSlideLast();
                 if (ltr = slidesLtr())
                     triggerSlideRightmost();
                 else
                     triggerSlideLeftmost();
                 triggerSlideLast();
-            }
-
-            function slideOneImage() {
-                
             }
 
             function triggerBeforeSlideLeft() {
@@ -532,10 +523,29 @@
             function triggerSlideLast() {
                 rootElement.trigger(_ev.J);
             }
-        }
 
-        // Carousel auto-sliding class
-        function AutoSlider(carousel) {
+            function triggerInternalSlideFirst() {
+                rootElement.trigger(_st.i7);
+            }
+
+            function triggerInternalSlidePrev() {
+                rootElement.trigger(_st.i5);
+            }
+
+            function triggerInternalSlideNext() {
+                rootElement.trigger(_st.i6);
+            }
+
+            function triggerInternalSlideLast() {
+                rootElement.trigger(_st.i8);
+            }
+        };
+
+        /*
+         * The class handling the automatic slide. 
+         * @constructor
+         */
+        var AutoSlider = function(carousel) {
             var domCarousel = carousel[0],
                 timedSlide = new Timer(timedSlideFunct, function() {
                     return options.slideAutomaticallyOptions.pauseMs;
@@ -563,65 +573,22 @@
 
             function timedSlideFunct() {
                 if (options.slideAutomatically && domCarousel.canAutoSlide())
-                    rootElement.trigger(_st.i9);
+                    rootElement.trigger(_st.i9); // _mch-carousel:auto-next
                 timedSlide.schedule(); // Schedule next tick, regardless...
             }
-        }
+        };
 
-        // Very basic timer implementation
-        //   time may be an integer or a function returning an integer
-        function Timer(funct, time) {
-            var res = null,
-                paused = false,
-                _time = (typeof time === 'function' ? time : function() {
-                    return time;
-                });
-            this.schedule = schedule; 
-            this.cancel = cancel; 
-            this.reschedule = reschedule; 
-            this.pause = pause; 
-            this.restart = restart; 
-            this.isPaused = isPaused; 
-
-            function schedule() {
-                if (!paused)
-                    res = window.setTimeout(funct, _time());
-            };
-
-            function cancel() {
-                if (res)
-                    window.clearTimeout(res);
-                res = null;
-            };
-
-            function reschedule() {
-                cancel();
-                schedule();
-            };
-
-            function pause() {
-                paused = true;
-                cancel();
-            };
-
-            function restart() {
-                paused = false;
-                reschedule();
-            };
-
-            function isPaused() {
-                return paused;
-            };
-        }
-
-        // The carousel, with its viewport and buttons
-        function Carousel() {
+        /*
+         * The object that wraps the visible carousel.
+         * @constructor
+         */
+        var Carousel = function() {
             var carousel = $('<div id="' + _st.S + '"></div>'),
                 buttonsPane,
                 viewport,
                 justUsedWheel = false,
                 noWheel = new Timer(noWheelFunct,
-                                    options.advanced.mousewheelAutocentreInactivity);
+                    options.advanced.mousewheelAutocentreInactivity);
             carousel.on({
                 mouseenter: enterCarousel,
                 mouseleave: leaveCarousel
@@ -761,9 +728,15 @@
                     !(buttonsPane && buttonsPane[0].isMouseHoveringButtons() && options.slideAutomaticallyOptions.pauseOnHoverButtons) &&
                     !(viewport && viewport[0].isMouseHoveringImages() && options.slideAutomaticallyOptions.pauseOnHoverImage);
             }
-        }
+        };
 
-        function ButtonsPane() {
+        /*
+         * The button pane.<br/>
+         * It creates and contains all buttons, then it's up to the CSS to decide
+         *   which ones to show, and which ones to hide.
+         * @constructor
+         */
+        var ButtonsPane = function() {
             var buttonsPane = $('<div id="' + _st.Z + '"></div>'),
                 slideControlGroup = $('<div id="' + _st.Z1 + '"></div>'),
                 leftRightGroup = $('<div id="' + _st.Z2 + '"></div>'),
@@ -876,14 +849,17 @@
             function isMouseHoveringButtons() {
                 return hoveringButtons;
             }
-        }
+        };
 
-        // Each of the buttons for the carousel
-        function CarouselButton(id, nav, onClick) {
+        /*
+         * Any one of the carousel buttons.
+         * @constructor
+         */
+        var CarouselButton = function(id, nav, onClick) {
             var btn = $('<div class="' + _st.B +
-                    ' ' + (nav == 'sc' ? _st.O : _st.R) +
-                    (buttonsOnlyWhenHovering() ? ' ' + _st.h : '') +
-                    '" id="' + id + '"><div class="' + _st.G + '"></div><div class="' + _st.J + '"></div></div>');
+                ' ' + (nav == 'sc' ? _st.O : _st.R) +
+                (buttonsOnlyWhenHovering() ? ' ' + _st.h : '') +
+                '" id="' + id + '"><div class="' + _st.G + '"></div><div class="' + _st.J + '"></div></div>');
             btn.on({
                 click: onClick,
                 dblclick: ignoreDoubleClick,
@@ -948,229 +924,13 @@
             function ignoreDoubleClick(e) {
                 e.preventDefault();
             }
-        }
+        };
 
-        // Build the images in the viewport from the image list
-        function Viewport(imageList) {
-            var viewport = $('<div id="' + _st.C + '"></div>'),
-                scrollableViewport = $('<div id="' + _st.Q + '"></div>'),
-                idx = 0,
-                imgCntnrs = [],
-                hoveringImages = false,
-                totalSize = 0,
-                startPx = [],
-                endPx = [];
-            viewport.append(scrollableViewport);
-
-            imageList.find('img').each(function() {
-                var imgCntnr = new ImageContainer($(this), idx++);
-                // See constructor of ImageContainer() for notes:
-                // imgCntnr.data('idx', idx++);
-                scrollableViewport.append(imgCntnr);
-                imgCntnr.on({
-                    mouseenter: enterImage,
-                    mouseleave: leaveImage
-                });
-                imgCntnrs.push(imgCntnr);
-            });
-
-            // Attach events
-            scrollableViewport.on({
-                mousewheel: mousewheelScroll,
-                scroll: rescheduleAutoSlide
-            });
-            scrollableViewport.on(_st.ib, autoCentre);
-            rootElement.on(_st.i5, slidePrev);
-            rootElement.on(_st.i6, slideNext);
-            rootElement.on(_st.i7, slideFirst);
-            rootElement.on(_st.i8, slideLast);
-            rootElement.on(_st.i9, autoNext);
-
-            // Fix scrollLeft(), which works inconsistently across browsers
-            //   with RTL elements. Hopefully we can remove this hack in
-            //   some future version of jQuery.
-            addScrollStart(scrollableViewport);
-
-            var dom = viewport[0];
-
-            dom.totalWidth = totalWidth;
-            dom.optionsChanged = optionsChanged;
-            dom.isMouseHoveringImages = isMouseHoveringImages;
-
-            return viewport;
-
-            function optionsChanged() {
-                $.each(imgCntnrs, function(index, value) {
-                    value.optionsChanged();
-                });
-            }
-
-            function calc(onlyTotalSize) {
-                totalSize = startPx.length = endPx.length = 0;
-                // Relying on the fact that find() returns elements in document order
-                scrollableViewport.find(_st.k).each(function() {
-                    var w = parseInt($(this).css('width'));
-                    if (!onlyTotalSize) {
-                        startPx.push(totalSize);
-                        endPx.push(totalSize + w);
-                    }
-                    totalSize += w;
-                });
-            }
-
-            function totalWidth() {
-                calc(true);
-                return totalSize;
-            }
-
-            function enterImage() {
-                hoveringImages = true;
-            }
-
-            function leaveImage() {
-                hoveringImages = false;
-                rescheduleAutoSlide();
-            }
-
-            function autoCentre(e, ic) {
-                calc();
-                // Here, ic is the DOM element corresponding to the image container
-                var t = $(ic),
-                    i = t.data('idx'),
-                    w = Math.round(containerWidth()),
-                    sl = Math.round(scrollableViewport.scrollStart()),
-                    sr = sl + w,
-                    sp = startPx[i],
-                    ep = endPx[i];
-
-                // Don't auto-centre if the viewport is smaller than the image
-                //   and the image is already filling it [i.e. there are no
-                //   fragments of other images into view].
-                if (w < endPx[i] - startPx[i] && sp <= sl && ep >= sr)
-                    return;
-
-                if (sp < sl) {
-                    t.trigger(_ev.a);
-                    animatedScrollToOneImage(sp);
-                    t.trigger(_ev.b);
-                } else if (ep > sr) {
-                    t.trigger(_ev.a);
-                    animatedScrollToOneImage(ep - w);
-                    t.trigger(_ev.b);
-                }
-            }
-
-            function isMouseHoveringImages() {
-                return hoveringImages;
-            }
-
-            function slidePrev() {
-                calc();
-                var sl = Math.round(scrollableViewport.scrollStart()),
-                    t = options.advanced.slideTolerance;
-                if (sl > t) {
-                    for (var i = 0; i < endPx.length; i++)
-                        if (endPx[i] >= sl - t) {
-                            animatedScrollToOneImage(startPx[i]);
-                            return true;
-                        }
-                }
-                return false;
-            }
-
-            function slideNext() {
-                calc();
-                var w = Math.round(containerWidth()),
-                    sr = Math.round(scrollableViewport.scrollStart() + w),
-                    t = options.advanced.slideTolerance;
-                if (sr < totalSize - t) {
-                    for (var i = startPx.length - 1; i >= 0; i--)
-                        if (startPx[i] <= sr + t) {
-                            animatedScrollToOneImage(endPx[i] - w);
-                            return true;
-                        }
-                }
-                return false;
-            }
-
-            function slideFirst() {
-                // calc(); Not necessary
-                animatedScrollToAllImages(0);
-            }
-
-            function slideLast() {
-                calc();
-                animatedScrollToAllImages(endPx[endPx.length - 1] - containerWidth());
-            }
-
-            function autoNext() {
-                if (!slideNext())
-                    slideFirst();
-            }
-
-            function containerWidth() {
-                var c;
-                return (c = viewport.closest(_st.s))[0] ? c.width() : undefined;
-            }
-
-            // Scrolling, for only one image
-            function animatedScrollToOneImage(to) {
-                var h;
-                scrollableViewport.animatedScrollStart(to, (h = options._h).oau, h.oav);
-            }
-
-            // Scrolling, for the whole viewport
-            function animatedScrollToAllImages(to) {
-                var h;
-                scrollableViewport.animatedScrollStart(to, (h = options._h).aau, h.aav);
-            }
-
-            // Handle mouse wheel
-            // TODO: is this the right place, considering the EventManager?
-            function mousewheelScroll(e) {
-                if (!options.slideWithMouseWheel)
-                    return;
-
-                // Disable auto-slide while 'wheeling'
-                rootElement.trigger(_st.it); // cancel-auto-slide
-                e = window.event || e;
-
-                // Events are reversed in Firefox, and this is a non-fool-proof way of
-                //   determining whether we are in Firefox
-                var mult = e.originalEvent && (typeof e.originalEvent.detail !== 'undefined') ? -1 : 1
-                    // Should I look at wheelDelta, or delta?
-                    useWheelDelta = (typeof e.deltaX === 'undefined');
-
-                // In the following, delta is normalised based solely on
-                //   the scrolling direction [up/down or left/right].
-                // The actual amount by which the carousel scrolls is determined
-                //   by options.advanced.mousewheelMultiplier
-                var dX = useWheelDelta ? e.wheelDeltaX : e.deltaX ,
-                    dY = useWheelDelta ? e.wheelDeltaY : e.deltaY;
-                //var dX = e.deltaY,
-                //    dY = 0;
-                if(Math.abs(dY)>Math.abs(dX)) {
-                    // Take into account vertical scrolling.
-                    // This needs to be RTL-aware [scroll down advances to the next slide,
-                    //   which is "slide right" for LRT, and "slide left" for RTL].
-                    delta = Math.max(-1, Math.min(1, mult * dY));
-                }
-                else {
-                    // Take into account horizontal scrolling.
-                    // This needs to translate to physical scrolling [positive is right, 
-                    //   negative is left], independently of the layout direction.
-                    // Because scrollStart() is RTL-aware, we need to de-RTL-aware-ise
-                    //   the scrolling direction [test on slideLtr()].
-                    delta = Math.max(-1, Math.min(1, mult * dX)) * (slidesLtr() ? -1 : 1);
-                }
-
-                // Now do the scrolling, and avoid the mousewheel default behaviour [ie scrolling the whole page]
-                scrollableViewport.scrollStart(scrollableViewport.scrollStart() + (delta * options.advanced.mousewheelMultiplier));
-                e.preventDefault();
-            }
-        }
-
-        function ImageContainer(t, idx) {
+        /*
+         * The object that wraps an image and its caption [if present]
+         * @constructor
+         */
+        var ImageContainer = function(t, idx) {
             // Take the information from the image [in #mch-image-list]
             //   and build a DOM element ready for the viewport [in #mch-scrollable-viewport]
             var id = t.prop('id'),
@@ -1188,13 +948,15 @@
                 //
                 // HELP!!!
                 //
-                // data-idx actually belongs to the viewport bit, not here...
+                // Actually, data-idx belongs [logically] to the viewport bit, not here...
                 // but if, in the Viewport constructor, I do:
                 //
                 //   var imgCntnr = new ImageContainer($(this));
                 //   imgCntnr.data('idx', idx++);
+                //   scrollableViewport.append(imgCntnr);
                 // 
-                // then data-idx does not stick around and make it to the HTML.
+                // then data-idx does not stick around and won't make it to the HTML.
+                //
                 // Anybody knows why?!?
                 //
                 imgCntnr = $('<div class="' + _st.K + '" data-idx="' + idx + '"' +
@@ -1204,7 +966,7 @@
                 forAppend,
                 captionCntnr;
 
-            // Maybe the link...
+            // Maybe add the link...
             if (link)
                 imgCntnr.append(forAppend = $('<a class="' + _st.D + '" href="' + link + '"' +
                     (sameWin ? '' : ' target="_blank"') +
@@ -1299,62 +1061,349 @@
                     else
                         captionCntnr.addClass(_st.a);
             }
-        }
+        };
 
-        // Enhance a DOM object with a RTL-aware version of scrollLeft() and its corresponding animated version.
-        function addScrollStart(client) {
-            // Detect which type of browser this is
-            var rtlScrollType = (function() {
-                // Based on https://github.com/othree/jquery.rtl-scroll-type
-                var definer = $('<div dir="rtl" style="position: absolute; top: -1000px; font-size: 14px; width: 1px; height: 1px; overflow: scroll">A</div>').appendTo('body')[0],
-                    retValue;
+        /*
+         * The part of the carousel that contains the images. 
+         * @constructor
+         */
+        var Viewport = function(imageList) {
+            var viewport = $('<div id="' + _st.C + '"></div>'),
+                scrollableViewport = $('<div id="' + _st.Q + '"></div>'),
+                idx = 0,
+                imgCntnrs = [],
+                hoveringImages = false,
+                totalSize = 0,
+                startPx = [],
+                endPx = [];
+            viewport.append(scrollableViewport);
 
-                if (definer.scrollLeft > 0) {
-                    retValue = _st.w; // default
+            imageList.find('img').each(function() {
+                var imgCntnr = new ImageContainer($(this), idx++);
+                // See constructor of ImageContainer() for notes:
+                // imgCntnr.data('idx', idx++);
+                scrollableViewport.append(imgCntnr);
+                imgCntnr.on({
+                    mouseenter: enterImage,
+                    mouseleave: leaveImage
+                });
+                imgCntnrs.push(imgCntnr);
+            });
+
+            // Attach events
+            scrollableViewport.on({
+                mousewheel: mousewheelScroll,
+                scroll: rescheduleAutoSlide
+            });
+            scrollableViewport.on(_st.ib, autoCentre);
+            rootElement.on(_st.i5, slidePrev);
+            rootElement.on(_st.i6, slideNext);
+            rootElement.on(_st.i7, slideFirst);
+            rootElement.on(_st.i8, slideLast);
+            rootElement.on(_st.i9, autoNext);
+
+            // Fix scrollLeft(), which works inconsistently across browsers
+            //   with RTL elements. Hopefully we can remove this hack in
+            //   some future version of jQuery.
+            addScrollStart(scrollableViewport, options);
+
+            var dom = viewport[0];
+
+            dom.totalWidth = totalWidth;
+            dom.optionsChanged = optionsChanged;
+            dom.isMouseHoveringImages = isMouseHoveringImages;
+
+            return viewport;
+
+            function optionsChanged() {
+                $.each(imgCntnrs, function(index, value) {
+                    value.optionsChanged();
+                });
+            }
+
+            function calc(onlyTotalSize) {
+                totalSize = startPx.length = endPx.length = 0;
+                // Relying on the fact that find() returns elements in document order
+                scrollableViewport.find(_st.k).each(function() {
+                    var w = parseInt($(this).css('width'));
+                    if (!onlyTotalSize) {
+                        startPx.push(totalSize);
+                        endPx.push(totalSize + w);
+                    }
+                    totalSize += w;
+                });
+            }
+
+            function totalWidth() {
+                calc(true);
+                return totalSize;
+            }
+
+            function enterImage() {
+                hoveringImages = true;
+            }
+
+            function leaveImage() {
+                hoveringImages = false;
+                rescheduleAutoSlide();
+            }
+
+            function autoCentre(e, ic) {
+                calc();
+                // Here, ic is the DOM element corresponding to the image container
+                var t = $(ic),
+                    i = t.data('idx'),
+                    w = Math.round(containerWidth()),
+                    sl = Math.round(scrollableViewport.scrollStart()),
+                    sr = sl + w,
+                    sp = startPx[i],
+                    ep = endPx[i];
+
+                // Don't auto-centre if the viewport is smaller than the image
+                //   and the image is already filling it [i.e. there are no
+                //   fragments of other images into view].
+                if (w < endPx[i] - startPx[i] && sp <= sl && ep >= sr)
+                    return;
+
+                if (sp < sl) {
+                    t.trigger(_ev.a);
+                    animatedScrollToOneImage(sp);
+                    t.trigger(_ev.b);
+                } else if (ep > sr) {
+                    t.trigger(_ev.a);
+                    animatedScrollToOneImage(ep - w);
+                    t.trigger(_ev.b);
+                }
+            }
+
+            function isMouseHoveringImages() {
+                return hoveringImages;
+            }
+
+            function slidePrev() {
+                calc();
+                var sl = Math.round(scrollableViewport.scrollStart()),
+                    t = options.advanced.slideTolerance;
+                if (sl > t) {
+                    for (var i = 0; i < endPx.length; i++)
+                        if (endPx[i] >= sl - t) {
+                            animatedScrollToOneImage(startPx[i]);
+                            return true;
+                        }
+                }
+            }
+
+            function slideNext() {
+                calc();
+                var w = Math.round(containerWidth()),
+                    sr = Math.round(scrollableViewport.scrollStart() + w),
+                    t = options.advanced.slideTolerance;
+                if (sr < totalSize - t) {
+                    for (var i = startPx.length - 1; i >= 0; i--)
+                        if (startPx[i] <= sr + t) {
+                            animatedScrollToOneImage(endPx[i] - w);
+                            return true;
+                        }
+                }
+            }
+
+            function slideFirst() {
+                // calc(); Not necessary
+                animatedScrollToAllImages(0);
+            }
+
+            function slideLast() {
+                calc();
+                animatedScrollToAllImages(endPx[endPx.length - 1] - containerWidth());
+            }
+
+            function autoNext() {
+                if (!slideNext())
+                    slideFirst();
+            }
+
+            function containerWidth() {
+                var c;
+                return (c = viewport.closest(_st.s))[0] ? c.width() : undefined;
+            }
+
+            // Scrolling, for only one image
+            function animatedScrollToOneImage(to) {
+                var h;
+                scrollableViewport.animatedScrollStart(to, (h = options._h).oau, h.oav);
+            }
+
+            // Scrolling, for the whole viewport
+            function animatedScrollToAllImages(to) {
+                var h;
+                scrollableViewport.animatedScrollStart(to, (h = options._h).aau, h.aav);
+            }
+
+            // Handle mouse wheel
+            // TODO: is this the right place, considering the EventManager?
+            function mousewheelScroll(e) {
+                if (!options.slideWithMouseWheel)
+                    return;
+
+                // Disable auto-slide while 'wheeling'
+                rootElement.trigger(_st.it); // cancel-auto-slide
+                e = window.event || e;
+
+                // In the following, delta is normalised based solely on
+                //   the scrolling direction [up/down or left/right].
+                // The actual amount by which the carousel scrolls is determined
+                //   by options.advanced.mousewheelMultiplier
+
+                // Events are reversed in Firefox, and this is a non-fool-proof way of
+                //   determining whether we are in Firefox
+                var mult = e.originalEvent && (typeof e.originalEvent.detail !== 'undefined') ? -1 : 1,
+                    // This is a workaround for Safari 6, which for some reason does not
+                    //   work find with jquery-mousewheel.
+                    useWheelDelta = (typeof e.deltaX === 'undefined'),
+                    dX = useWheelDelta ? e.wheelDeltaX : e.deltaX,
+                    dY = useWheelDelta ? e.wheelDeltaY : e.deltaY,
+                    delta;
+                // For trackpads and Magic Mouse, which direction should I take into account?
+                if (Math.abs(dY) > Math.abs(dX)) {
+                    // Take into account vertical scrolling.
+                    // This needs to be RTL-aware [scroll down advances to the "next" slide,
+                    //   which is "slide right" for LRT, and "slide left" for RTL], so the value
+                    //   is passed "as is" to scrollStart() [which is RTL-aware].
+                    delta = Math.max(-1, Math.min(1, mult * dY));
                 } else {
-                    definer.scrollLeft = 1;
-                    if (definer.scrollLeft === 0) {
-                        retValue = _st.n; // negative
-                    } else
-                        retValue = _st.r; // reverse
+                    // Take into account horizontal scrolling.
+                    // This needs to translate to physical scrolling [positive is right, 
+                    //   negative is left], independently of the text layout direction.
+                    // Because scrollStart() is RTL-aware, we need to de-RTL-aware-ise
+                    //   the scrolling direction [test on slideLtr()].
+                    delta = Math.max(-1, Math.min(1, mult * dX)) * (slidesLtr() ? -1 : 1);
                 }
 
-                $(definer).remove();
-                return retValue;
-            })();
-
-
-            // Attach RTL-aware functions to the client object
-            client.scrollStart = scrollStart;
-            client.animatedScrollStart = animatedScrollStart;
-
-            function scrollStart(arg) {
-                return arg ? $.fn.scrollLeft.apply(client, [adjustScrollLeft(arg)]) : adjustScrollLeft($.fn.scrollLeft.apply(client));
+                // Now do the scrolling, and avoid the mousewheel default behaviour
+                //   [i.e. scrolling the whole page where the carousel sits].
+                scrollableViewport.scrollStart(scrollableViewport.scrollStart() + (delta * options.advanced.mousewheelMultiplier));
+                e.preventDefault();
             }
+        };
 
-            // Change scrollLeft(), smoothly
-            function animatedScrollStart(to, unit, value) {
-                var time = (unit == _st.p) ? Math.abs(client.scrollStart() - to) * 1000 / value // time is in ms
-                    : value; // unit is time, so this is much simpler...
-                client.stop(true, false).animate({
-                    scrollLeft: adjustScrollLeft(to)
-                }, time, options.slideEasingFunction);
-            }
+        var // This is our 'data source'
+            imgList = rootElement.find(_st.l);
 
-            // Adjust the scroll amount in order to handle RTL inconsistencies
-            // Based on http://jsfiddle.net/scA63/
-            function adjustScrollLeft(arg) {
-                if (isPageLtr())
-                    return arg;
-                var c = client[0];
-                switch (rtlScrollType) {
-                    case _st.n: // negative
-                        return -arg;
-                    case _st.w: // default
-                        return c.scrollWidth - arg - c.clientWidth;
-                }
-                return arg;
-            }
+        /* Εnsure that we start with a clean slate [i.e. no elements
+             other than #mch-image-list in the carousel].
+           This is needed mostly with WordPress, because it 'likes'
+             to throw stray <p>'s into the HTML even when we are editing
+             our page from the Text tab... go figure.
+           Anyway, those stray <p>'s do take space in the carousel,
+             offsetting the viewport and all other elements, thus making it
+             appear as if the carousel itself were defective.
+           Thank you WP :) ... */
+        if (options.advanced.divCleanup) {
+            var el;
+            while ((el = imgList.next())[0])
+                el.remove();
+            while ((el = imgList.prev())[0])
+                el.remove();
         }
+
+        var evntMngr = new EventManager(),
+
+            // The carousel hosts the viewport and the buttons
+            carousel = new Carousel(),
+            domCarousel = carousel[0],
+
+            // Build the [visible] viewport from the [hidden] list of images...
+            viewport = new Viewport(imgList),
+
+            buttonsPane = new ButtonsPane();
+
+        var autoSlider = new AutoSlider(carousel);
+
+        // Assemble the carousel: first the viewport...
+        domCarousel.setViewport(viewport);
+        // ... then the buttons...
+        domCarousel.setButtonsPane(buttonsPane);
+
+        // ...then add the new carousel to the root element, and the DOM is done!
+        rootElement.append(carousel);
+        rootElement.addClass(_st.f);
+
+        this.pauseAutoslide = evntMngr.pauseAutoslide;
+        this.restartAutoslide = evntMngr.restartAutoslide;
+        this.slideLeft = evntMngr.slideLeft;
+        this.slideRight = evntMngr.slideRight;
+        this.slideLeftmost = evntMngr.slideLeftmost;
+        this.slideRightmost = evntMngr.slideRightmost;
+        this.slideNext = evntMngr.slideNext;
+        this.slidePrev = evntMngr.slidePrev;
+        this.slideFirst = evntMngr.slideFirst;
+        this.slideLast = evntMngr.slideLast;
+
+        this.changeOptions = changeOptions;
+        this.forceResize = windowResized; // TODO: check better responsiveness.
+        this.getObject = getObject;
+        this.getDomObject = getDomObject;
+
+        $(window).on('resize', windowResized);
+
+    }; /* MChCarousel */
+
+    // Enhance a DOM object with a RTL-aware version of scrollLeft() and its corresponding animated version.
+    function addScrollStart(client, options) {
+        // Detect which type of browser this is
+        var rtlScrollType = (function() {
+            // Based on https://github.com/othree/jquery.rtl-scroll-type
+            var definer = $('<div dir="rtl" style="position: absolute; top: -1000px; font-size: 14px; width: 1px; height: 1px; overflow: scroll">A</div>').appendTo('body')[0],
+                retValue;
+
+            if (definer.scrollLeft > 0) {
+                retValue = _st.w; // default
+            } else {
+                definer.scrollLeft = 1;
+                if (definer.scrollLeft === 0) {
+                    retValue = _st.n; // negative
+                } else
+                    retValue = _st.r; // reverse
+            }
+
+            $(definer).remove();
+            return retValue;
+        })();
+
+        // Attach RTL-aware functions to the client object
+        client.scrollStart = scrollStart;
+        client.animatedScrollStart = animatedScrollStart;
+
+        function scrollStart(arg) {
+            return typeof arg === 'undefined' ? adjustScrollLeft($.fn.scrollLeft.apply(client)) : $.fn.scrollLeft.apply(client, [adjustScrollLeft(arg)]);
+        }
+
+        // Change scrollLeft(), smoothly
+        function animatedScrollStart(to, unit, value) {
+            var time = (unit == _st.p) ? Math.abs(client.scrollStart() - to) * 1000 / value // time is in ms
+                : value; // unit is time, so this is much simpler...
+            client.stop(true, false).animate({
+                scrollLeft: adjustScrollLeft(to)
+            }, time, options.slideEasingFunction);
+        }
+
+        // Adjust the scroll amount in order to handle RTL inconsistencies
+        // Based on http://jsfiddle.net/scA63/
+        function adjustScrollLeft(arg) {
+            if (isLtr(client))
+                return arg;
+            var c = client[0];
+            switch (rtlScrollType) {
+                case _st.n: // negative
+                    return -arg;
+                case _st.w: // default
+                    return c.scrollWidth - arg - c.clientWidth;
+            }
+            return arg;
+        }
+    }
+
+    function isLtr(client) {
+        return (client.css('direction') === 'ltr');
     }
 })(jQuery);
