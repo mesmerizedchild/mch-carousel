@@ -28,18 +28,18 @@ The following [pseudo] HTML code shows quickly the steps involved in creating an
   <!-- first define a container for your images -->
   <div id="whateverIdYouLike">
     <div id="mch-image-list"><!-- this div must have its ID set to mch-image-list -->
-      <!-- list the images of your carousel; they will be displayed
+      <!-- list the images of your carousel; they will be displayed in the carousel
              in the same order as they appear here -->
       <img src=... [more properties...]>
       <img src=... [more properties...]>
       [more images...]
     </div>
   </div>
-  <!-- the Javascript code to create the carousel is pretty simple -->
+  <!-- the Javascript code to create the carousel is pretty simple: -->
   <script type="text/javascript">
-    // Turn the above list of images into an MCh Carousel
+    // This is all there is to it...
     var theCarousel = $('#whateverIdYouLike').mchCarousel( 
-        // Optionally list here the options that you want to change
+        // Optionally, list here the options that you want to change
         //   [with respect to the default ones], for example:
         {
             slideEasingFunction: 'linear',
@@ -62,7 +62,7 @@ The following [pseudo] HTML code shows quickly the steps involved in creating an
 * The following JavaScript library must be included for MCh Carousel to work properly:  
   * [**jQuery 2.1.4**](https://jquery.com/)  
     You may add:  
-    ```html
+    ```
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>  
     ```  
     to your HTML in order to include jQuery from a well-known CDN.
@@ -70,7 +70,7 @@ The following [pseudo] HTML code shows quickly the steps involved in creating an
 * The following JavaScript library should be included if you need cross-browser support for mousewheel and trackpad in MCh Carousel:  
   * [**jQuery Mouse Wheel Plugin 3.1.13**](https://github.com/jquery/jquery-mousewheel)  
     You may add:  
-    ```html
+    ```
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>  
     ```  
     to your HTML in order to include jquery-mousewheel from a well-known CDN.
@@ -97,7 +97,7 @@ This software is released under the MIT licence; see LICENCE.txt.
 
 * **Is MCh Carousel responsive?**  
     Mostly.  
-    MCh Carousel is fully responsive to changes of height, when triggered via CSS media queries [see ***** for an example]. It's also fully responsive to changes of width triggered by CSS media queries, or by resizing the window.
+    MCh Carousel is fully responsive to changes of height, when triggered via CSS media queries [see ***** for an example]. It's also fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
     At the moment MCh Carousel is not responsive to events triggered by Javascript, such as changing the width and/or height of the DOM elements that contain the carousel.
 
 * **I'm having problems with Google Chrome and other Chromium-based browsers [Opera and UC Browser]; do you know anything about it?**  
@@ -113,7 +113,7 @@ This software is released under the MIT licence; see LICENCE.txt.
 
 ## Credits
 Contains [adapted] code from the following sources:  
-* [jquery.rtl-scroll-type](https://github.com/othree/jquery.rtl-scroll-type)  
+* [jQuery RTL Scroll Type Detector](https://github.com/othree/jquery.rtl-scroll-type)  
 * [http://jsfiddle.net/scA63/](http://jsfiddle.net/scA63/), posted as a part of the [accepted] reply to [a question in Stack Overflow](http://stackoverflow.com/questions/24276619/better-way-to-get-the-viewport-of-a-scrollable-div-in-rtl-mode)  
 
 ## Th-Th-Th-Th-That's All Folks!
