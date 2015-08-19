@@ -1,0 +1,288 @@
+/** MCh Carousel Basic Theme.
+  *
+  * A simple, responsive, direction- and language-sensitive theme.
+  *
+  * It depends on Roboto for the buttons and caption in Latin scripts,
+  * and thus requires the following link in your HTML:
+  *
+  * <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  *
+  * For Greek script support:
+  *
+  * <link href='http://fonts.googleapis.com/css?family=Roboto&subset=latin,greek' rel='stylesheet' type='text/css'>
+  *
+  * For Hebrew script support, it uses Tinos:
+  *
+  * <link href='http://fonts.googleapis.com/css?family=Tinos&subset=hebrew' rel='stylesheet' type='text/css'>
+  *
+  * For Arabic script support, it uses Amiri:
+  * 
+  * <link href='http://fonts.googleapis.com/css?family=Amiri&subset=arabic' rel='stylesheet' type='text/css'>
+  *
+  */
+
+@import 'mch-responsive-tiny.less';
+
+@imageHorizontalGap: 5px;
+
+@buttonHeightTiny: 20px;
+@buttonWidthTiny: 40px;
+@buttonFontSizeTiny: 8px;
+@borderSpacingTiny: 3px;
+@offset1Tiny: 0;
+@offset2Tiny: @buttonWidthTiny + @borderSpacingTiny;
+@offset3Tiny: ((@buttonWidthTiny + @borderSpacingTiny)*2);
+@offset4Tiny: ((@buttonWidthTiny + @borderSpacingTiny)*3);
+
+@buttonHeightMobile: 25px;
+@buttonWidthMobile: 50px;
+@buttonFontSizeMobile: 10px;
+@borderSpacingMobile: 4px;
+@offset1Mobile: 0;
+@offset2Mobile: @buttonWidthMobile + @borderSpacingMobile;
+@offset3Mobile: ((@buttonWidthMobile + @borderSpacingMobile)*2);
+@offset4Mobile: ((@buttonWidthMobile + @borderSpacingMobile)*3);
+
+@buttonHeightTablet: 35px;
+@buttonWidthTablet: 80px;
+@buttonFontSizeTablet: 15px;
+@borderSpacingTablet: 4px;
+@offset1Tablet: 0;
+@offset2Tablet: @buttonWidthTablet + @borderSpacingTablet;
+@offset3Tablet: ((@buttonWidthTablet + @borderSpacingTablet)*2);
+@offset4Tablet: ((@buttonWidthTablet + @borderSpacingTablet)*3);
+
+@buttonHeightDesktop: 45px;
+@buttonWidthDesktop: 105px;
+@buttonFontSizeDesktop: 20px;
+@borderSpacingDesktop: 5px;
+@offset1Desktop: 0;
+@offset2Desktop: @buttonWidthDesktop + @borderSpacingDesktop;
+@offset3Desktop: ((@buttonWidthDesktop + @borderSpacingDesktop)*2);
+@offset4Desktop: ((@buttonWidthDesktop + @borderSpacingDesktop)*3);
+
+@zeroTiny: 0px;
+@zeroMobile: 0px;
+@zeroTablet: 0px;
+@zeroDesktop: 0px;
+
+@iconsFont: 'Roboto';
+@latinScriptFont: 'Roboto';
+@greekScriptFont: 'Roboto';
+@hebrewScriptFont: 'Tinos';
+@arabicScriptFont: 'Amiri';
+
+#mch-visible-carousel {
+    position: relative;
+}
+
+#mch-scrollable-viewport {
+    .mch-image-container {
+        padding-left: @imageHorizontalGap;
+        opacity: 1;
+        &:hover {
+            opacity: 0.8;
+            transition: 0.2s;
+        }
+    }
+    .mch-image-container:first-of-type {
+        padding-left: 0;
+    }
+    [dir="rtl"] & {
+        .mch-image-container:last-of-type {
+            padding-left: 0;
+        }
+        .mch-image-container:first-of-type {
+            padding-left: @imageHorizontalGap;
+        }
+    }
+}
+
+#mch-buttons-pane {
+    position: relative;
+    .mch-rule(height, buttonHeight);
+    .mch-rule(margin, borderSpacing zero zero zero);
+}
+
+// TODO: fix gap, because of the variable padding for .mch-image-container
+// Also, organise the two themes in a more-similar fashion [same order of
+//   elements, for example...]
+.mch-caption-cntnr {
+    position: absolute;
+    top: 0;
+    left: initial;
+    right: 0;
+    [dir="rtl"] & {
+        left: 0;
+        right: initial;
+    }
+}
+
+.mch-caption-background {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: white;
+    border: 3px solid white;
+    border-radius: 0 0 0 10px;
+    [dir="rtl"] & {
+        border-radius: 0 0 10px 0;
+    }
+    opacity: 0.75;
+}
+
+.mch-caption-lines {
+    padding: 5px 15px 8px 15px;
+    margin: 3px;
+    text-align: left;
+    [dir="rtl"] & {
+        text-align: right;
+    }
+    p {
+        margin: 0;
+        padding: 3px 0 0 0;
+        font-weight: inherit;
+    }
+}
+
+.mch-scripts() {
+    font-family: @latinScriptFont;
+    [lang="el"] & {
+        font-family: @greekScriptFont;
+    }
+    [lang="ar"] & {
+        font-family: @arabicScriptFont;
+    }
+    [lang="he"] & {
+        font-family: @hebrewScriptFont;
+    }
+    font-weight: bold;
+}
+
+.mch-caption-line1 {
+    color: black;
+    .mch-scripts();
+    font-size: 24px;
+    line-height: 28px;
+}
+.mch-caption-line2 {
+    color: #800000;
+    .mch-scripts();
+    font-size: 18px;
+    line-height: 21px;
+}
+.mch-caption-line3 {
+    color: #005000;
+    .mch-scripts();
+    font-size: 15px;
+    line-height: 18px;
+}
+
+/* Style for the navigation buttons */
+.mch-button {
+    display: table;
+    color: #907011;
+    font-family: @iconsFont;
+    .mch-rule(font-size, buttonFontSize);
+    font-weight: bold;
+    .mch-rule(width, buttonWidth);
+    .mch-rule(height, buttonHeight);
+    position: absolute;
+    cursor: pointer; 
+    &:hover {
+        color: #FFFFAA;
+        transition: 0.03s;
+    }
+    .mch-button-graphics {
+        display: table-cell;
+        vertical-align: middle;
+        .mch-scripts();
+        text-align: center;
+        width: 100%;
+        border: 1px #708011 solid;
+        border-radius: round(@buttonHeightMobile / 6);
+        background-color: #FFFFAA;
+        &:hover {
+            background-color: #708011;
+            transition: 0.1s;
+        }
+    }
+    &#mch-first {
+        .mch-rule(left, offset1);
+        right: initial;
+        [dir="rtl"] & {
+            left: initial;
+            .mch-rule(right, offset1);
+        }
+        .mch-button-graphics::after {
+            content: 'First';
+        }
+    }
+    &#mch-prev {
+        .mch-rule(left, offset2);
+        right: initial;
+        [dir="rtl"] & {
+            left: initial;
+            .mch-rule(right, offset2);
+        }
+        .mch-button-graphics::after {
+            content: 'Previous';
+        }
+    }
+    &#mch-next {
+        .mch-rule(left, offset3);
+        right: initial;
+        [dir="rtl"] & {
+            left: initial;
+            .mch-rule(right, offset3);
+        }
+        .mch-button-graphics::after {
+            content: 'Next';
+        }
+    }
+    &#mch-last {
+        .mch-rule(left, offset4);
+        right: initial;
+        [dir="rtl"] & {
+            left: initial;
+            .mch-rule(right, offset4);
+        }
+        .mch-button-graphics::after {
+            content: 'Last';
+        }
+    }
+    &#mch-pause {
+        left: initial;
+        .mch-rule(right, offset1);
+        [dir="rtl"] & {
+            .mch-rule(left, offset1);
+            right: initial;
+        }
+        .mch-button-graphics::after {
+            content: 'Pause';
+        }
+    }
+    &#mch-restart {
+        left: initial;
+        .mch-rule(right, offset2);
+        [dir="rtl"] & {
+            .mch-rule(left, offset2);
+            right: initial;
+        }
+        .mch-button-graphics::after {
+            content: 'Start';
+        }
+    }
+}
+
+/* Not interested in displaying the left-right navigation buttons. */
+#mch-left-right-group {
+    display: none;
+}
+
+.mch-no-hover {
+    transition: 0.2s;
+    opacity: 0;
+}

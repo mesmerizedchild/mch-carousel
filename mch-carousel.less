@@ -1,0 +1,227 @@
+/* * mch-carousel.less
+  * 
+  * Typical usage in a LESS file:
+  *
+  * @import 'mch-carousel.less';
+  * #some-carousel-id, .or-some-carousel-class {
+  *     // And now the customisations for the speficic theme/instance 
+  *     #mch-buttons-pane {
+  *         max-width: 800px;
+  *     }
+  * }
+  * #some-other-carousel-id, .or-some-other-carousel-class {
+  *     // Other customisations for the speficic theme/instance 
+  *     .mch-button-background {
+  *         background-color: black;
+  *     }
+  * }
+  *
+  * The following reduces pollution in the CSS namespace, although all selectors
+  *   in this LESS file have the mch prefix and, as such, name conflicts are
+  *   unlikely:
+  * 
+  * #some-carousel-id, .or-some-carousel-class {
+  *     @import 'mch-carousel.less'; // No possibility of selector name conflicts,
+  *                                  //   as this import is only related to 
+  *                                  // this carousel id or class 
+  *     #mch-buttons-pane {
+  *         max-width: 800px;
+  *     }
+  * }
+  *
+  * Note that, due to how Firefox handles [resized] images and the <div> containing
+  *   them, we are forced to use a mix-in in order to set the height of the viewport
+  *   [ideally, we would be able to set the height only on one of the outer elements 
+  *   of the carousel and then the inner elements would all go: 'height: 100%', 
+  *   but that has proven to fail in Firefox when images need to be scaled down or
+  *   up in order to match the specified height].
+  * So... the mix-in is .mch-viewport-height(). How do we use it?
+  *
+  * @import 'mch-carousel.less';
+  * #some-carousel-id, .or-some-carousel-class {
+  *     .mch-viewport-height({
+  *         height: 280px;
+  *     });
+  * }
+  *
+  * Media queries do work with the mix-in:
+  *
+  * @import 'mch-carousel.less';
+  * .mch-viewport-height({
+  *     height: 26em;
+  *     @media screen and (min-width: 600px) {
+  *         height: 36em;
+  *     }
+  * });
+  *
+  * The height may be specified using "absolute" lengths [px, pt, mm, etc...] without
+  *   any problem whatsoever.
+  * On the other hand, care should be taken when using "relative" lenghts:
+  *   em, ex, ch:    they are relative to the current font, and the "current font"
+  *                    may be different across different DOM elements of the
+  *                    carousel. Careful!!
+  *   rem, vw, vh,   although "relative" units, they are relative to elements
+  *   vmin, vmax:      outside of the carousel, so they may be used freely.
+  *
+  *   %              definitely a bad idea; for example, '25%' means completely 
+  *                    different things when applied to the viewport, from when 
+  *                    applied to the images. Cannot be used at all!
+  *
+  *
+  * Now, here is the DOM structure of the carousel at run-time, for your reference when
+  *   building or customising a theme:
+  *
+  * div.mch-carousel#[carousel ID]
+  *    div#image-list, always hidden
+  *       img, each img is the source data for the run-time carousel
+  *    div#mch-visible-carousel, created at run-time, and contains what we actually see on the screen
+  *    +- div#mch-viewport
+  *    |     div#mch-scrollable-viewport
+  *    |        div.mch-image-container, with an ID if the original image specified it
+  *    |           a.mch-hyperlink, this node not present if no hyperlink
+  *    |              img.mch-image, containing one of the images for the carousel
+  *    |              div.mch-caption-cntnr, this node and all subnodes not present if no caption text
+  *    |                 div.mch-caption-background
+  *    |                 div.mch-caption-lines
+  *    |                    div.mch-caption-line1
+  *    |                       p, containing caption line 1
+  *    |                    div.mch-caption-line2
+  *    |                       p, containing caption line 2
+  *    |                    div.mch-caption-line3
+  *    |                       p, containing caption line 3
+  *    +- div#mch-buttons-pane, the buttons pane
+  *       +- div#mch-slide-control-group, invisible if auto-sliding is not enabled
+  *       |     div.mch-button#mch-pause
+  *       |        div.mch-button-background
+  *       |        div.mch-button-graphics
+  *       |     div.mch-button#mch-restart
+  *       |        div.mch-button-background
+  *       |        div.mch-button-graphics
+  *       +- div#mch-left-right-group, "physical" navigation buttons, not RTL-aware
+  *       |     div.mch-button#mch-leftmost
+  *       |        div.mch-button-background
+  *       |        div.mch-button-graphics
+  *       |     div.mch-button#mch-left
+  *       |        div.mch-button-background
+  *       |        div.mch-button-graphics
+  *       |     div.mch-button#mch-right
+  *       |        div.mch-button-background
+  *       |        div.mch-button-graphics
+  *       |     div.mch-button#mch-rightmost
+  *       |        div.mch-button-background
+  *       |        div.mch-button-graphics
+  *       +- div#mch-start-end-group, "logical" navigation buttons, RTL-aware
+  *             div.mch-button#mch-first
+  *                div.mch-button-background
+  *                div.mch-button-graphics
+  *             div.mch-button#mch-prev
+  *                div.mch-button-background
+  *                div.mch-button-graphics
+  *             div.mch-button#mch-next
+  *                div.mch-button-background
+  *                div.mch-button-graphics
+  *             div.mch-button#mch-last
+  *                div.mch-button-background
+  *                div.mch-button-graphics
+  */
+
+#mch-image-list {
+  /* Must stay hidden, as this is *not* what the carousel will display */
+  display: none !important;
+}
+
+#mch-viewport {
+  /* Relative position for #mch-scrollable-viewport */
+  position: relative;
+  /* Display below the buttons [if they happen to overlay the viewport] */
+  z-index: 0; 
+  /* Hide the scrollbar in #mch-scrollable-viewport */
+  overflow: hidden;
+}
+
+#mch-scrollable-viewport {
+  /* Embedded spaces must take no room */
+  font-size: 0px !important; 
+  /* Ensure images don't wrap due to embedded whitespaces */
+  white-space: nowrap !important;
+  /* Make it scrollable, then #mch-viewport hides the scrollbar */
+  overflow-x: scroll;
+  /* overflow-y should not be necessary, but just in case... */
+  overflow-y: hidden;
+  /* Position so that #mch-scrollable-viewport extends over all of #mch-viewport... */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -50px; /* ... and a bit beyond */
+}
+
+.mch-image-container {
+  /* For anchoring the caption within each image */
+  position: relative; 
+  /* Without this, the carousel would flow vertically... */
+  display: inline-block !important;
+  /* Ensure that .css('width') includes image padding, if any.
+     Use padding, instead of margin, to build gaps between images. !important   */
+  box-sizing: border-box !important;
+  img {
+    z-index: 0;
+    max-width: none;
+  }
+}
+
+.mch-caption-cntnr {
+  z-index: 1;
+}
+
+.mch-caption-background {
+  z-index: 2;
+}
+
+.mch-caption-lines {
+  /* position is needed in case of completely-opaque caption lines
+        over partially-opaque or transparent caption background.
+     It may be overridden by the theme */
+  position: relative;
+  z-index: 3;
+}
+
+.mch-button {
+  /* Above the viewport [if they overlap it], by default */
+  z-index: 1;
+  .mch-button-background {
+    z-index: 0;
+  } 
+  .mch-button-graphics {
+    /* position is needed in case of completely-opaque button caption/graphics
+         over partially-opaque or transparent button background, and for
+         correct handling of mouse hovering.
+       It may be overridden by the theme */
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Helper class for hiding elements when not hovering over an image */
+.mch-no-hover {
+  visibility: hidden;
+}
+
+/* Helper class for hiding elements that must not be displayed */
+.mch-invisible {
+  display: none;
+}
+
+.mch-viewport-height(@rules) {
+  #mch-viewport {
+    @rules();
+  }
+  .mch-image-container {
+    @rules();
+    img {
+      @rules();
+    }
+  }
+}
+
+
