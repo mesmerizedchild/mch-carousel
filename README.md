@@ -98,7 +98,7 @@ This software is released under the MIT licence; see LICENCE.txt.
 * **Is MCh Carousel responsive?**  
     Mostly.  
     MCh Carousel is fully responsive to changes of height, when triggered via CSS media queries [see ***** for an example]. It's also fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
-    At the moment MCh Carousel is not responsive to events triggered by Javascript, such as changing the width and/or height of the DOM elements that contain the carousel.
+    At the moment MCh Carousel is not responsive to events triggered by Javascript, such as changing the width and/or height of the DOM elements that contain the carousel. You may call ```MChCarousel.forceResize()``` to force the carousel to sync its height with the rest of the DOM [see the API file [*****] for a complete reference].
 
 * **I'm having problems with Google Chrome and other Chromium-based browsers [Opera and UC Browser]; do you know anything about it?**  
     There are two known problems with Chromium that may affect an MCh Carousel:  
@@ -115,6 +115,10 @@ This software is released under the MIT licence; see LICENCE.txt.
 Contains [adapted] code from the following sources:  
 * [jQuery RTL Scroll Type Detector](https://github.com/othree/jquery.rtl-scroll-type)  
 * [http://jsfiddle.net/scA63/](http://jsfiddle.net/scA63/), posted as a part of the [accepted] reply to [a question in Stack Overflow](http://stackoverflow.com/questions/24276619/better-way-to-get-the-viewport-of-a-scrollable-div-in-rtl-mode)  
+Many thanks to [David Ferrando](ferr@weareanimals.eu) at [We Are Animals](http://www.weareanimals.eu/) for his input, ideas, creativity and constant support.
+
+## External tools
+All LESS and Javascript files compiled and minified with [Koala](http://koala-app.com/) for Windows.
 
 ## Th-Th-Th-Th-That's All Folks!
 ...and **Thank You** for your interest!
