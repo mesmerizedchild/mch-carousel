@@ -12,6 +12,7 @@
  *
  * @preserve 
  */
+"use strict";
 (function($) {
 
     // I don't like messing around with prototypes, but this one *is* a nice polyfill :) ...
@@ -185,7 +186,7 @@
     var MChCarousel = function(rootElement, options) {
 
         // Mix the input options [if any] with the default ones.
-        var options = $.extend(true, {}, _df, options);
+        options = $.extend(true, {}, _df, options);
         buildHiddenOptions();
 
         // To which element does this MchCarousel instance belong?
@@ -240,7 +241,7 @@
         }
 
         // Utility methods to reduce the size of the code [especially when minified]
-        function rescheduleAutoSlide() {
+        function triggerRescheduleAutoSlide() {
             rootElement.trigger(_st.iy);
         }
 
@@ -314,11 +315,11 @@
             this.slideLast = slideLast;
 
             function pauseAutoslide() {
-                rootElement.trigger(_st.ix);
+                rootElement.trigger(_st.ix); // _mch-carousel:pause-auto-slide
             }
 
             function restartAutoslide() {
-                rootElement.trigger(_st.iz);
+                rootElement.trigger(_st.iz); // _mch-carousel:restart-auto-slide
             }
 
             /** 
@@ -326,7 +327,7 @@
              */
             function slideLeft() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 triggerBeforeSlideLeft();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlidePrev();
@@ -344,7 +345,7 @@
 
             function slideRight() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 triggerBeforeSlideRight();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlideNext();
@@ -362,7 +363,7 @@
 
             function slideLeftmost() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 triggerBeforeSlideLeftmost();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlideFirst();
@@ -380,7 +381,7 @@
 
             function slideRightmost() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 triggerBeforeSlideRightmost();
                 if (ltr = slidesLtr()) {
                     triggerBeforeSlideLast();
@@ -398,7 +399,7 @@
 
             function slidePrev() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 if (ltr = slidesLtr())
                     triggerBeforeSlideLeft();
                 else
@@ -414,7 +415,7 @@
 
             function slideNext() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 if (ltr = slidesLtr())
                     triggerBeforeSlideRight();
                 else
@@ -430,7 +431,7 @@
 
             function slideFirst(e) {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 if (ltr = slidesLtr())
                     triggerBeforeSlideLeftmost();
                 else
@@ -446,7 +447,7 @@
 
             function slideLast() {
                 var ltr;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
                 if (ltr = slidesLtr())
                     triggerBeforeSlideRightmost();
                 else
@@ -646,9 +647,9 @@
                         f = function(e) {
                             if (!viewport)
                                 return;
-                            if (e.keyCode == 37) { // left
+                            if (e.keyCode === 37) { // left
                                 evntMngr.slideLeft();
-                            } else if (e.keyCode == 39) { // right
+                            } else if (e.keyCode === 39) { // right
                                 evntMngr.slideRight();
                             }
                         };
@@ -716,7 +717,7 @@
             //   restart auto-slide and re-enable auto-centre
             function noWheelFunct() {
                 justUsedWheel = false;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
             }
 
             function canViewportAutoCentre() {
@@ -857,7 +858,7 @@
          */
         var CarouselButton = function(id, nav, onClick) {
             var btn = $('<div class="' + _st.B +
-                ' ' + (nav == 'sc' ? _st.O : _st.R) +
+                ' ' + (nav === 'sc' ? _st.O : _st.R) +
                 (buttonsOnlyWhenHovering() ? ' ' + _st.h : '') +
                 '" id="' + id + '"><div class="' + _st.G + '"></div><div class="' + _st.J + '"></div></div>');
             btn.on({
@@ -866,10 +867,17 @@
                 mouseenter: enterButton,
                 mouseleave: leaveButton
             });
+            // As the buttons are actually empty HTML [styled via CSS, but still
+            //   empty HTML], if you double click on one of them then the text
+            //   around it will highlight, that is: double-click triggers text 
+            //   selection. The following will stop that...
             // Curiously, jQuery does not provide support for onselectstart...
             btn[0].onselectstart = ignoreDoubleClick;
 
+            // TODO: it's very likely that there is no more need to link the methods
+            //   to the DOM object.
             var dom = btn[0];
+
             dom.buttonHover = buttonHover;
             dom.buttonUnhover = buttonUnhover;
             dom.showButton = showButton;
@@ -880,15 +888,15 @@
             return btn;
 
             function isNavigation() {
-                return nav == 'nlr' || nav == 'nse';
+                return nav === 'nlr' || nav === 'nse';
             }
 
             function enterButton(e) {
-                btn.trigger(_ev.s);
+                btn.trigger(_ev.s); // enter-button
             }
 
             function leaveButton(e) {
-                btn.trigger(_ev.t);
+                btn.trigger(_ev.t); // leave-button
             }
 
             function buttonHover() {
@@ -906,7 +914,7 @@
             // There is another such example in the code, but right now I'm
             //   too sleepy to look for it.
             function buttonsOnlyWhenHovering() {
-                return options.displayButtons && options.displayButtonsOptions.when == 'hover';
+                return options.displayButtons && options.displayButtonsOptions.when === 'hover';
             }
 
             function showButton() {
@@ -1050,8 +1058,8 @@
             function captionOnlyWhenHovering() {
                 var display;
                 if (img && (display = img.data('display')))
-                    return display == 'hover';
-                return options.displayImageCaption && options.displayImageCaptionOptions.when == 'hover';
+                    return display === 'hover';
+                return options.displayImageCaption && options.displayImageCaptionOptions.when === 'hover';
             }
 
             function optionsChanged() {
@@ -1093,7 +1101,7 @@
             // Attach events
             scrollableViewport.on({
                 mousewheel: mousewheelScroll,
-                scroll: rescheduleAutoSlide
+                scroll: triggerRescheduleAutoSlide
             });
             scrollableViewport.on(_st.ib, autoCentre);
             rootElement.on(_st.i5, slidePrev);
@@ -1145,7 +1153,7 @@
 
             function leaveImage() {
                 hoveringImages = false;
-                rescheduleAutoSlide();
+                triggerRescheduleAutoSlide();
             }
 
             function autoCentre(e, ic) {
@@ -1166,13 +1174,13 @@
                     return;
 
                 if (sp < sl) {
-                    t.trigger(_ev.a);
+                    t.trigger(_ev.a); // before-autocentre-image
                     animatedScrollToOneImage(sp);
-                    t.trigger(_ev.b);
+                    t.trigger(_ev.b); // autocentre-image
                 } else if (ep > sr) {
-                    t.trigger(_ev.a);
+                    t.trigger(_ev.a); // before-autocentre-image
                     animatedScrollToOneImage(ep - w);
-                    t.trigger(_ev.b);
+                    t.trigger(_ev.b); // autocentre-image
                 }
             }
 
@@ -1247,6 +1255,8 @@
 
                 // Disable auto-slide while 'wheeling'
                 rootElement.trigger(_st.it); // cancel-auto-slide
+
+                // FIXME; this could be what breaks Safari 6!!!
                 e = window.event || e;
 
                 // In the following, delta is normalised based solely on
@@ -1380,7 +1390,7 @@
 
         // Change scrollLeft(), smoothly
         function animatedScrollStart(to, unit, value) {
-            var time = (unit == _st.p) ? Math.abs(client.scrollStart() - to) * 1000 / value // time is in ms
+            var time = (unit === _st.p) ? Math.abs(client.scrollStart() - to) * 1000 / value // time is in ms
                 : value; // unit is time, so this is much simpler...
             client.stop(true, false).animate({
                 scrollLeft: adjustScrollLeft(to)
