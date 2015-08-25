@@ -1,0 +1,101 @@
+/** MCh Carousel No-Buttons.
+  *
+  * No-buttons theme for the docs.
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+@import 'mch-responsive-tiny.less';
+
+@imageHorizontalGap: 5px;
+
+@latinScriptFont: 'Roboto';
+@greekScriptFont: 'Roboto';
+@hebrewScriptFont: 'Tinos';
+@arabicScriptFont: 'Amiri';
+
+/* Best padding when caption is "end-aligned" [right-aligned for
+      left-to-right languages, and left-aligned for right-to-left
+      languages]. */
+.mch-image-container {
+    opacity: 1;
+    padding-right: 0;
+    padding-left: @imageHorizontalGap;
+    &:first-of-type {
+        padding-left: 0;
+    }
+    [dir="rtl"] & {
+        padding-right: @imageHorizontalGap;
+        padding-left: 0;
+        &:first-of-type {
+            padding-right: 0;
+        }
+    }
+}
+
+.mch-caption-cntnr {
+    position: absolute;
+    top: 0;
+    left: initial;
+    right: 0;
+    [dir="rtl"] & {
+        left: 0;
+        right: initial;
+    }
+}
+
+.mch-caption-background {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+.mch-caption-lines {
+    text-align: left;
+    [dir="rtl"] & {
+        text-align: right;
+    }
+    p {
+        font-weight: inherit;
+    }
+}
+
+/* Language-dependent font. */
+.mch-scripts() {
+    font-family: @latinScriptFont;
+    [lang="el"] & {
+        font-family: @greekScriptFont;
+    }
+    [lang="ar"] & {
+        font-family: @arabicScriptFont;
+    }
+    [lang="he"] & {
+        font-family: @hebrewScriptFont;
+    }
+    font-weight: bold;
+}
+
+.mch-caption-line1 {
+    .mch-scripts();
+    font-size: 12px;
+}
+.mch-caption-line2 {
+    .mch-scripts();
+    font-size: 12px;
+}
+.mch-caption-line3 {
+    .mch-scripts();
+    font-size: 12px;
+}
+
+/* Not interested in displaying the left-right navigation buttons. */
+#mch-buttons-pane {
+    display: none;
+}
+
+.mch-no-hover {
+    opacity: 0;
+}

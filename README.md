@@ -1,22 +1,22 @@
-# MCh Carousel -- Beta, still not production-ready
+# MCh Carousel -- Beta 2, still not production-ready
 
 ## What is MCh Carousel?
 
 Yet another carousel, this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
 
-It displays any number of pictures in a horizontal strip, with the ability of scrolling left or right.  
-It is appropriate for when multiple pictures must be displayed side by side, but not all of them might fit into the visible navigator viewport.
+It displays any number of pictures in a horizontal strip, with the ability of scrolling left or right. , plus a number of features [listed below].
+It is appropriate for when multiple pictures must be displayed side by side, but not all of them might fit into the navigator viewport.
 
 ## Features
 * Unlimited number of images [bandwidth and memory permitting...]
-* Touch-screen, keyboard, trackpad and mousewheel support for scrolling
+* Auto-slide [enabled by default]
+* Touch-screen, keyboard, trackpad and mousewheel support for manual scrolling
 * [Optional] navigation and slide-control buttons
 * Styled entirely via CSS, including the buttons
-* Each image may be wrapped in a hyperlink
+* Each image may be wrapped in a hyperlink, which may open in a new window
 * On-mouse-hover image [obviously, only for devices with a mouse]
 * Up to 3 lines of caption for each image, that may be styled independently
-* Auto-slide [enabled by default]
-* 3 themes included, useful as starting point for your customisations
+* 3 themes included, useful as a starting point for your customisations
 * Custom jQuery events are emitted for significant visual events
 * Support for both left-to-right and right-to-left page flows
 * Most options may be changed dynamically, after the carousel has loaded
@@ -25,7 +25,7 @@ It is appropriate for when multiple pictures must be displayed side by side, but
 Here is a fully-fledged [**demo page**](http://www.mesmerizedchild.eu/mch-carousel/mch-carousel-demo/).
 
 ## Sample usage
-The following [pseudo] HTML code shows quickly the steps involved in creating an MCh Carousel:
+The following [pseudo] HTML code gives an idea of the steps involved in creating an MCh Carousel:
 ```html
   <!-- first define a container for your images -->
   <div id="whateverIdYouLike">
@@ -73,7 +73,7 @@ Support for later version of jQuery should be available shortly after they are r
 
 ## Browser support  
 As a rule of thumb, MCh Carousel will work on any browser supported by jQuery 2.1.4 [see [https://jquery.com/browser-support/](https://jquery.com/browser-support/) for more information]. See the [list of supported browsers](docs/supported-browsers.html) for more information.  
-It has been tested successfully on the latest versions [as of August 2015] of:
+It has been tested successfully on the latest versions [as of September 2015] of:
 * Google Chrome [Windows 7, Windows 10, Mac OS X Yosemite, Ubuntu 14.02 and Android]
 * Mozilla Firefox [Windows 7, Windows 10, Mac OS X Yosemite, Ubuntu 14.02 and Android]
 * Internet Explorer [Windows 7 and Windows 10]
@@ -101,7 +101,7 @@ This software is released under the MIT licence; see LICENCE.txt.
 
 * **Who is the author?**  
     The author is an Italian guy enjoying life in Barcelona, and who recently embarked on the adventure of web development. This is his first publicly-available web project.  
-    His mission is to deliver quality products, and thus tends to test thoroughly his software before releasing it.  
+    His mission is to deliver quality products, and thus tests his software thoroughly before releasing it.  
     He also believes that cooperation is key in any endavour, so please do send suggestions, ideas, [constructive] criticism, kudos and anything else, to his email address: [rg@mesmerizedchild.eu](mailto:rg@mesmerizedchild.eu), or give him a tweet at [@mesmerizedChild](https://twitter.com/mesmerizedChild). Also, do fork this project, log issues and feel free to create a pull request if you have an interesting addition [or bug fix!]  
 
 ## Credits
@@ -117,4 +117,4 @@ All LESS and Javascript files compiled and minified with [Koala](http://koala-ap
 ## Th-Th-Th-Th-That's All Folks!
 ...and **Thank You** for your interest!  
   
-Roberto Giuntoli [a [mesmerizedChild](https://twitter.com/mesmerizedChild)].
+Roberto Giuntoli [the [mesmerizedChild](https://twitter.com/mesmerizedChild)].

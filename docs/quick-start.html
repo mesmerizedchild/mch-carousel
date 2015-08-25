@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en_GB">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+    <meta name="description" content="MCh Carousel Documentation: Quick Start">
+    <title>MCh Carousel Documentation: Quick Start</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css' />
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+    <link href='css/docs.css' rel='stylesheet' type='text/css' />
+  </head>
+  <body>
+    <div class="page-content">
+      <header>
+        <h1>MCh Carousel: Quick Start</h1>
+        <p>Here you will find information on how to quickly set up an instance of MCh Carousel.</p>
+        <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
+      </header>
+      <article>
+        <h1>Teaser here! "See what you can do" kind-of thing...</h1>
+        <h3>If you want to check straight away the source code for this fully-fledged carousel, take a look at *******.html. If, on the other hand, you prefer a more-progressive approach to building MCh Carousel into your own page, read on.</h3>
+        <section>
+          <h2 id="required-libraries">Required libraries</h2>
+          <div class="doc">
+            <p>Before you can use MCh Carousel, you need to add the following to your HTML:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;script type=&quot;text/javascript&quot; src=&quot;http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;mch-carousel.min.js&quot;&gt;&lt;/script&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;mch-carousel.css&quot;&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>The first line includes <a href="https://jquery.com/">jQuery</a>, which is an absolute requirement; without it, MCh Carousel just won't work.</p>
+            <p>The second line includes <a href="https://github.com/jquery/jquery-mousewheel">jQuery Mouse Wheel Plugin</a>, which is not strictly necessarly, but will guarantee cross-browser support for mouse wheels, trackpads and <a href="http://www.apple.com/magicmouse">Apple's Magic Mouse</a>.</p>
+            <p>The third line loads MCh Carousel, and finally the fourth line loads the core MCh Carousel styling sheet [i.e. the very basic CSS without which the carousel would display a mess...]</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="styling-mch-carousel-up">Styling MCh Carousel up</h2>
+          <div class="doc">
+            <p>CSS styling is at the core of what MCh Carousel looks like.</p>
+            <p>You may start off by linking one of the themes that come along with the code, in the <code class="file-name inline">themes</code> directory, for example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;themes/mch-carousel-basic-theme.css&quot;&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>You will also have to specify the height of the carousel. For example you could embed the following in your HTML to make the carousel 393 pixels tall:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;style type=&quot;text/css&quot;&gt;
+    #mch-viewport {
+      height: 393px;
+    }
+    .mch-image-container {
+      height: 393px;
+    }
+  &lt;/style&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p><i>Note the double declaration, where the heights must match; this is rather awkward, and I will try to fix it in future releases. If you will be using LESS for your development, a mix-in is available that does the double declaration for you [and works with media queries too!] See <a href="using-less.html">Using LESS</a> for further details.</i></p>
+            <p>An important point: all images in the carousel will be scaled up or down to match the height specified in this directive.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="listing-the-images-for-mch-carousel">Listing the images for MCh Carousel</h2>
+          <div class="doc">
+            <p>You now need to list the images of the carousel by using the <code class="lang-html">&lt;img&gt</code> tag, wrapped in two special <code class="lang-html">&lt;div&gt</code>'s, as in the following example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;div id=&quot;my-carousel&quot;&gt;&lt;!-- this div may have whatever id and/or class you want --&gt;
+    &lt;div id=&quot;mch-image-list&quot;&gt;&lt;!-- on the other hand, this div must have its id set to &quot;mch-image-list&quot;, and no class, nor styling --&gt;
+      &lt;img src=&quot;images/image1.jpg&quot; /&gt;
+      &lt;img src=&quot;images/image2.jpg&quot; /&gt;
+      &lt;img src=&quot;images/image3.jpg&quot; /&gt;
+      &lt;img src=&quot;images/image4.jpg&quot; /&gt;
+      &lt;img src=&quot;images/image5.jpg&quot; /&gt;
+      &lt;img src=&quot;images/image6.jpg&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Ensure that the sum of the widths of your photos exceeds the width allotted to the carousel on your page, otherwise they will just show side by side, no sliding. And, for that, you need not complicate your life with a carousel :) ...</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="starting-mch-carousel-up">Starting MCh Carousel up</h2>
+          <div class="doc">
+            <p>For the carousel to appear in your page [and begin to automatically slide images for you], you need to add the following example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;script type=&quot;text/javascript&quot;&gt;
+    $(window).load(function() {
+      $(&#39;#my-carousel&#39;).mchCarousel(); /* This one line starts the carousel up */
+    });
+  &lt;/script&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>That's it! Stark and lacking the more-advanced features that MCh Carousel has to offer, but it's done! Your carousel should looks something like the one below:</p>
+            <iframe id="first-carousel" src="html/first-carousel.html" width="930" height="250"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">html/first-carousel.html</code>. It can also be run standalone by clicking <a href="html/first-carousel.html" target="_blank">here</a>.</p>
+            <p>As it stands now, the carousel solely slides your images [bringing a new image into view every 3 seconds].</p>
+            <p>Note however the built-in support for the mousewheel, touchscreen and trackpads [including Apple's Magic Mouse] for sliding the images back and fourth. Also, note the auto-centre feature: if you hover your mouse over an image that is partially out of the viewport, it will be scrolled so that it's completely into view.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="next">Next?</h2>
+          <div class="doc">
+            <p>Read on to <a href="adding-up-features.html">Adding Up Features</a> in order to learn how to enable captions, hyperlinks, buttons, on-mouse-over images, plus other options.</p>          </div>
+        </section>
+      </article>
+      <script type="text/javascript" src="js/docs.js"></script>
+    </div>
+  </body>
+</html>

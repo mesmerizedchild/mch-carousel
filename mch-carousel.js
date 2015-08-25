@@ -12,7 +12,9 @@
  *
  * @preserve 
  */
-"use strict";
+ // TODO: Captions and other stuff that is added directly to the HTML...
+ //    Is that a security risk? Do we need to polish them [like escaping?]
+ "use strict";
 (function($) {
 
     // I don't like messing around with prototypes, but this one *is* a nice polyfill :) ...
@@ -22,10 +24,6 @@
         };
     }
 
-    /**
-     * Some function
-     * @constructor
-     */
     $.fn.mchCarousel = function(options) {
         var retValue = [];
         $(this).each(function() {
@@ -942,6 +940,7 @@
             // Take the information from the image [in #mch-image-list]
             //   and build a DOM element ready for the viewport [in #mch-scrollable-viewport]
             var id = t.prop('id'),
+                clazz = t.prop('class'),
                 src = t.prop('src'),
                 alt = t.prop('alt'),
                 imgOver = t.data('img-over'),
@@ -952,7 +951,7 @@
                 captionLine2 = t.data('caption-line2'),
                 captionLine3 = t.data('caption-line3'),
                 link = t.data('link'),
-                sameWin = t.data('link-in-same-window'),
+                newWin = t.data('open-in-new-window'),
                 //
                 // HELP!!!
                 //
@@ -977,7 +976,7 @@
             // Maybe add the link...
             if (link)
                 imgCntnr.append(forAppend = $('<a class="' + _st.D + '" href="' + link + '"' +
-                    (sameWin ? '' : ' target="_blank"') +
+                    (newWin ? ' target="_blank"' : '') +
                     '></a>'));
             else
                 forAppend = imgCntnr;
@@ -997,7 +996,9 @@
             }
 
             // Add the image...
-            forAppend.append('<img class="' + _st.F + '" src="' + src +
+            forAppend.append('<img class="' + _st.F + 
+                (clazz ? ' ' + clazz : '') +
+                '" src="' + src +
                 '" data-src="' + src + '" ' +
                 (alt ? ' alt="' + alt + '" ' : '') +
                 (imgOver ? ' data-img-over="' + imgOver + '" ' : '') +

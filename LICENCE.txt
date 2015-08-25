@@ -1,3 +1,5 @@
+The MIT Licence [MIT]
+
 Copyright (c) Roberto Giuntoli [http://www.mesmerizedchild.eu]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this

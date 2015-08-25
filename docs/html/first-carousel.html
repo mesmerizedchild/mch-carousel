@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- As we are stuck up in docs/html, we better re-base all URL's ... -->
+  <base href="../..">
+  
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="mch-carousel.css">
+  
+  <!-- Start off with a no-buttons theme -->
+  <link rel="stylesheet" href="themes/mch-carousel-no-buttons-theme.css">
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport {
+      height: 250px;
+    }
+    .mch-image-container {
+      height: 250px;
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit... */
+    #my-carousel {
+      max-width: 930px;
+      background-color: #F0F4C3;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="my-carousel"><!-- this div may have whatever id and/or class you want -->
+    <div id="mch-image-list"><!-- on the other hand, this div must have its id set to "mch-image-list", and no class, nor styling -->
+      <img src="images/image1.jpg" class="myClass"/>
+      <img src="images/image2.jpg" />
+      <img src="images/image3.jpg" />
+      <img src="images/image4.jpg" />
+      <img src="images/image5.jpg" />
+      <img src="images/image6.jpg" />
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(window).load(function() {
+      $('#my-carousel').mchCarousel(); /* This one line starts the carousel up */
+    });
+  </script>
+</body>
+</html>
