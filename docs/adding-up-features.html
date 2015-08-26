@@ -1,64 +1,119 @@
 <!DOCTYPE html>
-<html dir="ltr" lang="en_GB">
+<html dir="ltr" lang="en">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
-    <meta name="description" content="MCh Carousel Documentation: Adding Up Features">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
+    <meta name="description" content="MCh Carousel Documentation: Adding Up Features" />
     <title>MCh Carousel Documentation: Adding Up Features</title>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
     <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css' />
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&subset=greek' rel='stylesheet' type='text/css'>
-    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+    <link href='https://cdn.rawgit.com/miguel-perez/smoothState.js/master/demos/csstricks/pageTransitions.css' rel='stylesheet' type='text/css' />
+    <link href='https://cdn.rawgit.com/miguel-perez/smoothState.js/master/demos/csstricks/keyframes.css' rel='stylesheet' type='text/css' />
     <link href='css/docs.css' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&amp;subset=greek' rel='stylesheet' type='text/css' />
   </head>
   <body>
-    <div class="page-content">
-      <header>
+    <div class="m-scene page-content">
+      <header class="scene_element scene_element--fadein">
         <h1>MCh Carousel: Adding Up Features</h1>
-        <p>Assuming that you have read the <a href="quick-start.html">Quick Start</a>, here you will find information on how to use captions, hyperlinks and mouse-over images with MCh Carousel.</p>
+        <p>Here you will find information on how to use captions, hyperlinks and mouse-over images with MCh Carousel. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="quick-start.html">Quick Start</a> first...</p>
         <p>All the features listed in this page are activated by adding <code class="lang-html inline">data</code> attributes to the <code class="lang-html inline">&lt;img&gt;</code> of interest.</p>
         <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
       </header>
-      <article>
+      <article class="scene_element scene_element--fadeinright">
         <section>
           <h2 id="adding-captions">Adding Captions</h2>
           <div class="doc">
             <p>There are up to 3 lines of caption available for each image. In order to specify the caption you need to add <code class="lang-html inline">data</code> attributes as in the following example:</p>
-            <pre class="prettyprint"><code class="lang-html">      &lt;img src=&quot;images/image1.jpg&quot;
-           data-caption-line1="The first line of caption,"
-           data-caption-line2="the second line of caption,"
-           data-caption-line3="and the third line..." /&gt;
-      &lt;img src=&quot;images/image2.jpg&quot;
-           data-caption-line1="Some more caption, but"
-           data-caption-line2="this time for the second"
-           data-caption-line3="image in the carousel..." /&gt;</code></pre>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       data-caption-line1="The first line of caption,"
+       data-caption-line2="the second line of caption,"
+       data-caption-line3="and the third line..." /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="Some more caption, but"
+       data-caption-line2="this time for the second"
+       data-caption-line3="image in the carousel..." /&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
-            <p>How these three lines are rendered <strong>depends entirely on your CSS</strong>; they may overlap the underlying image, appear below the image, above it, you name it. And because each line can be styled independently of the others, you may implement any mix that takes your fancy: you want the first line of caption to appear above the image, the second line to overlay it, and the third line to appear to its right, rotated by 90 degrees? A bit outlandish as an idea, but totally possible by styling MCh Carousel properly!</p>
-            <iframe id="outlandish-carousel" src="html/outlandish-carousel.html" width="930" height="250"></iframe>
+            <p>How these three lines are rendered <strong>depends entirely on your CSS</strong>; they may overlap the underlying image, appear below the image, above it, you name it.<p>
+            <p>And because each line can be styled independently of the others, you may implement any mix that takes your fancy: you want the first line of caption to appear above the image, the second line to overlay it, and the third line to appear to its right, rotated by 90 degrees? A bit outlandish as an idea, but totally possible by styling MCh Carousel properly!</p>
+            <iframe id="outlandish-carousel" src="html/outlandish-carousel.html"></iframe>
             <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">html/outlandish-carousel.html</code>. It can also be run standalone by clicking <a href="html/outlandish-carousel.html" target="_blank">here</a>.</p>
             <p>Finally, note that there is no hierarchy in the caption lines, so you may specify each and any one line that you want to display.</p>
-           <h1>CAN WE ADD HTML???</h1>
+          </div>
+        </section>
+        <section>
+          <h2 id="freebies-id-and-class">Freebies! ID and class</h2>
+          <div class="doc">
+            <p>If you specify an ID or a class for your images, these will be used by MCh Carousel, and in turn your CSS may use it to change the appearance of one single image, or a group of images. For example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       id="image-1" /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       class="even-image" /&gt;</code></pre>
+            <p>Then in the associated CSS might read:</p>
+            <pre class="prettyprint"><code class="lang-css">  #image-1 .mch-caption-lines {
+    color: lightsalmon;
+  }
+  .even-image .mch-caption-lines {
+    color: antiquewhite;
+  }
+  .mch-caption-lines {
+    color: peachpuff;
+  }
+</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>This way, the caption lines for the first image [with <code class="lang-html inline">id="image-1"</code>] would display on a light-salmon background, the second image [with <code class="lang-html inline">class="even-image"</code>] would display on an antique-white background, and all other images would display on a peach-puff background.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="hiding-and-displaying-captions-for-individual-images">Hiding and displaying captions for individual images</h2>
+          <h3>NEED TO MOVE TO SOMETHING LIKE "ADVANCED OPTIONS/FINE TUNING"</h3>
+          <div class="doc">
+            <p>A start-up option will tell the carousel when to display captions by default: always, or on mouse-over [see <a href="options-and-api.html">Options and API</a> for more details]. However, each image can override that start-up option by adding a <code class="lang-html inline">data</code> attribute as in the following example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- The caption for this image is always displayed,
+         regardless of the start-up option --&gt;
+  &lt;img src=&quot;images/image1.jpg&quot;
+       data-caption-line1="Caption always on"
+       data-caption-display="always" /&gt;
+  &lt;!-- The caption for this image is displayed only 
+         when hovering over it --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="Only when the mouse hovers me"
+       data-caption-display="hover" /&gt;</code></pre>
           </div>
         </section>
         <section>
           <h2 id="captions-and-languages">Captions and languages</h2>
           <div class="doc">
-            <p>You may specify the language of each caption by adding the attribuge <code class="lang-html inline">data-caption-lang</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag. This is useful, for example, to select different fonts for scripts other than Latin, via CSS. See <a href="http://www.w3.org/International/questions/qa-lang-why.en">Why use the language attribute?</a> for more information.</p>
+            <p>You may specify the language of each caption by adding the attribuge <code class="lang-html inline">data-caption-lang</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag. This is useful, for example, to select different fonts for scripts other than Latin, via CSS.</p>
             <p>Note that caption lines for any one image all share the same language, but each image may have a different language, as in the following example:</p>
-            <pre class="prettyprint"><code class="lang-html">      &lt;!-- Language of caption below is 
-             English [who would have guessed!], lang="en" --&gt;
-      &lt;img src=&quot;images/image1.jpg&quot;
-           data-caption-line1="Text in English"
-           data-caption-lang="en" /&gt;
-      &lt;!-- Language of caption below is French, lang="fr" --&gt;
-      &lt;img src=&quot;images/image2.jpg&quot;
-           data-caption-line1="Texte en français"
-           data-caption-lang="fr" /&gt;
-      &lt;!-- Language of caption below is Greek, lang="gr" --&gt;
-      &lt;img src=&quot;images/image2.jpg&quot;
-           data-caption-line1="<span lang="gr">κείμενο στην ελληνική γλοσσα</span>"
-           data-caption-lang="gr" /&gt;</code></pre>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- Language of caption below is 
+         English [who would have guessed!], lang="en" --&gt;
+  &lt;img src=&quot;images/image1.jpg&quot;
+       data-caption-line1="Text in English"
+       data-caption-lang="en" /&gt;
+  &lt;!-- Language of caption below is French, lang="fr" --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="Texte en français"
+       data-caption-lang="fr" /&gt;
+  &lt;!-- Language of caption below is Greek, lang="el" --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="<span lang="el">κείμενο στην ελληνική γλοσσα</span>"
+       data-caption-lang="el" /&gt;</code></pre>
            <div class="copy-to-clipboard"></div>
+           <p>When styling the carousel, your CSS might then include something like the following:</p>
+           <pre class="prettyprint"><code class="lang-css">  .mch-caption-line1 {
+    /* Source Code Pro is a very nice monospaced font,
+         but it does not support the Greek script... */ 
+    font-family: 'Source Code Pro' ;
+  }
+  [lang="el"] .mch-caption-line1 {
+    /* ... whereas Roboto Mono does support it. */
+    font-family: 'Roboto Mono';
+  }
+</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>See <a href="http://www.w3.org/International/questions/qa-lang-why.en">Why use the language attribute?</a> for more information on this topic.</p>
           </div>
         </section>
         <section>
@@ -67,51 +122,49 @@
             <p>Each image may be turned into a hyperlink; that is, its whole surface may become clickable and direct you to another page. To do so, add the attribute <code class="lang-html inline">data-link</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag, and specify there the destination of the hyperlink.</p>
             <p>By default, the link will open in the same window where the carousel sits. You may indicate that the link should open in a new window instead, by adding the attribute <code class="lang-html inline">data-open-in-new-window</code>, with a value of <code class="lang-html inline">"true"</code>.</p>
             <p>The following example is pretty straightforward and self-documented:</p>
-            <pre class="prettyprint"><code class="lang-html">      &lt;!-- some-page.html will open in the same window as the carousel --&gt;
-      &lt;img src=&quot;images/image1.jpg&quot;
-           data-link="some-page.html" /&gt;
-      &lt;!-- On the other hand, google.com will open in a new window --&gt;
-      &lt;img src=&quot;images/image2.jpg&quot;
-           data-link="https://www.google.com" 
-           data-open-in-new-window="true" /&gt;
-      &lt;!-- And this last image has no hyperlink at all. --&gt;
-      &lt;img src=&quot;images/image3.jpg&quot; /&gt;</code></pre>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- some-page.html will open in the same window as the carousel --&gt;
+  &lt;img src=&quot;images/image1.jpg&quot;
+       data-link="some-page.html" /&gt;
+  &lt;!-- On the other hand, google.com will open in a new window --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-link="https://www.google.com" 
+       data-open-in-new-window="true" /&gt;
+  &lt;!-- And this last image has no hyperlink at all. --&gt;
+  &lt;img src=&quot;images/image3.jpg&quot; /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
           </div>
         </section>
         <section>
           <h2 id="using-mouse-over-images">Using mouse-over images</h2>
           <div class="doc">
-            <p>You may specify an alternate version of an image to be displayed when the mouse pointer hovers over it.</p>
+            <p>You may specify an alternate version of an image to be displayed when the mouse pointer hovers over it. For obvious reasons, this feature is not available on mouse-less devices...</p>
             <p>The image that you specify for mouse-over should be the same size as the "non-mouse-over" image; MCh Carousel will behave erratically if this condition is not met [Ok, let me be honest: I have not tested it...]</p>
-            <pre class="prettyprint"><code class="lang-html">      &lt;img src=&quot;images/image1.jpg&quot;
-           data-img-over="images/image1-over.jpg" /&gt;
-      &lt;img src=&quot;images/image2.jpg&quot;
-           data-img-over="images/image2-over.jpg" /&gt;</code></pre>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       data-img-over="images/image1-over.jpg" /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-img-over="images/image2-over.jpg" /&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
-          </div>
-        </section>
-        <section>
-          <h2 id="buttons">Buttons</h2>
-          <div class="doc">
-            <p>MCh Carousel has a set of built-in buttons that allow you to take control over the sideways flow of images; these buttons are <strong>always</strong> generated by MCh Carousel, but if CSS does not style them up, they are just hidden, as in the carousels displayed till now.</p>
-            <p>There are 3 button panes available, each of which may be made visible or kept hidden independently:</p>
-            <ul>
-              <li><p class="list-title">Slide-control pane</p>
-              <p>This pane comprises 2 buttons: Pause and Start. Their function is self-explanatory: if the carousel is configured to slide images automatically, the former button will pause the automatic slide, while the latter button will restart it. Clicking on Pause when the carousel is paused, or clicking on Start while the carousel is "running"******* has no effect.</p></li>
-              <li><p class="list-title">Left-right-slide pane</p>
-              <p></p>
-            </ul>
           </div>
         </section>
         <section>
           <h2 id="putting-all-of-the-above-together">Putting all of the above together</h2>
           <div class="doc">
-            <p>The following carousel puts all of the features mentioned in this page together. But beware: there are a handful more features to uncover :-) !
-            <iframe id="major-features-carousel" src="html/major-features-carousel.html" width="930" height="250"></iframe>
+            <p>The following carousel puts all of the features mentioned in this page together. But beware: there are a handful more features to uncover :-) !</p>
+            <iframe id="major-features-carousel" src="html/major-features-carousel.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">html/major-features-carousel.html</code>. It can also be run standalone by clicking <a href="html/major-features-carousel.html" target="_blank">here</a>.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="so-now-what">So, now what?</h2>
+          <div class="doc">
+            <p>Read on to <a href="more-features.html">More Features</a> in order to learn how to enable nagivation buttons, slide-control buttons.</p><h1>*****</h1>
           </div>
         </section>
       </article>
       <script type="text/javascript" src="js/docs.js"></script>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="https://cdn.rawgit.com/miguel-perez/smoothState.js/master/jquery.smoothState.min.js"></script>
     </div>
   </body>
 </html>

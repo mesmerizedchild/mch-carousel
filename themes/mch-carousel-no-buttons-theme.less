@@ -8,7 +8,7 @@
 
 @import 'mch-responsive-tiny.less';
 
-@imageHorizontalGap: 5px;
+@imageHorizontalGap: 3px;
 
 @latinScriptFont: 'Roboto';
 @greekScriptFont: 'Roboto';
@@ -20,28 +20,18 @@
       languages]. */
 .mch-image-container {
     opacity: 1;
-    padding-right: 0;
+    padding-right: @imageHorizontalGap;
     padding-left: @imageHorizontalGap;
-    &:first-of-type {
-        padding-left: 0;
-    }
-    [dir="rtl"] & {
-        padding-right: @imageHorizontalGap;
-        padding-left: 0;
-        &:first-of-type {
-            padding-right: 0;
-        }
-    }
 }
 
 .mch-caption-cntnr {
     position: absolute;
     top: 0;
-    left: initial;
-    right: 0;
+    left: @imageHorizontalGap;
+    right: initial;
     [dir="rtl"] & {
-        left: 0;
-        right: initial;
+        left: initial;
+        right: @imageHorizontalGap;
     }
 }
 
@@ -79,14 +69,17 @@
 }
 
 .mch-caption-line1 {
+    display: inline-block;
     .mch-scripts();
     font-size: 12px;
 }
 .mch-caption-line2 {
+    display: inline-block;
     .mch-scripts();
     font-size: 12px;
 }
 .mch-caption-line3 {
+    display: inline-block;
     .mch-scripts();
     font-size: 12px;
 }

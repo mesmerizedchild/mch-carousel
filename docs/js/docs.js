@@ -1,4 +1,7 @@
 window.onload = function() {
+    $(function() {
+        $('#page-content').smoothState();
+    });
     var nodeList = document.querySelectorAll('.copy-to-clipboard');
     for(var i=nodeList.length - 1; i>=0; i--) {
         var el = nodeList[i];
@@ -21,8 +24,8 @@ window.onload = function() {
             button.onclick = dismiss;
             // Set the text area up
             ta.wrap = 'off';
-            ta.cols = 60;
-            ta.rows = 6;
+            ta.cols = 120;
+            ta.rows = 30;
             ta.value = text;
             ta.autofocus = 'autofocus';
             ta.onkeydown = function(e) {
@@ -33,9 +36,6 @@ window.onload = function() {
             // Build the dialog box
             dialog.appendChild(ta);
             dialog.appendChild(button);
-            // Position the dialog box
-            dialog.style.left = (el.offsetLeft + 150) + 'px';
-            dialog.style.top = (el.offsetTop + 15) + 'px';
             // Make the button stand out, even while the rest of the page is opaque
             el.style.zIndex = 101;
             document.body.appendChild(opaque);

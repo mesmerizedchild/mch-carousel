@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
+    <meta name="description" content="MCh Carousel Documentation: Adding Up Features" />
+    <title>MCh Carousel Documentation: More Features</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css' />
+    <link href='https://cdn.rawgit.com/miguel-perez/smoothState.js/master/demos/csstricks/pageTransitions.css' rel='stylesheet' type='text/css' />
+    <link href='https://cdn.rawgit.com/miguel-perez/smoothState.js/master/demos/csstricks/keyframes.css' rel='stylesheet' type='text/css' />
+    <link href='css/docs.css' rel='stylesheet' type='text/css' />
+    <!-- TODO this is not a production css, it's for the demos of smoothState. CHANGE IN ALL FILES !! -->
+  </head>
+  <body>
+    <div class="m-scene page-content">
+      <header class="scene_element scene_element--fadein">
+        <h1>MCh Carousel: More Features</h1>
+        <p>Here you will find information on how to use captions, hyperlinks and mouse-over images with MCh Carousel. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="quick-start.html">Quick Start</a> first and take if from there [you will eventally land back onto this page...]</p>
+        <!--p>All the features listed in this page are activated by adding <code class="lang-html inline">data</code> attributes to the <code class="lang-html inline">&lt;img&gt;</code> of interest.</p-->
+        <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
+      </header>
+      <article class="scene_element scene_element--fadeinright">
+        <section>
+          <h2 id="non-technical-language-direction-and-slide-flow">Non-technical: language direction and slide flow</h2>
+          <div class="doc">
+            <p>Have you ever thought that your expectation of what happens when a carousel "moves on to the next slide", is connected to the direction in which you [usually] read?</p>
+            <p>As you read this text and your eyes scans each line, old content [i.e. the text you have already read] exits from the left edge of your field of vision, and new content [the text you yet have to read] enters from the right edge. You will expect a carousel to "move on to the next slide" in a fashion that recalls what happens when you are reading text, that is: slide old content off from the left edge of the viewport, and bring new content in from the right edge.</p>
+            <p>This is what happens to people accustomed to languages written in left-to-right scripts: the Latin script [that you are reading right now], the Greek script, Cyrillic, etc. Some languages, though, use scripts that are written and read from right to left, most notably Arabic and Hebrew. And this changes things a bit.</p>
+            <p>When people read a line of text written in the Arabic or Hebrew script and their eyes move from right to left, old content exits from the right edge of their field of vision, and new content enters from the left edge. Coherently, these same people expect that a carousel "moves on to the next slide" by sliding old content off from the right edge of the viewport, and bringing new content in from the left edge.</p>
+            <p>MCh Carousel accomodates for these different expectations.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="the-dir-attribute">The <code class="lang-html inline">dir</code> attribute</h2>
+          <div class="doc">
+            <p>MCh Carousel is sensitive to the direction of the language of its host page, provided that the <code class="lang-html inline">dir</code> attribute is present somewhere in the HTML. A well-written HTML page will have this attribute at least in its <code class="lang-html inline">html</code> or <code class="lang-html inline">body</code> tag, best if together with the <code class="lang-html inline">lang</code> attribute.</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- Sample html tag for a page written in English --&gt;
+  &lt;html lang="en" dir="ltr"&gt;
+
+  &lt;!-- Sample html tag for a page written in Arabic --&gt;
+  &lt;html lang="ar" dir="rtl"&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>If adding the <code class="lang-html inline">dir</code> attribute to the <code class="lang-html inline">html</code> or <code class="lang-html inline">body</code> tag is not possible or undesirable, it may be added to the <code class="lang-html inline">div</code> that starts off an instance of MCh Carousel [recall <a href="quick-start.html#listing-the-images-for-mch-carousel">Listing the images for MCh Carousel</a>]. For example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;div id=&quot;my-carousel&quot; dir="rtl"&gt;&lt;!-- This carousel targets a right-to-left audience --&gt;
+    &lt;img src=&quot;images/image1.jpg&quot; /&gt;
+    &lt;img src=&quot;images/image2.jpg&quot; /&gt;
+    ... etc. ...</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Either way, MCh Carousel will detect the value of the <code class="lang-html inline">dir</code> attribute, and accordingly adjust the order in which the images are presented, along with the direction in which they slide automatically.</p>
+            <p>Following are two instances of the same carousel; the only difference is the value specified in the <code class="lang-html inline">html</code> tag for the <code class="lang-html inline">dir</code> attribute: it's <code class="lang-html inline">"ltr"</code> [left-to-right, like English] for the first carousel, whereas it's <code class="lang-html inline">"rtl"</code> [right-to-left, like Arabic and Hebrew] for the second one.</p>
+            <iframe id="ltr-carousel" src="html/ltr-carousel.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">html/ltr-carousel.html</code>. It can also be run standalone by clicking <a href="html/ltr-carousel.html" target="_blank">here</a>.</p>
+            <iframe id="rtl-carousel" src="html/rtl-carousel.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">html/rtl-carousel.html</code>. It can also be run standalone by clicking <a href="html/rtl-carousel.html" target="_blank">here</a>.</p>
+            <p>Note that, in order to display the caption line in a coherent fashion, the CSS does have to take the direction into account. The CSS for both carousels include the following:</p>
+            <pre class="prettyprint"><code class="lang-css">  .mch-caption-line1 {
+    position: relative;
+    top: 40px;
+    left: 40px;
+    right: auto;
+  }
+  [dir="rtl"] .mch-caption-line1 {
+    left: auto;
+    right: 40px;
+  }</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>This CSS snippet places the caption close to the left edge of the image for the left-to-right carousel, while placing the caption close to the right edge for the right-to-left carousel. This technique is needed especially when building themes for MCh Carousel [where the target audience is, in essence, the whole world].</p>
+            <!-- TODO responsive iframes, which also requires responsive embedded HTML and coordination between the break points for the docs, and those for the embedded HTML. Must look good all the way down to 360px. -->
+          </div>
+        </section>
+        <section>
+          <h2 id="buttons">Buttons</h2>
+          <div class="doc">
+            <p>MCh Carousel has a set of built-in buttons that allow you to take control over the sideways flow of images; these buttons are <strong>always</strong> generated in the HTML code, but if CSS does not style them up, they are just hidden [as in the carousels displayed till now!]</p>
+            <p>There are 3 button panes available, each of which may be made visible or kept hidden independently:</p>
+            <ul>
+              <li><p class="list-title">Slide-control pane</p>
+              <p>This pane comprises 2 buttons: Pause and Start. Their function is self-explanatory: if the carousel is configured to slide images automatically, the former button will pause the automatic slide, while the latter button will restart it. Clicking on Pause when the carousel is paused, or clicking on Start while the carousel is sliding images, has no effect. If the carousel is not configured to slide images automatically, neither button will have any effect either.</p></li>
+              <li><p class="list-title">Start-end-slide pane</p>
+              <p>This pane consists of 4 buttons: Slide to first image, Slide to next image, Slide to previous image, plus Slide to the last image. The exact direction in which each button will slide the carousel depends on the value of the <code class="lang-html inline">dir</code> attribute, as discussed above. This pane is useful if you want to style the buttons up with elements that change their meaning depending on the reading direction; for example, using the text "Previous" or "Next" in the buttons.</p><h3>YOU F**KING WHAT???</h3></li>
+              <li><p class="list-title">Left-right-slide pane</p>
+              <p>This pane consists of 4 buttons: Slide to the leftmost image, Slide to the image to the left, Slide to the image to the right, and finally Slide to the rightmost image. The direction in which these button slide is not dependent on the value of the  <code class="lang-html inline">dir</code> attribute. This pane is useful in case you want to style the buttons up with elements that unambiguously mean "left" and "right", for example, images of arrows pointing left or right.</p></li>
+            </ul>
+            <p>Both the Start-end-slide pane and the Left-right-slide pane might need direction-dependent CSS styling, if you intend to target both audiences, but the Start-end-slide may make matters a bit easier.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="are-we-finished-yet">Are we finished yet?</h2>
+          <div class="doc">
+            <p>Not really :-) ... Read on to <a href="options-and-api.html">Options and API</a> in order to learn .</p><h1>*****</h1>
+          </div>
+        </section>
+      </article>
+      <script type="text/javascript" src="js/docs.js"></script>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script type="text/javascript" src="https://cdn.rawgit.com/miguel-perez/smoothState.js/master/jquery.smoothState.min.js"></script>
+    </div>
+  </body>
+</html>

@@ -14,6 +14,7 @@
  */
  // TODO: Captions and other stuff that is added directly to the HTML...
  //    Is that a security risk? Do we need to polish them [like escaping?]
+ // TODO: Pause and Start visible even if the carousel does not slide automatically?
  "use strict";
 (function($) {
 
@@ -65,8 +66,8 @@
             displayButtonsOptions: {
                 when: 'hover' // hover, always
             },
-            displayImageCaption: true,
-            displayImageCaptionOptions: {
+            displayCaption: true,
+            displayCaptionOptions: {
                 when: 'hover'
             },
             captureArrowKeys: true,
@@ -76,7 +77,7 @@
             slideWithMouseWheel: true,
             advanced: {
                 slideTolerance: 5,
-                mousewheelAutocentreInactivity: 1000,
+                mousewheelAutocentreInactivityMs: 1000,
                 mousewheelMultiplier: 40,
                 divCleanup: true,
             },
@@ -104,6 +105,7 @@
             k: '.mch-image-container',
             K: 'mch-image-container',
             l: '#mch-image-list',
+            L: 'mch-image-list',
             Z: 'mch-buttons-pane',
             Z1: 'mch-slide-control-group',
             Z2: 'mch-left-right-group',
@@ -177,7 +179,7 @@
     $.fn.mchCarousel.defaultOptions = _df;
 
     /*
-     * The object that generates the carousel from the images in #mch-image-list,
+     * The object that generates the carousel from the images in the <div>,
      *   and handles incoming events.
      * @constructor
      */
@@ -186,6 +188,10 @@
         // Mix the input options [if any] with the default ones.
         options = $.extend(true, {}, _df, options);
         buildHiddenOptions();
+
+        // From now on, it's all function and class declarations.
+        // The main body of this function resumes where 
+        //   the comment reads: Main body resumes.
 
         // To which element does this MchCarousel instance belong?
         // Result is a jQuery object wrapping the actual DOM element
@@ -197,6 +203,28 @@
         // Result is the actual DOM element
         function getDomObject() {
             return rootElement[0];
+        }
+
+        function buildImageList() {
+            var images = [],
+                retValue = $('<div id="' + _st.L + '"></div>');
+            rootElement.find('img').each(function() {
+                // Re-parent the image to retValue
+                retValue.append(this);
+            });
+
+            /* Εnsure that we start with a clean slate [i.e. no elements
+                 other than #mch-image-list in the carousel].
+               This is needed mostly with WordPress, because it 'likes'
+                 to throw stray <p>'s into the HTML even when we are editing
+                 our page from the Text tab... go figure.
+               Anyway, those stray <p>'s do take space in the carousel,
+                 offsetting the viewport and all other elements, thus making it
+                 appear as if the carousel itself were defective.
+               Thank you WP :) ... */
+            rootElement.html('');
+            rootElement.append(retValue);
+            return retValue;
         }
 
         function windowResized() {
@@ -586,8 +614,9 @@
                 buttonsPane,
                 viewport,
                 justUsedWheel = false,
-                noWheel = new Timer(noWheelFunct,
-                    options.advanced.mousewheelAutocentreInactivity);
+                noWheel = new Timer(noWheelFunct, function() {
+                    return options.advanced.mousewheelAutocentreInactivityMs;
+                });
             carousel.on({
                 mouseenter: enterCarousel,
                 mouseleave: leaveCarousel
@@ -944,7 +973,7 @@
                 src = t.prop('src'),
                 alt = t.prop('alt'),
                 imgOver = t.data('img-over'),
-                display = t.data('display'),
+                captionDisplay = t.data('caption-display'),
                 data = t.data('data'),
                 captionLang = t.data('caption-lang'),
                 captionLine1 = t.data('caption-line1'),
@@ -966,7 +995,9 @@
                 //
                 // Anybody knows why?!?
                 //
-                imgCntnr = $('<div class="' + _st.K + '" data-idx="' + idx + '"' +
+                imgCntnr = $('<div class="' + _st.K + 
+                    (clazz ? ' ' + clazz : '') +
+                    '" data-idx="' + idx + '"' +
                     (id ? ' id="' + id + '"' : '') +
                     (data ? ' data-data="' + data + '"' : '') +
                     '></div>'),
@@ -996,13 +1027,11 @@
             }
 
             // Add the image...
-            forAppend.append('<img class="' + _st.F + 
-                (clazz ? ' ' + clazz : '') +
-                '" src="' + src +
+            forAppend.append('<img class="' + _st.F + '" src="' + src +
                 '" data-src="' + src + '" ' +
                 (alt ? ' alt="' + alt + '" ' : '') +
                 (imgOver ? ' data-img-over="' + imgOver + '" ' : '') +
-                (display ? ' data-display="' + display + '" ' : '') +
+                (captionDisplay ? ' data-caption-display="' + captionDisplay + '" ' : '') +
                 //'style="height: 100%;" ' +
                 '></img>');
 
@@ -1058,14 +1087,14 @@
 
             function captionOnlyWhenHovering() {
                 var display;
-                if (img && (display = img.data('display')))
+                if (img && (display = img.data('caption-display')))
                     return display === 'hover';
-                return options.displayImageCaption && options.displayImageCaptionOptions.when === 'hover';
+                return options.displayCaption && options.displayCaptionOptions.when === 'hover';
             }
 
             function optionsChanged() {
                 if (captionCntnr)
-                    if (options.displayImageCaption)
+                    if (options.displayCaption)
                         captionCntnr.removeClass(_st.a);
                     else
                         captionCntnr.addClass(_st.a);
@@ -1297,27 +1326,9 @@
             }
         };
 
-        var // This is our 'data source'
-            imgList = rootElement.find(_st.l);
-
-        /* Εnsure that we start with a clean slate [i.e. no elements
-             other than #mch-image-list in the carousel].
-           This is needed mostly with WordPress, because it 'likes'
-             to throw stray <p>'s into the HTML even when we are editing
-             our page from the Text tab... go figure.
-           Anyway, those stray <p>'s do take space in the carousel,
-             offsetting the viewport and all other elements, thus making it
-             appear as if the carousel itself were defective.
-           Thank you WP :) ... */
-        if (options.advanced.divCleanup) {
-            var el;
-            while ((el = imgList.next())[0])
-                el.remove();
-            while ((el = imgList.prev())[0])
-                el.remove();
-        }
-
-        var evntMngr = new EventManager(),
+        // Main body resumes.
+        var imgList = buildImageList(), // This is our 'data source'
+            evntMngr = new EventManager(),
 
             // The carousel hosts the viewport and the buttons
             carousel = new Carousel(),
@@ -1328,6 +1339,8 @@
 
             buttonsPane = new ButtonsPane();
 
+        // TODO: this variable, used only to create the new AutoSlider, is
+        //   a bit embarrassing...
         var autoSlider = new AutoSlider(carousel);
 
         // Assemble the carousel: first the viewport...

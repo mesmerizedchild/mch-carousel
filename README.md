@@ -29,13 +29,11 @@ The following [pseudo] HTML code gives an idea of the steps involved in creating
 ```html
   <!-- first define a container for your images -->
   <div id="whateverIdYouLike">
-    <div id="mch-image-list"><!-- this div must have its ID set to mch-image-list -->
-      <!-- list the images of your carousel; they will be displayed in the carousel
-             in the same order as they appear here -->
-      <img src=... [more properties...]>
-      <img src=... [more properties...]>
-      [more images...]
-    </div>
+    <!-- list the images of your carousel; they will be displayed in the carousel
+           in the same order as they appear here -->
+    <img src=... [more properties...]>
+    <img src=... [more properties...]>
+    [more images...]
   </div>
   <!-- the Javascript code to create the carousel is pretty simple: -->
   <script type="text/javascript">
@@ -54,12 +52,11 @@ The following [pseudo] HTML code gives an idea of the steps involved in creating
     // You may also slide programmatically using the object above:
     theCarousel.slideNext();
     theCarousel.slideLeftmost();
-    // See the API file [*****] for a complete reference.
   </script>
   </pre>
 ```
 
-More information in the [documentation](docs/index.html).
+Complete information in the [documentation](docs/index.html).
 
 ## Dependencies
 * The following JavaScript library must be included for MCh Carousel to work properly:  

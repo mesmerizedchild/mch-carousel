@@ -1,9 +1,10 @@
 @spacingBase: 10px;
-@headersFontWeight: 600;
-@subheadersIndentation: 20px;
+@headersFontWeight: 700;
+@subheadersIndentation: 0;
 @textColour: #333;
-@textIndentation: 30px;
-@bodyFont: 'Open Sans';
+@textIndentation: @spacingBase;
+@bodyFont: 'Lato';
+@boldBodyFontWeight: 700;
 @sourceCodeFont: 'Source Code Pro';
 @sourceCodeFontGreek: 'Roboto Mono';
 @borderRadius: 2px;
@@ -26,13 +27,8 @@
 
 body {
   color: @textColour;
-  font-family: 'Open Sans';
+  font-family: @bodyFont;
   line-height: 1.4;
-  max-width: 960px;
-  margin: 8px 5% 20px;
-  @media screen and (min-width: 1056px) {
-    margin: 8px auto 20px;
-  }
 }
 
 header {
@@ -43,6 +39,9 @@ header {
 
 iframe {
   .margin-top(1.5);
+  width: (960px-@textIndentation);
+  height: 250px;
+  min-width: 320px;
   .margin-bottom(0.5);
 }
 
@@ -56,20 +55,34 @@ iframe {
 
 .mch-h() {
   font-weight: @headersFontWeight;
-  .margin-top(2);
+  font-family: @bodyFont;
 }
 
 h1 {
   font-size: 38px;
   .mch-h();
-  .margin-bottom(3);
+  .margin-bottom(2);
+  display: block;
+  background-color: black;
+  color: white;
+  padding: (@marginTop*2.5) @marginTop (@marginTop*3) @marginTop;
+  text-align: center;
+}
+
+article, header p {
+  max-width: 960px;
+  margin: 8px 5% 20px;
+  @media screen and (min-width: 1056px) {
+    margin: 8px auto 20px;
+  }
 }
 
 h2 {
   font-size: 24px;
   .mch-h();
-  margin-left: @subheadersIndentation;
+  .margin-top(2);
   .margin-bottom();
+  margin-left: @subheadersIndentation;
 }
 
 div.doc {
@@ -79,6 +92,13 @@ div.doc {
 
 p {
   .margin-bottom();
+  &.list-title {
+    margin-bottom: 0;
+    font-weight: @boldBodyFontWeight;
+  }
+  strong {
+    font-weight: @boldBodyFontWeight;
+  }
 }
 
 .need-internet {
@@ -96,7 +116,7 @@ pre.prettyprint {
   margin-right: 10px;
   > code {
     font-family: @sourceCodeFont;
-    [lang='gr'] {
+    [lang='el'] {
       font-family: @sourceCodeFontGreek;
     }
   }
@@ -104,7 +124,7 @@ pre.prettyprint {
 
 code {
   font-family: @sourceCodeFont;
-  &.lang-html.inline, &.file-name {
+  &.lang-html.inline, &.lang-css.inline, &.file-name {
     background-color: #e0e2e4;
     padding-left: 3px;
     padding-right: 3px;
@@ -133,9 +153,12 @@ code {
 
 /* The Ok button in a dialog box. */
 .dialog-button {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
   &:extend(.button);
   display: inline-block;
-  margin: 5px;
+  // margin: 5px;
   &::before {
     content: 'I\'m done. \A Thanks!';
   }
@@ -149,28 +172,41 @@ code {
   bottom: 0;
   left: 0;
   z-index: 100;
-  //margin-left: 150px;
   background-color: #E0E0E0;
   opacity: 0.75;
 }
 
 /* The actual dialog box. */
 .dialog-outer {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 20%;
+  left: 0;
+  margin: auto;
   z-index: 102;
+  width: 300px;
+  height: 200px;
+  @media (min-width: 600px) {
+    width: 500px;
+  }
   padding: 10px;
   border: 1px solid black;
   background-color: #E0E0E0;
   border-radius: @borderRadius;
   &::before {
     display: block;
-    content: 'Press CTRL-C to copy the text below to your clipboard, then \A dismiss this dialog box by hitting Enter or clicking on the Ok button.';
+    height: 36px;
+    content: 'Press CTRL-C to copy the text below, then \A hit Enter or click on the button below.';
     white-space: pre;
     font-size: 12.5px;
     text-align: center;
     margin-bottom: 5px;
   }
   textarea {
+    width: 100%;
+    height: 120px;
+    padding: 0;
     display: block;
     overflow: auto;
     font-family: @sourceCodeFont;
