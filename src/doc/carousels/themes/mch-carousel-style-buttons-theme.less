@@ -1,0 +1,131 @@
+/** MCh Carousel Style Buttons.
+  *
+  * Only-buttons theme for the docs.
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+@buttonHeightTablet: 35px;
+@buttonWidthTablet: 80px;
+@buttonFontSizeTablet: 15px;
+@borderSpacingTablet: 4px;
+@offset1Tablet: 0;
+@offset2Tablet: @buttonWidthTablet + @borderSpacingTablet;
+@offset3Tablet: ((@buttonWidthTablet + @borderSpacingTablet)*2);
+@offset4Tablet: ((@buttonWidthTablet + @borderSpacingTablet)*3);
+
+@iconsFont: 'Roboto';
+@latinScriptFont: 'Roboto';
+@greekScriptFont: 'Roboto';
+@hebrewScriptFont: 'Tinos';
+@arabicScriptFont: 'Amiri';
+
+#mch-buttons-pane {
+    position: relative;
+    height: @buttonHeightTablet;
+    margin: @borderSpacingTablet 0 0 0;
+}
+
+/* Style for the navigation buttons */
+.mch-button {
+    display: table;
+    color: dodgerblue;
+    font-family: @iconsFont;
+    font-size: @buttonFontSizeTablet;
+    font-weight: bold;
+    width: @buttonWidthTablet;
+    height: @buttonHeightTablet;
+    position: absolute;
+    cursor: pointer; 
+    .mch-button-graphics {
+        display: table-cell;
+        vertical-align: middle;
+        font-family: @latinScriptFont;
+        text-align: center;
+        width: 100%;
+        border: 1px dodgerblue solid;
+        border-radius: 4px;
+        background-color: white;
+        transition: background-color 0.1s;
+        &:hover {
+            background-color: lighten(dodgerblue, 40%);
+        }
+    }
+    &#mch-first {
+        left: @offset1Tablet;
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            right: @offset1Tablet;
+        }
+        .mch-button-graphics::after {
+            content: 'First';
+        }
+    }
+    &#mch-prev {
+        left: @offset2Tablet;
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            right: @offset2Tablet;
+        }
+        .mch-button-graphics::after {
+            content: 'Previous';
+        }
+    }
+    &#mch-next {
+        left: @offset3Tablet;
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            right: @offset3Tablet;
+        }
+        .mch-button-graphics::after {
+            content: 'Next';
+        }
+    }
+    &#mch-last {
+        left: @offset4Tablet;
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            right: @offset4Tablet;
+        }
+        .mch-button-graphics::after {
+            content: 'Last';
+        }
+    }
+    &#mch-pause {
+        left: auto;
+        right: @offset1Tablet;
+        [dir="rtl"] & {
+            left: @offset1Tablet;
+            right: auto;
+        }
+        .mch-button-graphics::after {
+            content: 'Pause';
+        }
+    }
+    &#mch-restart {
+        left: auto;
+        right: @offset2Tablet;
+        [dir="rtl"] & {
+            left: @offset2Tablet;
+            right: auto;
+        }
+        .mch-button-graphics::after {
+            content: 'Start';
+        }
+    }
+}
+
+/* Not interested in displaying the left-right navigation buttons. */
+#mch-left-right-group {
+    display: none;
+}
+
+.mch-no-hover {
+    transition: 0.2s;
+    opacity: 0;
+}

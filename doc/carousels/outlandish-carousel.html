@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Documentation: An Outlandish Carousel">
+  <title>MCh Carousel Documentation: An Outlandish Carousel</title>
+  <!-- As we are stuck up in docs/html, we better re-base all URL's ... -->
+
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="../../dist/mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="../../dist/mch-carousel.css">
+
+  <!-- Styling MCh Carousel: start off with a font and the no-buttons theme -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="themes/mch-carousel-no-buttons-theme.css">
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport {
+      height: 250px;
+    }
+    .mch-image-container {
+      height: 250px;
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit... */
+    #my-carousel {
+      max-width: 960px;
+      background-color: #F0F4C3;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Now, customise the style of the carousel; normally you would do this 
+         in a separate CSS file, rather than with inline CSS. */
+    .mch-padding {
+      width: 7px; /* No need to pad here. */
+    }
+    .mch-image-container img { /* The image is smaller than its container. */
+    	padding-top: 30px;
+    	height: 220px;
+    	padding-right: 28px;
+    	padding-left: 0;
+    }
+    .mch-caption-cntnr { /* Stretch the caption-lines container. */
+    	position: absolute;
+    	top: 0;
+    	right: 0;
+    	bottom: 0;
+    	left: 0;
+    }
+    .mch-caption-lines { /* Need to reset positioning to accomodate 
+    	                      for this outlandish style... */
+    	position: static;
+    }
+    .mch-caption-line1 { /* Style for first line of caption. */
+    	position: absolute;
+    	top: 0;
+    	width: 90%;
+    	padding: 3px 9px;
+    	font-size: 20px;
+    	color: white;
+    	background-color: #FF5722;
+    }
+    .mch-caption-line2 { /* Style for second line of caption. */
+    	display: inline;
+    	position: absolute;
+    	bottom: 25px;
+    	left: 25px;
+    	padding: 5px 15px;
+    	font-size: 25px;
+    	color: black;
+    	background-color: #FFEB3B;
+    }
+    .mch-caption-line3 { /* Style for third line of caption. */
+    	position: absolute;
+    	right: 28px;
+    	bottom: 0;
+    	padding: 3px 9px 3px 35px;
+    	font-size: 18px;
+    	color: white;
+    	background-color: #9C27B0;
+    	-webkit-transform-origin: 100% 100%;
+    	-webkit-transform: rotate(90deg);
+    	-ms-transform-origin: 100% 100%;
+    	-ms-transform: rotate(90deg);
+    	transform-origin: 100% 100%;
+    	transform: rotate(90deg);
+    }
+  </style>
+</head>
+<body>
+  <div id="my-carousel">
+    <div id="mch-image-list">
+      <img src="images/image1.jpg" 
+           alt="The first image"
+           data-caption-line1="The first line of caption,"
+           data-caption-line2="the second line of caption,"
+           data-caption-line3="and the third line..." />
+      <img src="images/image2.jpg" 
+           alt="The second image"
+           data-caption-line1="Hey, this is most definitely"
+           data-caption-line2="a very weird way of"
+           data-caption-line3="captioning images!" />
+      <img src="images/image3.jpg" 
+           alt="The third image"
+           data-caption-line1="But... why should I stop you"
+           data-caption-line2="from doing this :-) ?"
+           data-caption-line3="The sky's the limit!" />
+      <img src="images/image4.jpg" 
+           alt="The fourth image"
+           data-caption-line1="By the way, you don't have to"
+           data-caption-line2="use all caption lines" />
+      <img src="images/image5.jpg" 
+           alt="The fifth image"
+           data-caption-line2="Just pick the one[s]"
+           data-caption-line3="that you really need..." />
+      <img src="images/image6.jpg" 
+           alt="The sixth image"
+           data-caption-line3="Lonely caption line..." />
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $('#my-carousel').mchCarousel({
+      	displayCaptionOptions: {
+      	  when: 'always' // Always display captions, default is 'hover'
+      	}
+      }); /* This one line starts the carousel up */
+    });
+  </script>
+</body>
+</html>

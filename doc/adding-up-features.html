@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
+    <meta name="description" content="MCh Carousel Documentation: Adding Up Features" />
+    <title>MCh Carousel Documentation: Adding Up Features</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css' />
+    <link href='css/pageTransitions.css' rel='stylesheet' type='text/css' />
+    <link href='https://cdn.rawgit.com/daneden/animate.css/master/animate.min.css' rel='stylesheet' type='text/css' />
+    <link href='css/docs.css' rel='stylesheet' type='text/css' />
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&amp;subset=greek' rel='stylesheet' type='text/css' />
+  </head>
+  <body>
+    <div class="m-scene page-content">
+      <header class="scene_element">
+        <h1>MCh Carousel: Adding Up Features</h1>
+        <p>Here you will find information on how to use captions, hyperlinks, buttons and mouse-over images with MCh Carousel. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="quick-start.html">Quick Start</a> first...</p>
+        <p>All the features listed in this page are activated by adding <code class="lang-html inline">data</code> attributes to the <code class="lang-html inline">&lt;img&gt;</code> of interest.</p>
+        <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
+      </header>
+      <article class="scene_element">
+        <section>
+          <h2 id="adding-captions">Adding Captions</h2>
+          <div class="doc">
+            <p>There are up to 3 lines of caption available for each image. In order to specify the caption you need to add <code class="lang-html inline">data</code> attributes as in the following example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       data-caption-line1="The first line of caption,"
+       data-caption-line2="the second line of caption,"
+       data-caption-line3="and the third line..." /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="Some more caption, but"
+       data-caption-line2="this time for the second"
+       data-caption-line3="image in the carousel..." /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>How these three lines are rendered <strong>depends entirely on your CSS</strong>. The page <a href="styling-up-with-css.html">Styling up with CSS</a> contains more information about this subject, but I suggest that you keep reading about the features in MCh Carousel for the time being.</p>
+            <p>Each caption line can be styled independently of the others, so you may implement any style that takes your fancy: you want the first line of caption to appear above the image, the second line to overlay it, and the third line to appear to its right, rotated by 90 degrees? A bit outlandish as an idea, but totally possible! Here is a flashy example:</p>
+            <iframe id="outlandish-carousel" src="carousels/outlandish-carousel.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">carousels/outlandish-carousel.html</code>. It can also be run standalone by clicking <a href="carousels/outlandish-carousel.html" target="_blank">here</a>.</p>
+            <p>Finally, note that there is no hierarchy in the caption lines, so you may specify each and any one line that you want to display.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="adding-hyperlinks">Adding Hyperlinks</h2>
+          <div class="doc">
+            <p>Each image may be turned into a hyperlink; that is, its whole surface may become clickable and direct you to another page. To do so, add the attribute <code class="lang-html inline">data-link</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag, and specify there the destination of the hyperlink.</p>
+            <p>By default, the link will open in the same window where the carousel sits. You may indicate that the link should open in a new window instead, by adding the attribute <code class="lang-html inline">data-open-in-new-window</code>, with a value of <code class="lang-html inline">"true"</code>.</p>
+            <p>The following example is pretty straightforward and self-documented:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- some-page.html will open in the same window as the carousel --&gt;
+  &lt;img src=&quot;images/image1.jpg&quot;
+       data-link="some-page.html" /&gt;
+  &lt;!-- On the other hand, google.com will open in a new window --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-link="https://www.google.com" 
+       data-open-in-new-window="true" /&gt;
+  &lt;!-- And this last image has no hyperlink at all. --&gt;
+  &lt;img src=&quot;images/image3.jpg&quot; /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+          </div>
+        </section>
+        <section>
+          <h2 id="using-mouse-over-images">Using mouse-over images</h2>
+          <div class="doc">
+            <p>You may specify an alternate version of an image to be displayed when the mouse pointer hovers over it. For obvious reasons, this feature is not available on mouse-less devices...</p>
+            <p>The image that you specify for mouse-over should be the same size as the "non-mouse-over" image; MCh Carousel will behave erratically if this condition is not met [Ok, let me be honest: I've tested it, the result is messy, and I'm not sure that fixing this is a priority at the moment...]</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       data-img-over="images/image1-over.jpg" /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-img-over="images/image2-over.jpg" /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+          </div>
+        </section>
+        <section>
+          <h2 id="button-panes">Button panes</h2>
+          <div class="doc">
+            <p>MCh Carousel also supports navigation and slide-control buttons, so that you can slide images back and forth at the click of a button, or pause/restart the automatic slide. These buttons are styled entirely in CSS; if left unstyled, as in the previous carousels, these buttons are not visible.</p>
+            <p>Note that, before you will be able to style the buttons up according to your preferences, a better understanding of the run-time DOM structure of MCh Carousel is necessary. This is presented later in <a href="styling-up-with-css.html">Styling up with CSS</a> and, for the time being, let's just stick to one of the themes included in the documentation; it probably won't have the cutest buttons, but it gives an idea. The following includes a theme that only styles buttons:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;themes/mch-carousel-style-buttons-theme.css&quot;&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+          </div>
+        </section>
+        <section>
+          <h2 id="putting-all-of-the-above-together">Putting all of the above together</h2>
+          <div class="doc">
+            <p>The following carousel puts all of the features mentioned in this page together. But beware: there are a handful more features to uncover :-) !</p>
+            <iframe class="with-small-buttons" id="major-features-carousel" src="carousels/major-features-carousel.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">carousels/major-features-carousel.html</code>. It can also be run standalone by clicking <a href="carousels/major-features-carousel.html" target="_blank">here</a>.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="so-now-what">So, now what?</h2>
+          <div class="doc">
+            <p>Read on to <a href="more-features.html">More Features</a> in order to learn how to enable nagivation buttons, slide-control buttons.</p><h1>*****</h1>
+          </div>
+        </section>
+      </article>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+      <script type="text/javascript" src="https://cdn.rawgit.com/miguel-perez/smoothState.js/master/jquery.smoothState.min.js"></script>
+      <script type="text/javascript" src="js/docs.min.js"></script>
+    </div>
+  </body>
+</html>

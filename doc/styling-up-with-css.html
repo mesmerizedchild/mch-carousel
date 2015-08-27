@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
+    <meta name="description" content="MCh Carousel Documentation: Styling up with CSS" />
+    <title>MCh Carousel Documentation: Styling up with CSS</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css' />
+    <link href='css/pageTransitions.css' rel='stylesheet' type='text/css' />
+    <link href='https://cdn.rawgit.com/daneden/animate.css/master/animate.min.css' rel='stylesheet' type='text/css' />
+    <link href='css/docs.css' rel='stylesheet' type='text/css' />
+  </head>
+  <body>
+    <div class="m-scene page-content">
+      <header class="scene_element">
+        <h1>MCh Carousel: Styling up with CSS</h1>
+        <p>Here you will find information on how to style up your MCh Carousel. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="quick-start.html">Quick Start</a> first and take if from there [you will eventally land back onto this page...]</p>
+        <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
+      </header class="scene_element">
+      <article>
+        <section>
+          <h2 id="the-dom-structure-of-mch-carousel-at-run-time">The DOM structure of MCh Carousel at run-time</h2>
+          <div class="doc">
+            <p>MCh Carousel reorganises the DOM heavily, turning the simple <code class="lang-html inline">div</code> element with a handful of child <code class="lang-html inline">img</code> elements, into an articulated DOM tree [or a lush DOM forest, if you prefer...]</p>
+            <p>Understanding the DOM structure is essential to styling MCh Carousel, as it's not immediately obvious where each piece of information [that is, captions, buttons, hyperlinks, etc] ends up at run-time.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="id-and-class">ID and class</h2>
+          <div class="doc">
+            <p>If you specify an ID or a class for your images, these will be picked up by MCh Carousel. For example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       id="image-1" /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       class="even-image" /&gt;
+  &lt;img src=&quot;images/image3.jpg&quot;
+       id="image-3" class="odd-image" /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Note that the ID and/or class that you specify in the <code class="lang-html inline">img</code> tag will be "moved" to another element at run-time, but in your CSS you certainly may rely on these ID's and classes to change the appearance of one single image, or a group of images. More information below.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="the-images">The images</h2>
+          <div class="doc">
+            <p></p>
+          </div>
+        </section>
+        <section>
+          <h2 id="the-button-panes">The button panes</h2>
+          <div class="doc">
+            <p></p>
+          </div>
+        </section>
+        <section>
+          <h2 id="by-the-way-the-original-images">By the way, the original images</h2>
+          <div class="doc">
+            <p></p>
+          </div>
+        </section>
+      </article>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+      <script type="text/javascript" src="https://cdn.rawgit.com/miguel-perez/smoothState.js/master/jquery.smoothState.min.js"></script>
+      <script type="text/javascript" src="js/docs.min.js"></script>
+    </div>
+  </body>
+</html>

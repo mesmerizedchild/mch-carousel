@@ -38,20 +38,22 @@ The following [pseudo] HTML code gives an idea of the steps involved in creating
   <!-- the Javascript code to create the carousel is pretty simple: -->
   <script type="text/javascript">
     // This is all there is to it...
-    var theCarousel = $('#whateverIdYouLike').mchCarousel( 
+    $(function() {
+      // Execute once the DOM is ready.
+      var theCarousel = $('#whateverIdYouLike').mchCarousel({
         // Optionally, list here the options that you want to change
         //   [with respect to the default ones], for example:
-        {
-            slideEasingFunction: 'linear',
-            displayImageCaptionOptions: {
-                when: 'always'
-            }
-        });
-    ...
-    // Now the carousel is up [and running, if you left the auto-slide option on].
-    // You may also slide programmatically using the object above:
-    theCarousel.slideNext();
-    theCarousel.slideLeftmost();
+        slideEasingFunction: 'linear',
+        displayImageCaptionOptions: {
+          when: 'always'
+        }
+      });
+      ...
+      // Now the carousel is up [and running, if you left the auto-slide option on].
+      // You may also slide programmatically using the object above:
+      theCarousel.slideNext();
+      theCarousel.slideLeftmost();
+    });
   </script>
   </pre>
 ```
@@ -84,10 +86,13 @@ If your experience is [quite] different, then let me know.
 * **Under which licence is MCh Carousel released?**  
 This software is released under the MIT licence; see LICENCE.txt.
 
+* **Is there a CDN for MCh Carousel?**  
+Consider using [RawGit](https://rawgit.com/), who "serves raw files directly from GitHub with proper Content-Type headers". You may choose between pointing to files that sit in the master branch [which are always up-to-date to the latest version of MCh Carousel], or to files  in the release branches [which are stable and never change].
+
 * **Is MCh Carousel responsive?**  
-    Mostly.  
-    MCh Carousel is fully responsive to changes of height, when triggered via CSS media queries [see ***** for an example]. It's also fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
-    At the moment MCh Carousel is not responsive to events triggered by Javascript, such as changing the width and/or height of the DOM elements that contain the carousel. You may call ```MChCarousel.forceResize()``` to force the carousel to sync its height with the rest of the DOM [see the API file [*****] for a complete reference].
+Mostly.  
+MCh Carousel is fully responsive to changes of height, when triggered via CSS media queries [see ***** for an example]. It's also fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
+At the moment MCh Carousel is not responsive to events triggered by Javascript, such as changing the width and/or height of the DOM elements that contain the carousel. You may call ```MChCarousel.forceResize()``` to force the carousel to sync its height with the rest of the DOM [see the API file [*****] for a complete reference].
 
 * **I'm having problems with Google Chrome and other Chromium-based browsers [Opera and UC Browser]; do you know anything about it?**  
     There are two known problems with Chromium that may affect an MCh Carousel:  
@@ -97,9 +102,9 @@ This software is released under the MIT licence; see LICENCE.txt.
     Neither Firefox nor Internet explorer exhibit the problematic behaviour described above, suggesting that it is indeed rooted in Chromium rather than in MCh Carousel.
 
 * **Who is the author?**  
-    The author is an Italian guy enjoying life in Barcelona, and who recently embarked on the adventure of web development. This is his first publicly-available web project.  
-    His mission is to deliver quality products, and thus tests his software thoroughly before releasing it.  
-    He also believes that cooperation is key in any endavour, so please do send suggestions, ideas, [constructive] criticism, kudos and anything else, to his email address: [rg@mesmerizedchild.eu](mailto:rg@mesmerizedchild.eu), or give him a tweet at [@mesmerizedChild](https://twitter.com/mesmerizedChild). Also, do fork this project, log issues and feel free to create a pull request if you have an interesting addition [or bug fix!]  
+The author is an Italian guy enjoying life in Barcelona, and who recently embarked on the adventure of web development. This is his first publicly-available web project.  
+His mission is to deliver quality products, matching customers' needs as much as humanly possible.  
+He also believes that cooperation is key in any endavour, so please do send suggestions, ideas, [constructive] criticism, kudos and anything else, to his email address: [rg@mesmerizedchild.eu](mailto:rg@mesmerizedchild.eu), or give him a tweet at [@mesmerizedChild](https://twitter.com/mesmerizedChild). Also, do fork this project, log issues and feel free to create a pull request if you have an interesting addition [or bug fix!]  
 
 ## Credits
 Contains [adapted] code from the following sources:  

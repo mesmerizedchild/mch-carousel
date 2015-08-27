@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Documentation: The Very First Carousel">
+  <title>MCh Carousel Documentation: The Very First Carousel</title>
+  <!-- As we are stuck up in docs/html, we better re-base all URL's ... -->
+  
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="../../dist/mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="../../dist/mch-carousel.css">
+  
+  <!-- Start off with a no-buttons theme -->
+  <link rel="stylesheet" href="themes/mch-carousel-no-buttons-theme.css">
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport {
+      height: 250px;
+    }
+    .mch-image-container {
+      height: 250px;
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit... */
+    #my-carousel {
+      max-width: 960px;
+      background-color: #F0F4C3;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Bare-bone styling of first line of caption. */
+    .mch-caption-line1 {
+      position: relative;
+      top: 40px;
+      left: 40px;
+      right: auto;
+      padding: 5px 15px;
+      font-family: Helvetica, Verdana, sans-serif;
+      font-size: 24px;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 4px;
+    }
+    [dir='rtl'] .mch-caption-line1 {
+      left: auto;
+      right: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div id="my-carousel">
+    <img src="images/image1.jpg"
+         alt="The first image"
+         data-caption-line1="First image" />
+    <img src="images/image2.jpg"
+         alt="The second image"
+         data-caption-line1="Second image"  />
+    <img src="images/image3.jpg"
+         alt="The third image"
+         data-caption-line1="Third image"  />
+    <img src="images/image4.jpg"
+         alt="The fourth image"
+         data-caption-line1="Fourth image"  />
+    <img src="images/image5.jpg"
+         alt="The fifth image"
+         data-caption-line1="Fifth image"  />
+    <img src="images/image6.jpg"
+         alt="The sixth image"
+         data-caption-line1="Sixth image"  />
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $('#my-carousel').mchCarousel({
+        displayCaptionOptions: {
+          when: 'always'
+        }
+      }); /* This one line starts the carousel up */
+    });
+  </script>
+</body>
+</html>
