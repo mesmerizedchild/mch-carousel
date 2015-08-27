@@ -26,24 +26,9 @@
 @buttonHeight: 43px;
 @buttonWidth: 86px;
 
-/* Best padding when caption is "start-aligned" [left-aligned for
-      left-to-right languages, and right-aligned for right-to-left
-      languages]. */
-.mch-image-container {
-    padding-right: @imageHorizontalGap;
-    padding-left: 0;
-    &:last-of-type {
-        padding-right: 0;
-    }
-    [dir="rtl"] & {
-        padding-right: 0;
-        padding-left: @imageHorizontalGap;
-        &:last-of-type {
-            padding-left: 0;
-        }
-    }
+.mch-padding {
+    width: @imageHorizontalGap;
 }
-
 .mch-caption-cntnr {
     position: absolute;
     top: @captionTopGap;

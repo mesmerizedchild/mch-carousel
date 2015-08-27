@@ -82,22 +82,14 @@
       languages]. */
 .mch-image-container {
     opacity: 1;
-    padding-right: 0;
-    padding-left: @imageHorizontalGap;
+    transition: 0.2s;
     &:hover {
         opacity: 0.8;
-        transition: 0.2s;
     }
-    &:first-of-type {
-        padding-left: 0;
-    }
-    [dir="rtl"] & {
-        padding-right: @imageHorizontalGap;
-        padding-left: 0;
-        &:first-of-type {
-            padding-right: 0;
-        }
-    }
+}
+
+.mch-padding {
+    width: @imageHorizontalGap;
 }
 
 .mch-caption-cntnr {

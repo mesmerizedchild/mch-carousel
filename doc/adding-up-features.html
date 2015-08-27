@@ -75,23 +75,54 @@
           <h2 id="button-panes">Button panes</h2>
           <div class="doc">
             <p>MCh Carousel also supports navigation and slide-control buttons, so that you can slide images back and forth at the click of a button, or pause/restart the automatic slide. These buttons are styled entirely in CSS; if left unstyled, as in the previous carousels, these buttons are not visible.</p>
-            <p>Note that, before you will be able to style the buttons up according to your preferences, a better understanding of the run-time DOM structure of MCh Carousel is necessary. This is presented later in <a href="styling-up-with-css.html">Styling up with CSS</a> and, for the time being, let's just stick to one of the themes included in the documentation; it probably won't have the cutest buttons, but it gives an idea. The following includes a theme that only styles buttons:</p>
+            <p>Note that, before you will be able to style the buttons up according to your preferences, a better understanding of the run-time DOM structure of MCh Carousel is necessary. This is presented later in <a href="styling-up-with-css.html">Styling up with CSS</a> and, for the time being, you can stick to one of the themes included in the documentation. The following includes a theme that only styles buttons:</p>
             <pre class="prettyprint"><code class="lang-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;themes/mch-carousel-style-buttons-theme.css&quot;&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
           </div>
         </section>
         <section>
+          <h2 id="last-but-not-least-id-and-class">Last but not least: ID and class</h2>
+          <div class="doc">
+            <p>If you specify an ID or a class for your images, these will be used up by MCh Carousel, and your CSS can be written accordingly. For example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
+       id="image-1" /&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       class="even-image" /&gt;
+  &lt;img src=&quot;images/image3.jpg&quot;
+       id="image-3" class="odd-image" /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Note that these ID and/or class will be "moved" to other elements at run-time; your CSS, however, can still rely on these ID's and classes to change the appearance of one single image, or a group of images.</p>
+          </div>
+        </section>
+        <section>
           <h2 id="putting-all-of-the-above-together">Putting all of the above together</h2>
           <div class="doc">
-            <p>The following carousel puts all of the features mentioned in this page together. But beware: there are a handful more features to uncover :-) !</p>
+            <p>The following carousel puts together all of the features mentioned in this page:</p>
             <iframe class="with-small-buttons" id="major-features-carousel" src="carousels/major-features-carousel.html"></iframe>
             <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">carousels/major-features-carousel.html</code>. It can also be run standalone by clicking <a href="carousels/major-features-carousel.html" target="_blank">here</a>.</p>
+            <p>Just to recap, the features that this carousel portraits are:</p>
+            <ul>
+              <li><p class="list-title">Automatic sliding:</p>
+              <p>When the images do not fit in the viewport of the carousel, it will start to slide them automatically; this feature may be switched off.</p></li>
+              <li><p class="list-title">Support for the mousewheel, touchscreen and trackpads:</p>
+              <p>If you hover your mouse pointer over the carousel, or touch it with your finger, you may use any of these methods to take control of scrolling; while the mouse hovers over the carousel, or while your finger touches it, the automatic slide is disabled.</p></li>
+              <li><p class="list-title">Caption lines:</p>
+              <p>It reinforces the idea that each line may be styled independently. Also note the round-corner border around the semi-transparent background [the caption text is fully opaque]. You might want to be less flashy in a real-life carousel, but you have the choice...</p></li>
+              <li><p class="list-title">Hyperlinks:</p>
+              <p>All images may be clicked, and a new page will open; for all images the hyperlink will open in a new window [or a new tab], except for the fifth image [the starfish], whereby the page will open where the carousel sits.</p></li>
+              <li><p class="list-title">Mouse-over images:</p>
+              <p>All images except the last one have a mouse-over image. No big mystery here...</p></li>
+              <li><p class="list-title">Buttons:</p>
+              <p>This theme has styled up the navigation and slide-control panes. The fact that the buttons are below the viewport is a stylistic choice; if preferred, the buttons could overlay the viewport, with some transparency effect if you so wish.</p></li>
+              <li><p class="list-title">ID and Class:</p>
+              <p>The third and the fourth image declare a class in the HTML; MCh Carousel picks it up, and the CSS in turn uses it to move the caption to the bottom of the image. The third image has an additional class, which changes the colour of the caption to plain black. This carousel does not use ID on any images, but you get the idea of what is possible...</p></li>
+            </ul>
           </div>
         </section>
         <section>
           <h2 id="so-now-what">So, now what?</h2>
           <div class="doc">
-            <p>Read on to <a href="more-features.html">More Features</a> in order to learn how to enable nagivation buttons, slide-control buttons.</p><h1>*****</h1>
+            <p>Read on to <a href="styling-up-with-css.html">Styling up with CSS</a> in order to learn more about the DOM structure of MCh Carousel at run-time.</p>
           </div>
         </section>
       </article>
