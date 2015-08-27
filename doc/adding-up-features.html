@@ -34,11 +34,20 @@
        data-caption-line2="this time for the second"
        data-caption-line3="image in the carousel..." /&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
-            <p>How these three lines are rendered <strong>depends entirely on your CSS</strong>. The page <a href="styling-up-with-css.html">Styling up with CSS</a> contains more information about this subject, but I suggest that you keep reading about the features in MCh Carousel for the time being.</p>
-            <p>Each caption line can be styled independently of the others, so you may implement any style that takes your fancy: you want the first line of caption to appear above the image, the second line to overlay it, and the third line to appear to its right, rotated by 90 degrees? A bit outlandish as an idea, but totally possible! Here is a flashy example:</p>
+            <p>How these three lines are rendered <strong>depends entirely on your CSS</strong>. The page <a href="styling-up-with-css.html">Styling up with CSS</a> contains more information about this subject, but below you'll find some built-in CSS files to get you started...</p>
+            <p>Note that each caption line can be styled independently of the others, so you may implement any style that takes your fancy: you want the first line of caption to appear above the image, the second line to overlay it, and the third line to appear to its right, rotated by 90 degrees? A bit outlandish as an idea, but totally possible! Here is a flashy example:</p>
             <iframe id="outlandish-carousel" src="carousels/outlandish-carousel.html"></iframe>
             <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">carousels/outlandish-carousel.html</code>. It can also be run standalone by clicking <a href="carousels/outlandish-carousel.html" target="_blank">here</a>.</p>
-            <p>Finally, note that there is no hierarchy in the caption lines, so you may specify each and any one line that you want to display.</p>
+            <p>In order to style your caption text as in the carousel above, just use:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;link rel="stylesheet" href="css/mch-carousel-outlandish-caption.css"&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>For a more-sedate caption style, you can use:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;link rel="stylesheet" href="css/mch-carousel-coloured-caption.css"&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>... or if you want to go for plain boring:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;link rel="stylesheet" href="css/mch-carousel-plain-caption.css"&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Finally, there is no hierarchy in the caption lines, so you may specify each and any one line that you want to display. You could use this feature to have only one line of caption for each image, but be able to use 3 different styles without too much CSS trickery.</p>
           </div>
         </section>
         <section>
@@ -74,9 +83,9 @@
         <section>
           <h2 id="button-panes">Button panes</h2>
           <div class="doc">
-            <p>MCh Carousel also supports navigation and slide-control buttons, so that you can slide images back and forth at the click of a button, or pause/restart the automatic slide. These buttons are styled entirely in CSS; if left unstyled, as in the previous carousels, these buttons are not visible.</p>
-            <p>Note that, before you will be able to style the buttons up according to your preferences, a better understanding of the run-time DOM structure of MCh Carousel is necessary. This is presented later in <a href="styling-up-with-css.html">Styling up with CSS</a> and, for the time being, you can stick to one of the themes included in the documentation. The following includes a theme that only styles buttons:</p>
-            <pre class="prettyprint"><code class="lang-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;themes/mch-carousel-style-buttons-theme.css&quot;&gt;</code></pre>
+            <p>MCh Carousel also supports navigation and slide-control buttons, so that you can slide images back and forth at the click of a button, or pause/restart the automatic slide. These buttons are styled entirely in CSS; if left non-styled, as in the previous carousels, these buttons are not visible.</p>
+            <p>Just as with caption text, a better understanding of the run-time DOM structure of MCh Carousel is necessary before you will be able to style the buttons up according to your preferences [and, as before, you may refer to <a href="styling-up-with-css.html">Styling up with CSS</a>]. For the time being, you can reuse one of the CSS files included in the documentation. For dodge blue buttons:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/mch-carousel-dodgeblue-buttons.css&quot;&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
           </div>
         </section>
@@ -97,7 +106,7 @@
         <section>
           <h2 id="putting-all-of-the-above-together">Putting all of the above together</h2>
           <div class="doc">
-            <p>The following carousel puts together all of the features mentioned in this page:</p>
+            <p>The following carousel puts together all of the features mentioned in this page [although there are a handful more features still to be covered]:</p>
             <iframe class="with-small-buttons" id="major-features-carousel" src="carousels/major-features-carousel.html"></iframe>
             <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">carousels/major-features-carousel.html</code>. It can also be run standalone by clicking <a href="carousels/major-features-carousel.html" target="_blank">here</a>.</p>
             <p>Just to recap, the features that this carousel portraits are:</p>
@@ -115,7 +124,7 @@
               <li><p class="list-title">Buttons:</p>
               <p>This theme has styled up the navigation and slide-control panes. The fact that the buttons are below the viewport is a stylistic choice; if preferred, the buttons could overlay the viewport, with some transparency effect if you so wish.</p></li>
               <li><p class="list-title">ID and Class:</p>
-              <p>The third and the fourth image declare a class in the HTML; MCh Carousel picks it up, and the CSS in turn uses it to move the caption to the bottom of the image. The third image has an additional class, which changes the colour of the caption to plain black. This carousel does not use ID on any images, but you get the idea of what is possible...</p></li>
+              <p>The third and the fourth images declare a class in the <code class="lang-html inline">&lt;img&gt;</code> tag; MCh Carousel picks it up, and the CSS in turn uses it to change the appearance of the caption text. The third image has an additional class, which changes the colour of the caption to plain black. This carousel does not use ID on any images, but you get the idea of what is possible... The CSS used in the carousel is the aforementioned <code class="file-name inline">css/mch-carousel-coloured-caption.css</code></p></li>
             </ul>
           </div>
         </section>

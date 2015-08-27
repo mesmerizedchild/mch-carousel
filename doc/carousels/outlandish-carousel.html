@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
   <meta name="description" content="MCh Carousel Documentation: An Outlandish Carousel">
   <title>MCh Carousel Documentation: An Outlandish Carousel</title>
-  <!-- As we are stuck up in docs/html, we better re-base all URL's ... -->
-
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
   <script type="text/javascript" src="../../dist/mch-carousel.min.js"></script>
   <link rel="stylesheet" href="../../dist/mch-carousel.css">
 
-  <!-- Styling MCh Carousel: start off with a font and the no-buttons theme -->
+  <!-- Styling MCh Carousel -->
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="themes/mch-carousel-no-buttons-theme.css">
+  <link rel="stylesheet" href="css/mch-carousel-outlandish-caption.css">
   <style type="text/css">
     /* Compulsory declaration of the height of the carousel... */
     #mch-viewport {
@@ -33,63 +31,6 @@
     * {
       margin: 0;
       padding: 0;
-    }
-
-    /* Now, customise the style of the carousel; normally you would do this 
-         in a separate CSS file, rather than with inline CSS. */
-    .mch-padding {
-      width: 7px; /* No need to pad here. */
-    }
-    .mch-image-container img { /* The image is smaller than its container. */
-    	padding-top: 30px;
-    	height: 220px;
-    	padding-right: 28px;
-    	padding-left: 0;
-    }
-    .mch-caption-cntnr { /* Stretch the caption-lines container. */
-    	position: absolute;
-    	top: 0;
-    	right: 0;
-    	bottom: 0;
-    	left: 0;
-    }
-    .mch-caption-lines { /* Need to reset positioning to accomodate 
-    	                      for this outlandish style... */
-    	position: static;
-    }
-    .mch-caption-line1 { /* Style for first line of caption. */
-    	position: absolute;
-    	top: 0;
-    	width: 90%;
-    	padding: 3px 9px;
-    	font-size: 20px;
-    	color: white;
-    	background-color: #FF5722;
-    }
-    .mch-caption-line2 { /* Style for second line of caption. */
-    	display: inline;
-    	position: absolute;
-    	bottom: 25px;
-    	left: 25px;
-    	padding: 5px 15px;
-    	font-size: 25px;
-    	color: black;
-    	background-color: #FFEB3B;
-    }
-    .mch-caption-line3 { /* Style for third line of caption. */
-    	position: absolute;
-    	right: 28px;
-    	bottom: 0;
-    	padding: 3px 9px 3px 35px;
-    	font-size: 18px;
-    	color: white;
-    	background-color: #9C27B0;
-    	-webkit-transform-origin: 100% 100%;
-    	-webkit-transform: rotate(90deg);
-    	-ms-transform-origin: 100% 100%;
-    	-ms-transform: rotate(90deg);
-    	transform-origin: 100% 100%;
-    	transform: rotate(90deg);
     }
   </style>
 </head>

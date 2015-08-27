@@ -1,0 +1,72 @@
+/** MCh Carousel Outlandish Caption.
+  *
+  * Theme for styling up caption text in a weird, flashy way...
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+.mch-padding {
+  width: 7px; /* No need to pad here. */
+}
+
+.mch-image-container {
+    img { /* The image is smaller than its container. */
+	   padding-top: 30px;
+	   height: 220px;
+	   padding-right: 28px;
+	   padding-left: 0;
+    }
+}
+
+.mch-caption-cntnr { /* Stretch the caption-lines container. */
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.mch-caption-lines { /* Need to reset positioning to accomodate 
+	                      for this outlandish style... */
+	position: static;
+    font-family: Roboto;
+    font-weight: bold;
+}
+
+.mch-caption-line1 { /* Style for first line of caption. */
+	position: absolute;
+	top: 0;
+	width: 90%;
+	padding: 3px 9px;
+	font-size: 20px;
+	color: white;
+	background-color: #FF5722;
+}
+
+.mch-caption-line2 { /* Style for second line of caption. */
+	display: inline;
+	position: absolute;
+	bottom: 25px;
+	left: 25px;
+	padding: 5px 15px;
+	font-size: 25px;
+	color: black;
+	background-color: #FFEB3B;
+}
+
+.mch-caption-line3 { /* Style for third line of caption. */
+	position: absolute;
+	right: 28px;
+	bottom: 0;
+	padding: 3px 9px 3px 35px;
+	font-size: 18px;
+	color: white;
+	background-color: #9C27B0;
+	-webkit-transform-origin: 100% 100%;
+	-webkit-transform: rotate(90deg);
+	-ms-transform-origin: 100% 100%;
+	-ms-transform: rotate(90deg);
+	transform-origin: 100% 100%;
+	transform: rotate(90deg);
+}

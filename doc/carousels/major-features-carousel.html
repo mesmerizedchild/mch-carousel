@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
   <meta name="description" content="MCh Carousel Documentation: An Outlandish Carousel">
   <title>MCh Carousel Documentation: An Outlandish Carousel</title>
-  <!-- As we are stuck up in docs/html, we better re-base all URL's ... -->
-
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
   <script type="text/javascript" src="../../src/mch-carousel.js"></script>
   <link rel="stylesheet" href="../../dist/mch-carousel.css">
 
+  <!-- Styling MCh Carousel -->
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="themes/mch-carousel-style-buttons-theme.css">
+  <link rel="stylesheet" href="css/mch-carousel-coloured-caption.css">
+  <link rel="stylesheet" href="css/mch-carousel-dodgeblue-buttons.css">
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
   <style type="text/css">
     /* Compulsory declaration of the height of the carousel... */
     #mch-viewport {
@@ -33,78 +33,6 @@
     * {
       margin: 0;
       padding: 0;
-    }
-
-    /* Now, customise the style of the carousel; normally you would do this 
-         in a separate CSS file, rather than inline... */
-    .mch-padding {
-      width: 6px;
-    }
-    .mch-caption-cntnr {
-    	position: absolute;
-    	top: 0;
-      right: auto;
-      bottom: auto;
-      left: 0;
-    }
-    .odd-one-out .mch-caption-cntnr {
-      top: auto;
-      right: 0;
-      bottom: 0;
-      left: auto;
-    }
-    .mch-caption-background {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      background-color: white;
-      border-right: 2px solid deepskyblue;
-      border-bottom: 2px solid deepskyblue;
-      border-radius: 0 0 4px 0;
-      opacity: 0.85;
-    }
-    .odd-one-out .mch-caption-background {
-      border-top: 2px solid deepskyblue;
-      border-right: none;
-      border-bottom: none;
-      border-left: 2px solid deepskyblue;
-      border-radius: 4px 0 0 0;
-    }
-    .mch-caption-lines {
-      display: inline-block;
-      padding: 5px;
-      font-family: 'Lato', sans-serif;
-      font-size: 24px;
-    }
-    .odd-one-out .mch-caption-lines {
-      font-size: 16px;
-    }
-    .mch-caption-line1 { /* Style for first line of caption. */
-    	padding: 3px 9px;
-      font-size: 1em;
-      font-weight: bold;
-      color: dodgerblue;
-    }
-    .bw .mch-caption-line1 {
-      color: black;
-    }
-    .mch-caption-line2 { /* Style for second line of caption. */
-      padding: 3px 9px;
-      font-size: 0.75em;
-      color: darkmagenta;
-    }
-    .bw .mch-caption-line2 {
-      color: black;
-    }
-    .mch-caption-line3 { /* Style for third line of caption. */
-      padding: 3px 9px;
-      font-size: 0.75em;
-      color: chocolate;
-    }
-    .bw .mch-caption-line3 {
-      color: black;
     }
   </style>
 </head>
