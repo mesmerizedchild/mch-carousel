@@ -1,0 +1,371 @@
+[
+  {
+    "title": ".the root element",
+    "description": "<p>This is the div in which you put yout img tags for your images.</p>",
+    "styleable": "warning",
+    "styleDetails": "<p>Any margin that you want to apply to MCh Carousel may be applied on this element. Width-related CSS directives are also fine here; media queries may be used. On the other hand, height-related CSS directives should be used with div#mch-viewport and div.mch-image-container [see children elements for a description] and avoided altogether on this element.</p>",
+    "expanded": true,
+    "children": [
+      {
+        "title": "#mch-image-list",
+        "styleable": "dont",
+        "description": "<p>This div contains the original img tags that you listed in your HTML.</p><p>They have been moved here, and are kept hidden; what you actually see in MCh Carousel are brand new img tags, created dynamically based on your images and the information that you provided in the data attributes.<p>",
+        "children": [
+          {
+            "title": "the first image from your HTML",
+            "description": "<p>This is the original img tag from your HTML.</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          },
+          {
+            "title": "the second image from your HTML",
+            "description": "<p>This is the original img tag from your HTML.</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          },
+          {
+            "title": "the third image from your HTML",
+            "description": "<p>This is the original img tag from your HTML.</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          },
+          {
+            "title": "... and so on...",
+            "description": "<p>ZZZZZzzzzzzz...</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          }
+        ]
+      },
+      {
+        "title": "#mch-visible-carousel",
+        "description": "<p>This div contains all the visible elements of the carousel: sliding images and button panes.<p>",
+        "styleable": "no",
+        "expanded": true,
+        "children": [
+          {
+            "title": "#mch-viewport",
+            "description": "<p>This div wraps the scrollable elements, and actually is here to hide the scrollbar from the sole div inside of it: div.#mch-scrollable-viewport.</p>",
+            "styleable": "warning",
+            "styleDetails": "<p>You must style the height of this element, telling it how tall MCh Carousel should be in your page; media queries may be used. See <a href='#the-height-of-mch-carousel'>The height of MCh Carousel</a> below for more information.</p><p>Do not style its width, do that on the root element if you need a specific width.</p>",
+            "folder": true,
+            "children": [
+            {
+              "title": "#mch-scrollable-viewport",
+              "description": "<p>This div contains all the image elements and is what actually does the scrolling.</p>",
+              "styleable": "no",
+              "children": [
+              {
+                "title": ".mch-image-container",
+                "description": "<p>This div wraps one image and the caption related to that image. There is one instance of this element for each image that you listed in your HTML.</p><p>Keep in mind that, if your img tag has a class and/or an ID, they will be assigned to <strong>this</strong> element.<p>",
+                "styleable": "warning",
+                "styleDetails": "<p>You must style the height of this element, with exactly the same directive as div#mch-viewport. See <a href='#the-height-of-mch-carousel'>The height of MCh Carousel</a> below for more information.</p><p>Beyond that, in general, it should be kept margin- and padding-free. If you need to add padding between images, you can style div#mch-padding to achieve that.</p><p>Because this element receives the class and/or ID from the original image, these may be used in the CSS for this element and any elements below.</p>",
+                "folder": true,
+                "children": [
+                {
+                  "title": ".mch-hyperlink",
+                  "description": "<p>This node is present if the image has a hyperlink.</p><p>If the image has no hyperlink, then this node is skipped and the underlying nodes are parented directly to div.mch-image-container.</p>",
+                  "styleable": "no",
+                  "folder": true,
+                  "expanded": true,
+                  "data": {
+                    "tag": "a"
+                  },
+                  "children": [
+                  {
+                    "title": ".mch-image",
+                    "description": "<p>This is an img tag based based on your original image.</p><p>Note that, if your img tag had a class and/or an ID, they will be assigned to the containing <strong>div.mch-image-container</strong> element.",
+                    "styleable": "warning",
+                    "styleDetails": "<p>Usually, width and height need not be styled.</p><p>Padding and other attributes may be styled if particular effects need to be achieved [as in the <a href='carousels/outlandish-carousel.html'>outlandish carousel</a>] presented in the previous pages].</p>",
+                    "folder": true,
+                    "data": {
+                      "tag": "img"
+                    }
+                  },
+                  {
+                    "title": ".mch-caption-cntnr",
+                    "description": "<p>This element wraps all caption lines and their background.</p><p>If the image has no caption text, this element and all the elements below will be missing.</p>",
+                    "styleable": "yes",
+                    "styleDetails": "<p>You may style this element and all its child elements as you see fit.</p><p>Usually this element will be sized so that it contains all caption text and its background, but, if you are going to use absolute positioning on the child elements, that won't necessarily be the case.</p>",
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-caption-background",
+                        "description": "<p>This element may be used as background for the caption text.</p>",
+                        "styleable": "yes",
+                        "styleDetails": "+<p>You might use this element to place some special decoration underneath, or away, from the caption text: a semi-transparent background, a logo, another image [picture-in-picture?], a visual effect with animation. The same effects could probably be achieved by styling div.mch-caption-cntnr [the parent], but having an extra element that is not directly 'related' to the caption lines, might give some extra degree of freedom.</p>"
+                      },
+                      {
+                        "title": ".mch-caption-lines",
+                        "description": "<p>This div is the parent of all caption lines.</p>",
+                        "styleable": "yes",
+                        "styleDetails": "+<p>It may be used to style all 3 caption lines in one go; often caption lines share font and text colour, and these may be styled here, and then inherited by the elements underneath.</p>",
+                        "expanded": true,
+                        "children": [
+                          {
+                            "title": ".mch-caption-line1",
+                            "description": "<p>This div wraps the first line of caption text.</p>",
+                            "styleable": "yes",
+                            "expanded": true,
+                            "children": [
+                            {
+                              "title": "The first line of caption",
+                              "description": "The very text of the first line of caption",
+                              "styleable": "yes",
+                              "data": {
+                                "tag": "p"
+                              }
+                            }
+                            ]
+                          },
+                          {
+                            "title": ".mch-caption-line2",
+                            "description": "<p>This div wraps the second line of caption text.</p>",
+                            "styleable": "yes",
+                            "expanded": true,
+                            "children": [
+                            {
+                              "title": "the second line of caption",
+                              "description": "The very text of the second line of caption",
+                              "styleable": "yes",
+                              "data": {
+                                "tag": "p"
+                              }
+                            }
+                            ]
+                          },
+                          {
+                            "title": ".mch-caption-line3",
+                            "description": "<p>This div wraps the third line of caption text.</p>",
+                            "styleable": "yes",
+                            "expanded": true,
+                            "children": [
+                            {
+                              "title": "the third line of caption",
+                              "description": "The very text of the third line of caption",
+                              "styleable": "yes",
+                              "data": {
+                                "tag": "p"
+                              }
+                            }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }]
+                }
+                ]
+              },
+              {
+                "title": ".mch-padding",
+                "description": "<p>One instance of this div exists between two other instances of div.mch-image-container</p>",
+                "styleable": "yes",
+                "styleDetails": "+<p>You will usually only need to style the width in order to create a padding between the carousel images, but if you want to add some decoration between images, this is the element that you need to style.</p>"
+              },
+              {
+                "title": ".mch-image-container",
+                "children": [
+                {
+                  "title": "same structure as div.mch-image-container above",
+                  "data": {
+                    "tag": "same"
+                  },
+                  "children": []
+                }
+                ]
+              },
+              {
+                "title": ".mch-padding"
+              },
+              {
+                "title": ".mch-image-container",
+                "children": [
+                {
+                  "title": "same structure as div.mch-image-container above",
+                  "data": {
+                    "tag": "same"
+                  },
+                  "children": []
+                }
+                ]
+              },
+              {
+                "title": ".mch-padding"
+              },
+              {
+                "title": "... and so on...",
+                "children": [
+                  {
+                    "title": "... and on and on..."
+                  }
+                ]
+              }
+              ]
+            }]
+          },
+          {
+            "title": "#mch-buttons-pane",
+            "description": "<p>This div groups all button panels.<p>",
+            "styleable": "yes",
+            "styleDetails": "+<p>This element may or may not have a visual function. If you are going to use absolute positioning with your button panes, then this element may well be left without a CSS style</p>",
+            "children": [
+              {
+                "title": "#mch-slide-control-group",
+                "description": "<p>This div groups the buttons related to slide control: Start and Pause. See <a href='#slide-control-pane'>Slide-control pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-slide-control.</p>",
+                "styleable": "yes",
+                "styleDetails": "+<p>The same styling consideration as for div#mch-buttons-pane applies.</p>",
+                "children": [
+                  {
+                    "title": ".mch-button#mch-pause",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-restart",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "#mch-left-right-group",
+                "description": "<p>This div groups the navigation buttons that navigate without regard for the layout direction [left-to-right or right-to-left] of the host page: leftmost, left, right and rightmost. See <a href='#left-right-slide-pane'>Left-right-slide pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-navigation.</p>",
+                "children": [
+                  {
+                    "title": ".mch-button#mch-leftmost",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-left",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-right",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-rightmost",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "#mch-start-end-group",
+                "description": "<p>This div groups the navigation buttons that do take into account the layout direction [left-to-right or right-to-left] of the host page: first, previous, next and last. See <a href='#start-end-slide-page'>Start-end-slide pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-navigation.</p>",
+                "children": [
+                  {
+                    "title": ".mch-button#mch-first",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-prev",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-next",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-last",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background"
+                      },
+                      {
+                        "title": ".mch-button-graphics"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

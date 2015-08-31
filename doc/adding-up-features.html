@@ -5,24 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
     <meta name="description" content="MCh Carousel Documentation: Adding Up Features" />
     <title>MCh Carousel Documentation: Adding Up Features</title>
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css' />
-    <link href='http://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css' />
     <link href='css/pageTransitions.css' rel='stylesheet' type='text/css' />
     <link href='https://cdn.rawgit.com/daneden/animate.css/master/animate.min.css' rel='stylesheet' type='text/css' />
     <link href='css/docs.css' rel='stylesheet' type='text/css' />
-    <link href='https://fonts.googleapis.com/css?family=Roboto+Mono&amp;subset=greek' rel='stylesheet' type='text/css' />
   </head>
   <body>
-    <div class="m-scene page-content">
+    <div id="page-content" class="m-scene">
       <header class="scene_element">
         <h1>MCh Carousel: Adding Up Features</h1>
         <p>Here you will find information on how to use captions, hyperlinks, buttons and mouse-over images with MCh Carousel. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="quick-start.html">Quick Start</a> first...</p>
-        <p>All the features listed in this page are activated by adding <code class="lang-html inline">data</code> attributes to the <code class="lang-html inline">&lt;img&gt;</code> of interest.</p>
         <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
       </header>
       <article class="scene_element">
         <section>
-          <h2 id="adding-captions">Adding Captions</h2>
+          <h2 id="adding-captions">Adding captions and their style</h2>
           <div class="doc">
             <p>There are up to 3 lines of caption available for each image. In order to specify the caption you need to add <code class="lang-html inline">data</code> attributes as in the following example:</p>
             <pre class="prettyprint"><code class="lang-html">  &lt;img src=&quot;images/image1.jpg&quot;
@@ -38,22 +34,31 @@
             <p>Note that each caption line can be styled independently of the others, so you may implement any style that takes your fancy: you want the first line of caption to appear above the image, the second line to overlay it, and the third line to appear to its right, rotated by 90 degrees? A bit outlandish as an idea, but totally possible! Here is a flashy example:</p>
             <iframe id="outlandish-carousel" src="carousels/outlandish-carousel.html"></iframe>
             <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">carousels/outlandish-carousel.html</code>. It can also be run standalone by clicking <a href="carousels/outlandish-carousel.html" target="_blank">here</a>.</p>
-            <p>In order to style your caption text as in the carousel above, just use:</p>
-            <pre class="prettyprint"><code class="lang-html">  &lt;link rel="stylesheet" href="css/mch-carousel-outlandish-caption.css"&gt;</code></pre>
+            <p>These are some of the caption styles that you may refer to:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- Style your caption text as in the carousel above: --&gt;
+  &lt;link rel="stylesheet" href="css/mch-carousel-outlandish-caption.css"&gt;
+  &lt;!-- For a more-sedate caption style: --&gt;
+  &lt;link rel="stylesheet" href="css/mch-carousel-coloured-caption.css"&gt;
+  &lt;!-- ... or if you want to go for plain boring: --&gt;
+  &lt;link rel="stylesheet" href="css/mch-carousel-plain-caption.css"&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
-            <p>For a more-sedate caption style, you can use:</p>
-            <pre class="prettyprint"><code class="lang-html">  &lt;link rel="stylesheet" href="css/mch-carousel-coloured-caption.css"&gt;</code></pre>
+            <p>There is no hierarchy in the caption lines, so you may specify each and any one line that you want to display. You could use this feature to have only one line of caption for each image, but be able to use 3 different styles in the carousel without too much CSS trickery. Check the rightmost images in the previous carousel to understand what I'm referring to.</p>
+            <p>Finally, you may pick whether captions are displayed always or only on mouse-over. To specify this option, add it as an option when starting the carousel up, as in the following:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;script type=&quot;text/javascript&quot;&gt;
+    $(window).load(function() {
+      $(&#39;#my-carousel&#39;).mchCarousel({
+        displayCaption: 'always' // 'always', 'hover', or 'never'; default is hover.
+      });
+    });
+  &lt;/script&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
-            <p>... or if you want to go for plain boring:</p>
-            <pre class="prettyprint"><code class="lang-html">  &lt;link rel="stylesheet" href="css/mch-carousel-plain-caption.css"&gt;</code></pre>
-            <div class="copy-to-clipboard"></div>
-            <p>Finally, there is no hierarchy in the caption lines, so you may specify each and any one line that you want to display. You could use this feature to have only one line of caption for each image, but be able to use 3 different styles without too much CSS trickery.</p>
+            <p>Of course 'hover' makes sense only for devices with a mouse; mouse-less devices will never see the caption if you specify <code class="lang-js inline">{ displayCaption: 'hover' }</code>. It is for this reason that, in all of the carousels displayed here, this option is set to <code class="lang-js inline">'always'</code>.</p>
           </div>
         </section>
         <section>
           <h2 id="adding-hyperlinks">Adding Hyperlinks</h2>
           <div class="doc">
-            <p>Each image may be turned into a hyperlink; that is, its whole surface may become clickable and direct you to another page. To do so, add the attribute <code class="lang-html inline">data-link</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag, and specify there the destination of the hyperlink.</p>
+            <p>Each image may be turned into a hyperlink; that is, its whole surface may become clickable [or 'tappable' on touch devices] and direct you to another page. To do so, add the attribute <code class="lang-html inline">data-link</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag, and specify there the destination of the hyperlink.</p>
             <p>By default, the link will open in the same window where the carousel sits. You may indicate that the link should open in a new window instead, by adding the attribute <code class="lang-html inline">data-open-in-new-window</code>, with a value of <code class="lang-html inline">"true"</code>.</p>
             <p>The following example is pretty straightforward and self-documented:</p>
             <pre class="prettyprint"><code class="lang-html">  &lt;!-- some-page.html will open in the same window as the carousel --&gt;
@@ -81,12 +86,26 @@
           </div>
         </section>
         <section>
-          <h2 id="button-panes">Button panes</h2>
+          <h2 id="button-panes">Button panes and their style</h2>
           <div class="doc">
-            <p>MCh Carousel also supports navigation and slide-control buttons, so that you can slide images back and forth at the click of a button, or pause/restart the automatic slide. These buttons are styled entirely in CSS; if left non-styled, as in the previous carousels, these buttons are not visible.</p>
-            <p>Just as with caption text, a better understanding of the run-time DOM structure of MCh Carousel is necessary before you will be able to style the buttons up according to your preferences [and, as before, you may refer to <a href="styling-up-with-css.html">Styling up with CSS</a>]. For the time being, you can reuse one of the CSS files included in the documentation. For dodge blue buttons:</p>
-            <pre class="prettyprint"><code class="lang-html">  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/mch-carousel-dodgeblue-buttons.css&quot;&gt;</code></pre>
+            <p>MCh Carousel also supports navigation and slide-control buttons, so that you can slide images back and forth at the click of a button, or pause/restart the automatic slide. These buttons are styled entirely in CSS; if left without CSS style, as in the previous carousels, these buttons are not visible.</p>
+            <p>Just as with caption text, a better understanding of the run-time DOM structure of MCh Carousel is necessary before you are able to style the buttons up according to your preferences [and, as before, you may refer to <a href="styling-up-with-css.html">Styling up with CSS</a>]. For the time being, you can reuse one of the CSS files included in the documentation:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- Dodge-blue buttons on transparent background. --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/mch-carousel-dodgeblue-buttons.css&quot;&gt;
+  &lt;!-- Blue buttons overlaying the images; turn golden on mouse-over.
+         Navigation buttons only, no slide-control buttons. --&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;css/mch-carousel-european-buttons.css&quot;&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
+            <p>Much like with captions, you may choose whether buttons are displayed always or only on mouse-over. To specify this option, add it as an option when starting the carousel up, as in the following:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;script type=&quot;text/javascript&quot;&gt;
+    $(window).load(function() {
+      $(&#39;#my-carousel&#39;).mchCarousel({
+        displayButtons: 'always' // 'always', 'hover', or 'never'; default is hover.
+      });
+    });
+  &lt;/script&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Same consideration as for captions apply: 'hover' makes sense only for devices with a mouse; mouse-less devices will never see the buttons if you specify <code class="lang-js inline">{ displayButtons: 'hover' }</code>. It is for this reason that, in all of the carousels displayed here, this option is set to <code class="lang-js inline">'never'</code> or <code class="lang-js inline">'always'</code>.</p>
           </div>
         </section>
         <section>
@@ -116,13 +135,13 @@
               <li><p class="list-title">Support for the mousewheel, touchscreen and trackpads:</p>
               <p>If you hover your mouse pointer over the carousel, or touch it with your finger, you may use any of these methods to take control of scrolling; while the mouse hovers over the carousel, or while your finger touches it, the automatic slide is disabled.</p></li>
               <li><p class="list-title">Caption lines:</p>
-              <p>It reinforces the idea that each line may be styled independently. Also note the round-corner border around the semi-transparent background [the caption text is fully opaque]. You might want to be less flashy in a real-life carousel, but you have the choice...</p></li>
+              <p>This carousel reinforces the idea that each line may be styled independently. Also note the round-corner border around the semi-transparent background [the caption text is fully opaque].</p></li>
               <li><p class="list-title">Hyperlinks:</p>
               <p>All images may be clicked, and a new page will open; for all images the hyperlink will open in a new window [or a new tab], except for the fifth image [the starfish], whereby the page will open where the carousel sits.</p></li>
               <li><p class="list-title">Mouse-over images:</p>
-              <p>All images except the last one have a mouse-over image. No big mystery here...</p></li>
+              <p>All images except the last one have a mouse-over image; of course, this is only available on devices that use a mouse.</p></li>
               <li><p class="list-title">Buttons:</p>
-              <p>This theme has styled up the navigation and slide-control panes. The fact that the buttons are below the viewport is a stylistic choice; if preferred, the buttons could overlay the viewport, with some transparency effect if you so wish.</p></li>
+              <p>This theme has styled up the navigation and slide-control panes. The fact that the buttons are below the viewport is a stylistic choice; if preferred, the buttons could overlay the viewport, possibly with some transparency effect, or they could display icons instead of text, etc.</p></li>
               <li><p class="list-title">ID and Class:</p>
               <p>The third and the fourth images declare a class in the <code class="lang-html inline">&lt;img&gt;</code> tag; MCh Carousel picks it up, and the CSS in turn uses it to change the appearance of the caption text. The third image has an additional class, which changes the colour of the caption to plain black. This carousel does not use ID on any images, but you get the idea of what is possible... The CSS used in the carousel is the aforementioned <code class="file-name inline">css/mch-carousel-coloured-caption.css</code></p></li>
             </ul>
@@ -131,7 +150,7 @@
         <section>
           <h2 id="so-now-what">So, now what?</h2>
           <div class="doc">
-            <p>Read on to <a href="styling-up-with-css.html">Styling up with CSS</a> in order to learn more about the DOM structure of MCh Carousel at run-time.</p>
+            <p>Read on to <a href="styling-up-with-css.html">Styling up with CSS</a> in order to delve into the DOM structure of MCh Carousel at run-time, thus enabling you to write your own CSS for MCh Carousel.</p>
           </div>
         </section>
       </article>

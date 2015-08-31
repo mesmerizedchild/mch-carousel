@@ -59,7 +59,7 @@
            src="images/image3.jpg" 
            alt="The third image"
            data-caption-line1="This caption text is feeling a bit... down..."
-           data-caption-line2="But I'm sure it's temporary,"
+           data-caption-line2="and colourless... but I'm sure it's temporary,"
            data-caption-line3="nothing serious..."
            data-link="http://www.freestockphotos.name/wallpaper/5843/five-flowers-on-the-stem-to-download-images-photography.html"
            data-open-in-new-window="true"
@@ -92,12 +92,12 @@
   <script type="text/javascript">
     $(function() {
       $('#my-carousel').mchCarousel({
-        displayButtonsOptions: {
-          when: 'always'
+        automaticSlideOptions: {
+          atStartup: true,
+          pauseOnHoverButtons: true,
         },
-      	displayCaptionOptions: {
-      	  when: 'always' // Always display captions, default is 'hover'
-      	}
+        displayButtons: 'always',
+      	displayCaption: 'always', // Always display captions, default is 'hover'
       }); /* This one line starts the carousel up */
     });
   </script>

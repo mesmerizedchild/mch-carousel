@@ -12,10 +12,11 @@
 
 .mch-image-container {
     img { /* The image is smaller than its container. */
-	   padding-top: 30px;
-	   height: 220px;
+	   padding-top: 28px;
+	   height: 100%;
 	   padding-right: 28px;
 	   padding-left: 0;
+	   box-sizing: border-box;
     }
 }
 
@@ -30,29 +31,39 @@
 .mch-caption-lines { /* Need to reset positioning to accomodate 
 	                      for this outlandish style... */
 	position: static;
-    font-family: Roboto;
+    font-family: 'Alegreya SC', serif;
     font-weight: bold;
 }
 
 .mch-caption-line1 { /* Style for first line of caption. */
 	position: absolute;
 	top: 0;
-	width: 90%;
-	padding: 3px 9px;
+	left: 0;
+	right: 21px;
+    padding-left: 28px;
+    box-sizing: border-box;
+    line-height: 28px;
 	font-size: 20px;
 	color: white;
-	background-color: #FF5722;
+    background-color: rgb(250, 0, 10);
 }
 
 .mch-caption-line2 { /* Style for second line of caption. */
 	display: inline;
 	position: absolute;
-	bottom: 25px;
-	left: 25px;
-	padding: 5px 15px;
-	font-size: 25px;
+    left: 0;
+    bottom: 0;
+    width: 350px;
+	padding: 5px 18px 5px 0px;
+    box-sizing: border-box;
+	font-size: 20px;
+    text-align: right;
 	color: black;
-	background-color: #FFEB3B;
+    background-color: transparent;
+    background-image: url(../images/brush.svg);
+    background-repeat: no-repeat;
+    background-size: 350px 45px;
+    background-position: 0 -3px;
 }
 
 .mch-caption-line3 { /* Style for third line of caption. */
@@ -61,8 +72,9 @@
 	bottom: 0;
 	padding: 3px 9px 3px 35px;
 	font-size: 18px;
+	letter-spacing: 1.2px;
 	color: white;
-	background-color: #9C27B0;
+    background-color: rgb(154, 49, 169);
 	-webkit-transform-origin: 100% 100%;
 	-webkit-transform: rotate(90deg);
 	-ms-transform-origin: 100% 100%;

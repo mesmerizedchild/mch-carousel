@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
+    <title>Fancytree - Example: Glyph Extension / Bootstrap Theme</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <script src="//code.jquery.com/jquery-2.1.4.min.js" type="text/javascript"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <link href="../src/skin-xp/ui.fancytree.css" rel="stylesheet" type="text/css">
+    <script src="../src/jquery.fancytree.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      $(function(){
+      	// Initialise Fancytree
+      	$("#tree").fancytree({
+      		extensions: [],
+      		checkbox: false,
+      		selectMode: 2,
+      		source: {url: "mch-carousel-dom-tree.json"},
+      		wide: {
+      			iconWidth: "26px",     // Adjust this if @fancy-icon-width != "16px"
+      			iconSpacing: "0px", // Adjust this if @fancy-icon-spacing != "3px"
+      			levelOfs: "16px"     // Adjust this if ul padding != "16px"
+      		},
+      
+      		iconClass: function(event, data){
+      			var t = data.node.data.tag;
+      			if(!t) 
+      				return def();
+      			switch(t) {
+      				case 'img':
+      					return data.node.folder ? 'image-highlight' : 'image';
+      				case 'a':
+      					return 'hyperlink';
+      				case 'p':
+      					return 'paragraph';
+      			}
+      			return def();
+      
+      			function def() {
+      				return data.node.folder ? 'div-highlight' : 'div';
+      			}
+      		},
+      		lazyLoad: function(event, data) {
+      			data.result = {url: "ajax-sub2.json"};
+      		}
+      	});
+      
+      });
+    </script>
+    <style type="text/css">
+      .div::before, .div-highlight::before {
+      position: relative;
+      top: -2px;
+      content: 'div';
+      font-family: monospace;
+      font-size: 10px;
+      padding: 1px 2px;
+      border: 1px solid #000;
+      }
+      .div::before {
+      color: #A4A6A3;
+      border: 1px solid #A4A6A3;
+      }
+      .image::before, .image-highlight::before {
+      position: relative;
+      top: -2px;
+      content: 'img';
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 1px 2px;
+      border: 1px solid #000;
+      }
+      .image::before {
+      color: #A4A6A3;
+      border: 1px solid #A4A6A3;
+      }
+      .hyperlink::before {
+      position: relative;
+      top: -2px;
+      content: '\00a0 a\00a0';
+      font-family: monospace;
+      font-size: 10px;
+      font-weight: bold;
+      padding: 1px 2px;
+      border: 1px solid #000;
+      }
+      .paragraph::before {
+      position: relative;
+      top: -2px;
+      content: '\00a0 p\00a0';
+      font-family: monospace;
+      font-weight: bold;
+      font-size: 10px;
+      padding: 1px 2px;
+      border: 1px solid #000;
+      }
+      #tree {
+      max-width: 960px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="panel panel-default">
+      <div id="tree" class="panel-body fancytree-colorize-hover">
+      </div>
+    </div>
+  </body>
+</html>

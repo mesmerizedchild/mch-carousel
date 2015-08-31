@@ -12,9 +12,10 @@
  *
  * @preserve
  */
-// TODO: Captions and other stuff that is added directly to the HTML...
-//    Is that a security risk? Do we need to polish them [like escaping?]
-// TODO: Pause and Start visible even if the carousel does not slide automatically?
+ // TODO: Internal events emitted on rootElement should be emitted and listened
+ //   on to something else.... event manager, perhaps, or even better make 
+ //   rootElement.trigger() a method of the event manager...
+ // FIXME: at startup, no slide, then image-hover and the slide starts....
 (function($) {
     "use strict";
 
@@ -25,6 +26,7 @@
         };
     }
 
+    // On the other hand, I'm ruthless about messing with jQuery's prototype ;) ...
     $.fn.mchCarousel = function(options) {
         var retValue = [];
         $(this).each(function() {
@@ -51,8 +53,9 @@
     };
 
     var _df = {
-            slideAutomatically: true,
-            slideAutomaticallyOptions: {
+            // Default options
+            automaticSlideOptions: {
+                atStartup: true, // Evaluated only at startup
                 direction: null,
                 pauseMs: 3000,
                 pauseOnHoverImage: true,
@@ -62,14 +65,8 @@
             slideAllImagesAnimation: '3236px/s',
             slideEasingFunction: 'swing',
             autoCenterOnHover: true,
-            displayButtons: true,
-            displayButtonsOptions: {
-                when: 'hover' // hover, always
-            },
-            displayCaption: true,
-            displayCaptionOptions: {
-                when: 'hover'
-            },
+            displayButtons: 'hover', // never, hover, always
+            displayCaption: 'hover', // never, hover, always
             captureArrowKeys: true,
             captureArrowKeysOptions: {
                 selector: 'body'
@@ -129,6 +126,9 @@
             ia: '_mch-carousel:enter-image',
             ib: '_mch-carousel:auto-centre',
             ic: '_mch-carousel:leave-image',
+            ie: '_mch-carousel:enter-carousel',
+            ig: '_mch-carousel:leave-carousel',
+            im: '_mch-carousel:options-changed',
             ix: '_mch-carousel:pause-auto-slide',
             iz: '_mch-carousel:restart-auto-slide',
             iy: '_mch-carousel:reschedule-auto-slide',
@@ -174,6 +174,8 @@
             s: 'mch-carousel:enter-button',
             t: 'mch-carousel:leave-button',
         };
+
+    // Copy the content of _ev to eventNames, converting from object to plain array.
     var _en = $.fn.mchCarousel.eventNames = [];
     $.each(_ev, function(key, value) {
         _en.push(value);
@@ -238,7 +240,7 @@
         function changeOptions(optionValuePair) {
             options = $.extend(true, {}, options, optionValuePair);
             buildHiddenOptions();
-            domCarousel.optionsChanged();
+            rootElement.trigger(_st.im); // _mch-carousel:options-changed
         }
 
         function buildHiddenOptions() {
@@ -260,7 +262,7 @@
 
         function slidesLtr() {
             // Imposed by the options...
-            switch (options.slideAutomaticallyOptions.direction) {
+            switch (options.automaticSlideOptions.direction) {
                 case 'ltr':
                     return true;
                 case 'rtl':
@@ -273,6 +275,22 @@
         // Utility methods to reduce the size of the code [especially when minified]
         function triggerRescheduleAutoSlide() {
             rootElement.trigger(_st.iy);
+        }
+
+        function makeInvisible(element) {
+            element.addClass(_st.a);
+        }
+
+        function makeVisible(element) {
+            element.removeClass(_st.a);
+        }
+
+        function isBeingHovered(element) {
+            element.removeClass(_st.h);
+        }
+
+        function isNotBeingHovered(element) {
+            element.addClass(_st.h);
         }
 
         /*
@@ -296,9 +314,16 @@
             this.restart = restart;
             this.isPaused = isPaused;
 
+            // If paused, don't do anything.
+            // If a timeout is already scheduled, don't do anything.
+            // Otherwise, do schedule the timeout.
             function schedule() {
-                if (!paused)
-                    res = window.setTimeout(funct, _time());
+                if (!paused && res==null) {
+                    res = window.setTimeout(function() {
+                        funct();
+                        res = null; // Reset res after execution
+                    }, _time());
+                }
             }
 
             function cancel() {
@@ -352,9 +377,6 @@
                 rootElement.trigger(_st.iz); // _mch-carousel:restart-auto-slide
             }
 
-            /** 
-             * Slides the carousel to the left
-             */
             function slideLeft() {
                 var ltr;
                 triggerRescheduleAutoSlide();
@@ -491,6 +513,9 @@
                 triggerSlideLast();
             }
 
+            // These functions [with their self-descriptive names] help
+            //   understand what is going on in the functions above, and
+            //   also reduce the size of the code when minified.
             function triggerBeforeSlideLeft() {
                 rootElement.trigger(_ev.c);
             }
@@ -579,8 +604,10 @@
         var AutoSlider = function(carousel) {
             var domCarousel = carousel[0],
                 timedSlide = new Timer(timedSlideFunct, function() {
-                    return options.slideAutomaticallyOptions.pauseMs;
-                });
+                    return options.automaticSlideOptions.pauseMs;
+                }),
+                hoveringButtons = false,
+                hoveringCarousel = false;
 
             rootElement.on(_st.ix, function() {
                 //console.log('timer pause');
@@ -599,13 +626,47 @@
                 timedSlide.cancel();
             });
 
+            rootElement.on(_st.ia, enteredImage);
+            rootElement.on(_st.ic, leftImage);
+            rootElement.on(_ev.s, enteredButton);
+            rootElement.on(_ev.t, leftButton);
+            rootElement.on(_st.im, optionsChanged);
+
             // Ready or not, here I come!
-            timedSlide.schedule();
+            if(options.automaticSlideOptions.atStartup)
+                timedSlide.schedule();
+            else
+                timedSlide.pause();
 
             function timedSlideFunct() {
-                if (options.slideAutomatically && domCarousel.canAutoSlide())
+                // Slide only if visible...
+                if (carousel.is(':visible'))
                     rootElement.trigger(_st.i9); // _mch-carousel:auto-next
                 timedSlide.schedule(); // Schedule next tick, regardless...
+            }
+
+            function enteredImage(e) {
+                if(options.automaticSlideOptions.pauseOnHoverImage)
+                    timedSlide.cancel();
+            }
+
+            function leftImage(e) {
+                if(options.automaticSlideOptions.pauseOnHoverImage)
+                    timedSlide.schedule();
+            }
+
+            function enteredButton(e) {
+                if(options.automaticSlideOptions.pauseOnHoverButtons)
+                    timedSlide.cancel();
+            }
+
+            function leftButton(e) {
+                if(options.automaticSlideOptions.pauseOnHoverButtons)
+                    timedSlide.schedule();
+            }
+
+            function optionsChanged() {
+                // Assume unhovered
             }
         };
 
@@ -620,23 +681,23 @@
                 justUsedWheel = false,
                 noWheel = new Timer(noWheelFunct, function() {
                     return options.advanced.mousewheelAutocentreInactivityMs;
-                });
+                }),
+                hoveringButtons = false;
             carousel.on({
                 mouseenter: enterCarousel,
                 mouseleave: leaveCarousel
             });
             carousel.on(_st.ia, enteredImage);
-            attachArrowsHandling();
+            rootElement.on(_st.im, optionsChanged);
+            optionsChanged();
 
             var dom = carousel[0];
 
             dom.carouselResized = carouselResized;
-            dom.optionsChanged = optionsChanged;
             dom.setViewport = setViewport;
             dom.getViewport = getViewport;
             dom.setButtonsPane = setButtonsPane;
             dom.getButtonsPane = getButtonsPane;
-            dom.canAutoSlide = canAutoSlide;
 
             return carousel;
 
@@ -679,9 +740,9 @@
                             if (!viewport)
                                 return;
                             if (e.keyCode === 37) { // left
-                                evntMngr.slideLeft();
+                                eventManager.slideLeft();
                             } else if (e.keyCode === 39) { // right
-                                evntMngr.slideRight();
+                                eventManager.slideRight();
                             }
                         };
 
@@ -710,31 +771,25 @@
                 detachArrowsHandling();
                 carouselResized();
                 attachArrowsHandling();
-                if (viewport)
-                    viewport[0].optionsChanged();
-                if (buttonsPane)
-                    buttonsPane[0].optionsChanged();
             }
 
             function carouselResized() {
                 if (!buttonsPane)
                     return;
-                // Show or hide the buttons, depending on the options and on the current dimensions
-                if (options.displayButtons && carousel.width() < viewport[0].totalWidth())
+                // Show or hide the buttons, depending on the options and on the current width
+                if (options.displayButtons !== 'never' && carousel.width() < viewport[0].totalWidth())
                     buttonsPane[0].showNavigationButtons();
                 else
                     buttonsPane[0].hideNavigationButtons();
             }
 
             function enterCarousel(e) {
-                if (buttonsPane)
-                    buttonsPane[0].hoverButtons();
+                rootElement.trigger(_st.ie); // _mch-carousel:enter-carousel
                 carousel.trigger(_ev.p); // carousel-enter
             }
 
             function leaveCarousel(e) {
-                if (buttonsPane)
-                    buttonsPane[0].unhoverButtons();
+                rootElement.trigger(_st.ig); // _mch-carousel:leave-carousel
                 carousel.trigger(_ev.r); // carousel-leave
             }
 
@@ -754,13 +809,54 @@
             function canViewportAutoCentre() {
                 return options.autoCenterOnHover && !justUsedWheel;
             }
-
-            function canAutoSlide() {
-                return carousel.is(':visible') &&
-                    !(buttonsPane && buttonsPane[0].isMouseHoveringButtons() && options.slideAutomaticallyOptions.pauseOnHoverButtons) &&
-                    !(viewport && viewport[0].isMouseHoveringImages() && options.slideAutomaticallyOptions.pauseOnHoverImage);
-            }
         };
+
+        var SubPane = function(id) {
+            var subPane = $('<div id="' + id + '"></div>');
+            rootElement.on(_st.ie, hoveredButtons);
+            rootElement.on(_st.ig, unhoveredButtons);
+            rootElement.on(_st.im, optionsChanged);
+            optionsChanged();
+
+            var dom = subPane[0];
+
+            dom.addButton = addButton;
+
+            return subPane;
+
+            function addButton(b) {
+                subPane.append(b);
+            }
+
+            function optionsChanged() {
+                switch(options.displayButtons) {
+                    case 'hover':
+                        // Assume unhovered
+                        isNotBeingHovered(subPane);
+                        makeVisible(subPane);
+                        break;
+                    case 'never':
+                        makeInvisible(subPane);
+                        break;
+                    // case 'always':
+                    default: // Show whether case is 'always', or some gibberish
+                        isBeingHovered(subPane);
+                        makeVisible(subPane);
+                }
+            }
+
+            function hoveredButtons() {
+                // Show the buttons if needed
+                if (options.displayButtons === 'hover')
+                    isBeingHovered(subPane);
+            }
+
+            function unhoveredButtons() {
+                // Hide the button if needed
+                if (options.displayButtons === 'hover')
+                    isNotBeingHovered(subPane);
+            }
+        }
 
         /*
          * The button pane.<br/>
@@ -770,116 +866,55 @@
          */
         var ButtonsPane = function() {
             var buttonsPane = $('<div id="' + _st.Z + '"></div>'),
-                slideControlGroup = $('<div id="' + _st.Z1 + '"></div>'),
-                leftRightGroup = $('<div id="' + _st.Z2 + '"></div>'),
-                startEndGroup = $('<div id="' + _st.Z3 + '"></div>'),
-                buttons = [],
-                hoveringButtons = false;
+                slideControlGroup = new SubPane(_st.Z1),
+                leftRightGroup = new SubPane(_st.Z2),
+                startEndGroup = new SubPane(_st.Z3),
+                panes = [ slideControlGroup, leftRightGroup, startEndGroup ];
 
-            addSCGButton(new CarouselButton('mch-pause', 'sc', evntMngr.pauseAutoslide));
-            addSCGButton(new CarouselButton('mch-restart', 'sc', evntMngr.restartAutoslide));
-            addLRGButton(new CarouselButton('mch-leftmost', 'nlr', evntMngr.slideLeftmost));
-            addLRGButton(new CarouselButton('mch-left', 'nlr', evntMngr.slideLeft));
-            addLRGButton(new CarouselButton('mch-right', 'nlr', evntMngr.slideRight));
-            addLRGButton(new CarouselButton('mch-rightmost', 'nlr', evntMngr.slideRightmost));
-            addSTGButton(new CarouselButton('mch-first', 'nse', evntMngr.slideFirst));
-            addSTGButton(new CarouselButton('mch-prev', 'nse', evntMngr.slidePrev));
-            addSTGButton(new CarouselButton('mch-next', 'nse', evntMngr.slideNext));
-            addSTGButton(new CarouselButton('mch-last', 'nse', evntMngr.slideLast));
+            addSCGButton(new CarouselButton('mch-pause', 'sc', eventManager.pauseAutoslide));
+            addSCGButton(new CarouselButton('mch-restart', 'sc', eventManager.restartAutoslide));
+            addLRGButton(new CarouselButton('mch-leftmost', 'nlr', eventManager.slideLeftmost));
+            addLRGButton(new CarouselButton('mch-left', 'nlr', eventManager.slideLeft));
+            addLRGButton(new CarouselButton('mch-right', 'nlr', eventManager.slideRight));
+            addLRGButton(new CarouselButton('mch-rightmost', 'nlr', eventManager.slideRightmost));
+            addSEGButton(new CarouselButton('mch-first', 'nse', eventManager.slideFirst));
+            addSEGButton(new CarouselButton('mch-prev', 'nse', eventManager.slidePrev));
+            addSEGButton(new CarouselButton('mch-next', 'nse', eventManager.slideNext));
+            addSEGButton(new CarouselButton('mch-last', 'nse', eventManager.slideLast));
 
             buttonsPane.append(slideControlGroup).append(leftRightGroup).append(startEndGroup);
 
+            //rootElement.on(_st.im, optionsChanged);
+
             var dom = buttonsPane[0];
 
-            dom.optionsChanged = optionsChanged;
             dom.showNavigationButtons = showNavigationButtons;
             dom.hideNavigationButtons = hideNavigationButtons;
-            dom.showSlideControlButtons = showSlideControlButtons;
-            dom.hideSlideControlButtons = hideSlideControlButtons;
-            dom.hoverButtons = hoverButtons;
-            dom.unhoverButtons = unhoverButtons;
-            dom.isMouseHoveringButtons = isMouseHoveringButtons;
 
             return buttonsPane;
 
-            function addSCGButton(b) {
-                slideControlGroup.append(b);
-                automaticChanged();
-                finaliseButton(b);
-            }
-
-            function addLRGButton(b) {
-                leftRightGroup.append(b);
-                finaliseButton(b);
-            }
-
-            function addSTGButton(b) {
-                startEndGroup.append(b);
-                finaliseButton(b);
-            }
-
-            function finaliseButton(b) {
-                buttons.push(b);
-                b.on({
-                    mouseenter: enterButton,
-                    mouseleave: leaveButton
-                });
-            }
-
-            function optionsChanged() {
-                $.each(buttons, function() {
-                    $(this)[0].optionsChanged();
-                });
-                automaticChanged();
-            }
-
-            function automaticChanged() {
-                if (options.slideAutomatically)
-                    showSlideControlButtons();
-                else
-                    hideSlideControlButtons();
-            }
-
+            // TODO: this might compete with options.displayButtons
             function showNavigationButtons() {
-                leftRightGroup.removeClass(_st.a);
-                startEndGroup.removeClass(_st.a);
+                makeVisible(leftRightGroup);
+                makeVisible(startEndGroup);
             }
 
             function hideNavigationButtons() {
-                leftRightGroup.addClass(_st.a);
-                startEndGroup.addClass(_st.a);
+                makeInvisible(leftRightGroup);
+                makeInvisible(startEndGroup);
             }
 
-            function showSlideControlButtons() {
-                slideControlGroup.removeClass(_st.a);
+            // Utility functions to reduce the code size a bit when minifying...
+            function addSCGButton(b) {
+                slideControlGroup[0].addButton(b);
             }
 
-            function hideSlideControlButtons() {
-                slideControlGroup.addClass(_st.a);
+            function addLRGButton(b) {
+                leftRightGroup[0].addButton(b);
             }
 
-            function hoverButtons() {
-                $.each(buttons, function() {
-                    $(this)[0].buttonHover();
-                });
-            }
-
-            function unhoverButtons() {
-                $.each(buttons, function() {
-                    $(this)[0].buttonUnhover();
-                });
-            }
-
-            function enterButton(e) {
-                hoveringButtons = true;
-            }
-
-            function leaveButton(e) {
-                hoveringButtons = false;
-            }
-
-            function isMouseHoveringButtons() {
-                return hoveringButtons;
+            function addSEGButton(b) {
+                startEndGroup[0].addButton(b);
             }
         };
 
@@ -889,8 +924,8 @@
          */
         var CarouselButton = function(id, nav, onClick) {
             var btn = $('<div class="' + _st.B +
+                // TODO add another class based on nav = nlr or nse
                 ' ' + (nav === 'sc' ? _st.O : _st.R) +
-                (buttonsOnlyWhenHovering() ? ' ' + _st.h : '') +
                 '" id="' + id + '"><div class="' + _st.G + '"></div><div class="' + _st.J + '"></div></div>');
             btn.on({
                 click: onClick,
@@ -898,6 +933,7 @@
                 mouseenter: enterButton,
                 mouseleave: leaveButton
             });
+
             // As the buttons are actually empty HTML [styled via CSS, but still
             //   empty HTML], if you double click on one of them then the text
             //   around it will highlight, that is: double-click triggers text 
@@ -905,22 +941,9 @@
             // Curiously, jQuery does not provide support for onselectstart...
             btn[0].onselectstart = ignoreDoubleClick;
 
-            // TODO: it's very likely that there is no more need to link the methods
-            //   to the DOM object.
-            var dom = btn[0];
-
-            dom.buttonHover = buttonHover;
-            dom.buttonUnhover = buttonUnhover;
-            dom.showButton = showButton;
-            dom.hideButton = hideButton;
-            dom.optionsChanged = optionsChanged;
-            dom.isNavigation = isNavigation;
+            // var dom = btn[0]; No methods to attach here.
 
             return btn;
-
-            function isNavigation() {
-                return nav === 'nlr' || nav === 'nse';
-            }
 
             function enterButton(e) {
                 btn.trigger(_ev.s); // enter-button
@@ -928,36 +951,6 @@
 
             function leaveButton(e) {
                 btn.trigger(_ev.t); // leave-button
-            }
-
-            function buttonHover() {
-                if (buttonsOnlyWhenHovering())
-                    btn.removeClass(_st.h);
-            }
-
-            function buttonUnhover() {
-                if (buttonsOnlyWhenHovering())
-                    btn.addClass(_st.h);
-            }
-
-            // TODO: this function depends at start-time on an option
-            //   and then the option may not be changed...
-            // There is another such example in the code, but right now I'm
-            //   too sleepy to look for it.
-            function buttonsOnlyWhenHovering() {
-                return options.displayButtons && options.displayButtonsOptions.when === 'hover';
-            }
-
-            function showButton() {
-                btn.removeClass(_st.a);
-            }
-
-            function hideButton() {
-                btn.addClass(_st.a);
-            }
-
-            function optionsChanged() {
-                // Do nothing... for the time being?
             }
 
             function ignoreDoubleClick(e) {
@@ -969,7 +962,7 @@
          * The object that wraps an image and its caption [if present]
          * @constructor
          */
-        var ImageContainer = function(t, idx) {
+        var ImageContainer = function(t) {
             // Take the information from the image [in #mch-image-list]
             //   and build a DOM element ready for the viewport [in #mch-scrollable-viewport]
             var id = t.prop('id'),
@@ -985,23 +978,8 @@
                 captionLine3 = t.data('caption-line3'),
                 link = t.data('link'),
                 newWin = t.data('open-in-new-window'),
-                //
-                // HELP!!!
-                //
-                // Actually, data-idx belongs [logically] to the viewport bit, not here...
-                // but if, in the Viewport constructor, I do:
-                //
-                //   var imgCntnr = new ImageContainer($(this));
-                //   imgCntnr.data('idx', idx++);
-                //   scrollableViewport.append(imgCntnr);
-                // 
-                // then data-idx does not stick around and won't make it to the HTML.
-                //
-                // Anybody knows why?!?
-                //
                 imgCntnr = $('<div class="' + _st.K +
-                    (clazz ? ' ' + clazz : '') +
-                    '" data-idx="' + idx + '"' +
+                    (clazz ? ' ' + clazz : '') + '"' +
                     (id ? ' id="' + id + '"' : '') +
                     (data ? ' data-data="' + data + '"' : '') +
                     '></div>'),
@@ -1044,16 +1022,14 @@
                 mouseenter: enterImage,
                 mouseleave: leaveImage
             });
+            rootElement.on(_st.im, optionsChanged);
 
             // Save some more data for the methods...
             var img = imgCntnr.find('img'),
-                caption = imgCntnr.find(_st.t),
                 hasImgOver = !!(img.data('img-over'));
-            captionsOff(); // Switch captions off if needed
+            optionsChanged(); // Get the caption visibility in sync with the options
 
-            var dom = imgCntnr[0];
-
-            dom.optionsChanged = optionsChanged;
+            // var dom = imgCntnr[0]; No methods to attach here.
 
             return imgCntnr;
 
@@ -1063,8 +1039,7 @@
                     img.prop('src', imgOver);
 
                 // Display the caption
-                if (caption && captionOnlyWhenHovering())
-                    caption.removeClass(_st.h);
+                captionsOn();
 
                 imgCntnr.trigger(_st.ia); // _mch-carousel:enter-image
 
@@ -1083,25 +1058,42 @@
                 imgCntnr.trigger(_ev.n); // leave-image
             }
 
-            function captionsOff() {
-                // Hide the caption
-                if (caption && captionOnlyWhenHovering())
-                    caption.addClass(_st.h);
+            function captionsOn() {
+                // Show the caption if needed
+                if (captionCntnr && captionsWhen() === 'hover')
+                    isBeingHovered(captionCntnr);
             }
 
-            function captionOnlyWhenHovering() {
+            function captionsOff() {
+                // Hide the caption if needed
+                if (captionCntnr && captionsWhen() === 'hover')
+                    isNotBeingHovered(captionCntnr);
+            }
+
+            function captionsWhen() {
                 var display;
-                if (img && (display = img.data('caption-display')))
-                    return display === 'hover';
-                return options.displayCaption && options.displayCaptionOptions.when === 'hover';
+                // caption-display on the image takes precedence over the options
+                if (display = img.data('caption-display'))
+                    return display;
+                return options.displayCaption;
             }
 
             function optionsChanged() {
                 if (captionCntnr)
-                    if (options.displayCaption)
-                        captionCntnr.removeClass(_st.a);
-                    else
-                        captionCntnr.addClass(_st.a);
+                    switch(captionsWhen()) {
+                        case 'hover':
+                            // Assume unhovered
+                            isNotBeingHovered(captionCntnr);
+                            makeVisible(captionCntnr);
+                            break;
+                        case 'never':
+                            makeInvisible(captionCntnr);
+                            break;
+                        // case 'always':
+                        default: // Show whether case is 'always', or some gibberish
+                            isBeingHovered(captionCntnr);
+                            makeVisible(captionCntnr);
+                    }
             }
         };
 
@@ -1112,15 +1104,9 @@
         var Padding = function() {
             var padding = $('<div class="' + _st.M + '"></div>');
 
-            var dom = padding[0];
-
-            dom.optionsChanged = optionsChanged;
+            // var dom = padding[0]; No methods to attach here.
 
             return padding;
-
-            function optionsChanged() {
-                // Nothing, for the time being...
-            }
         }
 
         /*
@@ -1133,7 +1119,6 @@
                 idx = 0,
                 imgCntnrs = [],
                 pads = [],
-                hoveringImages = false,
                 totalSize = 0,
                 prevPad = [],
                 nextPad = [],
@@ -1143,21 +1128,22 @@
 
             // Scan the list of images and create new containers.
             imageList.find('img').each(function() {
-                // See constructor of ImageContainer() for notes:
-                // imgCntnr.data('idx', idx++);
-                var imgCntnr = new ImageContainer($(this), idx++);
-                imgCntnr.on({
-                    mouseenter: enterImage,
-                    mouseleave: leaveImage
-                });
+                var imgCntnr = new ImageContainer($(this));
+                // Can anybody explain why imgCntnr.attr('data-idx', idx++) works, 
+                //   while imgCntnr.data('idx', idx++) just won't?
+                imgCntnr.attr('data-idx', idx++);
                 imgCntnrs.push(imgCntnr);
             });
 
             // Add the containers to the viewport, together with
             //   in-between padding
             for(var i=0; i<imgCntnrs.length; i++) {
-                if(i!=0)
-                    scrollableViewport.append(new Padding());
+                if(i!=0) {
+                    var pad = new Padding();
+                    pad.attr('data-img-before', i-1);
+                    pad.attr('data-img-after', i);
+                    scrollableViewport.append(pad);
+                }
                 scrollableViewport.append(imgCntnrs[i]);
             }
 
@@ -1175,6 +1161,7 @@
             rootElement.on(_st.i7, slideFirst);
             rootElement.on(_st.i8, slideLast);
             rootElement.on(_st.i9, autoNext);
+            // rootElement.on(_st.im, optionsChanged);
 
             // Fix scrollLeft(), which works inconsistently across browsers
             //   with RTL elements. Hopefully we can remove this hack in
@@ -1184,19 +1171,8 @@
             var dom = viewport[0];
 
             dom.totalWidth = totalWidth;
-            dom.optionsChanged = optionsChanged;
-            dom.isMouseHoveringImages = isMouseHoveringImages;
 
             return viewport;
-
-            function optionsChanged() {
-                $.each(imgCntnrs, function(index, value) {
-                    value.optionsChanged();
-                });
-                $.each(pads, function(index, value) {
-                    value.optionsChanged();
-                });
-            }
 
             function calc(excludeArrays) {
                 var currLeft = prevPad.length = nextPad.length = startPx.length = endPx.length = 0;
@@ -1228,15 +1204,6 @@
                 return totalSize;
             }
 
-            function enterImage() {
-                hoveringImages = true;
-            }
-
-            function leaveImage() {
-                hoveringImages = false;
-                triggerRescheduleAutoSlide();
-            }
-
             function autoCentre(e, ic) {
                 calc();
                 // Here, ic is the DOM element corresponding to the image container
@@ -1263,10 +1230,6 @@
                     animatedScrollToOneImage(ep - w);
                     t.trigger(_ev.b); // autocentre-image
                 }
-            }
-
-            function isMouseHoveringImages() {
-                return hoveringImages;
             }
 
             function slidePrev() {
@@ -1379,7 +1342,7 @@
 
         // Main body resumes.
         var imgList = buildImageList(), // This is our 'data source'
-            evntMngr = new EventManager(),
+            eventManager = new EventManager(),
 
             // The carousel hosts the viewport and the buttons
             carousel = new Carousel(),
@@ -1403,16 +1366,16 @@
         rootElement.append(carousel);
         rootElement.addClass(_st.f);
 
-        this.pauseAutoslide = evntMngr.pauseAutoslide;
-        this.restartAutoslide = evntMngr.restartAutoslide;
-        this.slideLeft = evntMngr.slideLeft;
-        this.slideRight = evntMngr.slideRight;
-        this.slideLeftmost = evntMngr.slideLeftmost;
-        this.slideRightmost = evntMngr.slideRightmost;
-        this.slideNext = evntMngr.slideNext;
-        this.slidePrev = evntMngr.slidePrev;
-        this.slideFirst = evntMngr.slideFirst;
-        this.slideLast = evntMngr.slideLast;
+        this.pauseAutoslide = eventManager.pauseAutoslide;
+        this.restartAutoslide = eventManager.restartAutoslide;
+        this.slideLeft = eventManager.slideLeft;
+        this.slideRight = eventManager.slideRight;
+        this.slideLeftmost = eventManager.slideLeftmost;
+        this.slideRightmost = eventManager.slideRightmost;
+        this.slideNext = eventManager.slideNext;
+        this.slidePrev = eventManager.slidePrev;
+        this.slideFirst = eventManager.slideFirst;
+        this.slideLast = eventManager.slideLast;
 
         this.changeOptions = changeOptions;
         this.forceResize = windowResized; // TODO: check better responsiveness.

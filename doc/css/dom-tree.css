@@ -1,0 +1,150 @@
+@import url(http://fonts.googleapis.com/css?family=Source+Code+Pro);
+@import url(http://fonts.googleapis.com/css?family=Lato:400,700);
+* {
+  border: 0;
+  margin: 0;
+}
+body {
+  color: #333333;
+  font-family: 'Lato';
+  font-size: 18px;
+  line-height: 1.4;
+}
+body {
+  overflow-y: hidden;
+}
+.mch-icon,
+.div-highlight::before,
+.div::before,
+.image-highlight::before,
+.image::before,
+.hyperlink::before,
+.paragraph::before {
+  position: relative;
+  top: -1px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  padding: 1px 2px;
+}
+.mch-highlight-icon,
+.div-highlight::before,
+.image-highlight::before,
+.hyperlink::before,
+.paragraph::before {
+  color: #000;
+  border: 1px solid #000;
+}
+ul.fancytree-container {
+  border: none;
+  font-size: 15px;
+}
+.mch-normal-icon,
+.div::before,
+.image::before {
+  color: #A4A6A3;
+  border: 1px solid #A4A6A3;
+}
+.div-highlight::before {
+  content: 'div';
+}
+.div::before {
+  content: 'div';
+}
+.image-highlight::before {
+  content: 'img';
+}
+.image::before {
+  content: 'img';
+}
+.hyperlink::before {
+  content: '\00a0 a\00a0';
+}
+.paragraph::before {
+  content: '\00a0 p\00a0';
+}
+#dom-container::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+#dom-tree {
+  width: 100%;
+  max-height: 45vh;
+  overflow-y: auto;
+}
+@media screen and (min-width: 800px) {
+  #dom-tree {
+    width: 50%;
+    max-height: initial;
+    float: left;
+  }
+}
+#dom-doc {
+  position: relative;
+  display: none;
+  width: 100%;
+  max-height: 45vh;
+  margin: 10px 0;
+  box-sizing: border-box;
+  overflow-y: auto;
+  transition: height 2.5s;
+}
+@media screen and (min-width: 800px) {
+  #dom-doc {
+    width: 50%;
+    max-height: initial;
+    float: right;
+    margin: 0;
+    padding: 0 10px;
+  }
+}
+#dom-doc::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+.dom-doc-header,
+.dom-description::before,
+.dom-style-info::before {
+  display: block;
+  padding: 5px 10px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  background-color: black;
+}
+.dom-description::before {
+  content: 'Element description';
+}
+.dom-style-info {
+  margin-top: 30px;
+}
+.dom-style-info::before {
+  content: 'Styling information';
+}
+.dom-style-icon {
+  float: left;
+  width: 7.2em;
+  height: 7.2em;
+  margin: 3px 7px 3px 3px;
+}
+.dom-explanation {
+  position: relative;
+  height: 100%;
+}
+.dom-explanation p {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+@media screen and (min-width: 800px) {
+  .dom-explanation p {
+    top: 20px;
+    left: 40px;
+    width: 50%;
+    max-height: initial;
+  }
+}

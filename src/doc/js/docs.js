@@ -47,3 +47,7 @@ window.onload = function() {
         });
     });
 };
+
+function adjustIFrame(i) {
+    $('#dom-tree').height(i);
+}

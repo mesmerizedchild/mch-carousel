@@ -2,9 +2,9 @@
 
 ## What is MCh Carousel?
 
-Yet another carousel, this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
+A flexible, CSS styled, RTL aware, programmable carousel/slide show, this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
 
-It displays any number of pictures in a horizontal strip, with the ability of scrolling left or right. , plus a number of features [listed below].
+It displays any number of pictures in a horizontal strip, with the ability of scrolling left or right, plus a number of features [listed below].
 It is appropriate for when multiple pictures must be displayed side by side, but not all of them might fit into the navigator viewport.
 
 ## Features
@@ -110,8 +110,14 @@ He also believes that cooperation is key in any endavour, so please do send sugg
 Contains [adapted] code from the following sources:  
 * [jQuery RTL Scroll Type Detector](https://github.com/othree/jquery.rtl-scroll-type)  
 * [http://jsfiddle.net/scA63/](http://jsfiddle.net/scA63/), posted as a part of the [accepted] reply to [a question in Stack Overflow](http://stackoverflow.com/questions/24276619/better-way-to-get-the-viewport-of-a-scrollable-div-in-rtl-mode)  
+The documentation pages use:
+* [smoothState.js](https://github.com/miguel-perez/smoothState.js/) for page transitions;
+* [fancytree](https://github.com/mar10/fancytree/) for the visualisation of the DOM tree.
+* Icons by [h0us3s](https://openclipart.org/user-detail/h0us3s), (dominiquechappard)[https://openclipart.org/user-detail/dominiquechappard] and [davidblyons](https://openclipart.org/user-detail/davidblyons) at openclipart.org.
   
 Many thanks to [David Ferrando](mailto:ferr@weareanimals.eu) at [We Are Animals](http://www.weareanimals.eu/) for his input, ideas, creativity and constant support.
+
+If you think I have forgotten someone or something, let me know.
 
 ## External tools
 All LESS and Javascript files compiled and minified with [Koala](http://koala-app.com/) for Windows.
