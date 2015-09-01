@@ -36,8 +36,8 @@
   * 
   * #some-carousel-id, .or-some-carousel-class {
   *     @import 'mch-carousel.less'; // No possibility of selector name conflicts,
-  *                                  //   as this import is only related to 
-  *                                  // this carousel id or class 
+  *                                  //   as all element in this import will be
+  *                                  //   qualified with the carousel ID or class. 
   *     // See below for notes on setting the carousel's height
   *     .mch-viewport-height({ height: 560px });
   *     #mch-buttons-pane {
@@ -88,66 +88,6 @@
   *   %              definitely a bad idea; '25%' means completely different things
   *                    when applied to different DOM elements of the carousel.
   *                    This cannot be used at all!
-  *
-  *
-  * Now, following is the DOM structure of the carousel at run-time, for your reference 
-  *   when building or customising a theme; indentation corresponds to how 
-  *   the DOM elements are nested. The vertical bars and arrows are simply a visual
-  *   clue to highlight sibling elements, when these are separated by many lines.
-  *
-  * div, the root element inside which you listed the images for the carousel
-  *    div#mch-image-list, always hidden
-  *       img, each img is the source data for the run-time carousel
-  *    div#mch-visible-carousel, created at run-time, and contains what we actually see on the screen
-  *    +> div#mch-viewport
-  *    |     div#mch-scrollable-viewport
-  *    |        div.mch-image-container, with an ID if the original image specified it
-  *    |           a.mch-hyperlink, this node not present if no hyperlink
-  *    |              img.mch-image, containing one of the images for the carousel
-  *    |              div.mch-caption-cntnr, this node and all subnodes not present if no caption text
-  *    |                 div.mch-caption-background
-  *    |                 div.mch-caption-lines
-  *    |                    div.mch-caption-line1
-  *    |                       p, containing caption line 1
-  *    |                    div.mch-caption-line2
-  *    |                       p, containing caption line 2
-  *    |                    div.mch-caption-line3
-  *    |                       p, containing caption line 3
-  *    |        div.mch-padding, the padding between images
-  *    +> div#mch-buttons-pane, the buttons pane
-  *       +> div#mch-slide-control-group, invisible if auto-sliding is not enabled
-  *       |     div.mch-button#mch-pause
-  *       |        div.mch-button-background
-  *       |        div.mch-button-graphics
-  *       |     div.mch-button#mch-restart
-  *       |        div.mch-button-background
-  *       |        div.mch-button-graphics
-  *       +> div#mch-left-right-group, "physical" navigation buttons, not RTL-aware
-  *       |     div.mch-button#mch-leftmost
-  *       |        div.mch-button-background
-  *       |        div.mch-button-graphics
-  *       |     div.mch-button#mch-left
-  *       |        div.mch-button-background
-  *       |        div.mch-button-graphics
-  *       |     div.mch-button#mch-right
-  *       |        div.mch-button-background
-  *       |        div.mch-button-graphics
-  *       |     div.mch-button#mch-rightmost
-  *       |        div.mch-button-background
-  *       |        div.mch-button-graphics
-  *       +> div#mch-start-end-group, "logical" navigation buttons, RTL-aware
-  *             div.mch-button#mch-first
-  *                div.mch-button-background
-  *                div.mch-button-graphics
-  *             div.mch-button#mch-prev
-  *                div.mch-button-background
-  *                div.mch-button-graphics
-  *             div.mch-button#mch-next
-  *                div.mch-button-background
-  *                div.mch-button-graphics
-  *             div.mch-button#mch-last
-  *                div.mch-button-background
-  *                div.mch-button-graphics
   */
 
 #mch-visible-carousel {
@@ -249,10 +189,7 @@
 
 /* Mix-in for setting the height of the carousel. */
 .mch-viewport-height(@rules) {
-  #mch-viewport {
-    @rules();
-  }
-  .mch-image-container {
+  #mch-viewport, .mch-image-container {
     @rules();
   }
 }

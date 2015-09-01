@@ -12,10 +12,10 @@
  *
  * @preserve
  */
- // TODO: Internal events emitted on rootElement should be emitted and listened
- //   on to something else.... event manager, perhaps, or even better make 
- //   rootElement.trigger() a method of the event manager...
- // FIXME: at startup, no slide, then image-hover and the slide starts....
+// TODO: Internal events emitted on rootElement should be emitted and listened
+//   on to something else.... event manager, perhaps, or even better make 
+//   rootElement.trigger() a method of the event manager...
+// FIXME: at startup, no slide, then image-hover and the slide starts....
 (function($) {
     "use strict";
 
@@ -39,8 +39,18 @@
                 retValue.push(data);
                 return;
             }
+
+            // A new carousel is born...
             carousel = new MChCarousel(t, options);
+
+            // Link this object to the carousel, so that it can be retrived
+            //   later via $('#id to the carousel').data('mch-carousel')
             t.data(_st.f, carousel);
+            
+            // This one is needed for intra-HTML communication, where the carousel
+            //   is in an iframe, and the container needs to access this object.
+            t.prop('data-' + _st.f, carousel);
+
             retValue.push(carousel);
         });
         switch (retValue.length) {
@@ -227,7 +237,7 @@
                  were defective. Thank you WP :) ... 
                I'm not sure I can see a scenario where this cleanup would hurt,
                  but anyway I've made it optional, with the default set to true. */
-            if(options.advanced.divCleanup)
+            if (options.advanced.divCleanup)
                 rootElement.html('');
             rootElement.append(retValue);
             return retValue;
@@ -235,6 +245,11 @@
 
         function windowResized() {
             domCarousel.carouselResized();
+        }
+
+        // Returns a **clone** of the current options.
+        function getCurrentOptions() {
+            return $.extend(true, {}, options);
         }
 
         function changeOptions(optionValuePair) {
@@ -256,7 +271,7 @@
                 one.endsWith(_st.p)) ? _st.p : 'ms') : '1000px';
             hid.oav = one ? parseInt(one) : 500;
             hid.aau = all ? ((all.endsWith(_st.x) ||
-                all.endsWith(_st.p)) ? _st.p : 'ms') : '1609px';
+                all.endsWith(_st.p)) ? _st.p : 'ms') : '1618px';
             hid.aav = all ? parseInt(all) : 1500;
         }
 
@@ -318,7 +333,7 @@
             // If a timeout is already scheduled, don't do anything.
             // Otherwise, do schedule the timeout.
             function schedule() {
-                if (!paused && res==null) {
+                if (!paused && res === null) {
                     res = window.setTimeout(function() {
                         funct();
                         res = null; // Reset res after execution
@@ -481,7 +496,7 @@
                 triggerSlideNext();
             }
 
-            function slideFirst(e) {
+            function slideFirst() {
                 var ltr;
                 triggerRescheduleAutoSlide();
                 if (ltr = slidesLtr())
@@ -602,12 +617,9 @@
          * @constructor
          */
         var AutoSlider = function(carousel) {
-            var domCarousel = carousel[0],
-                timedSlide = new Timer(timedSlideFunct, function() {
+            var timedSlide = new Timer(timedSlideFunct, function() {
                     return options.automaticSlideOptions.pauseMs;
-                }),
-                hoveringButtons = false,
-                hoveringCarousel = false;
+                });
 
             rootElement.on(_st.ix, function() {
                 //console.log('timer pause');
@@ -633,7 +645,7 @@
             rootElement.on(_st.im, optionsChanged);
 
             // Ready or not, here I come!
-            if(options.automaticSlideOptions.atStartup)
+            if (options.automaticSlideOptions.atStartup)
                 timedSlide.schedule();
             else
                 timedSlide.pause();
@@ -645,23 +657,23 @@
                 timedSlide.schedule(); // Schedule next tick, regardless...
             }
 
-            function enteredImage(e) {
-                if(options.automaticSlideOptions.pauseOnHoverImage)
+            function enteredImage() {
+                if (options.automaticSlideOptions.pauseOnHoverImage)
                     timedSlide.cancel();
             }
 
-            function leftImage(e) {
-                if(options.automaticSlideOptions.pauseOnHoverImage)
+            function leftImage() {
+                if (options.automaticSlideOptions.pauseOnHoverImage)
                     timedSlide.schedule();
             }
 
-            function enteredButton(e) {
-                if(options.automaticSlideOptions.pauseOnHoverButtons)
+            function enteredButton() {
+                if (options.automaticSlideOptions.pauseOnHoverButtons)
                     timedSlide.cancel();
             }
 
-            function leftButton(e) {
-                if(options.automaticSlideOptions.pauseOnHoverButtons)
+            function leftButton() {
+                if (options.automaticSlideOptions.pauseOnHoverButtons)
                     timedSlide.schedule();
             }
 
@@ -681,8 +693,7 @@
                 justUsedWheel = false,
                 noWheel = new Timer(noWheelFunct, function() {
                     return options.advanced.mousewheelAutocentreInactivityMs;
-                }),
-                hoveringButtons = false;
+                });
             carousel.on({
                 mouseenter: enterCarousel,
                 mouseleave: leaveCarousel
@@ -728,6 +739,7 @@
                 return buttonsPane;
             }
 
+            // FIXME: this is BAAAAAADDD!!!!!
             function enteredImage(e) {
                 if (canViewportAutoCentre())
                     $(e.target).trigger(_st.ib, e.target); // _mch-carousel:auto-centre
@@ -783,12 +795,12 @@
                     buttonsPane[0].hideNavigationButtons();
             }
 
-            function enterCarousel(e) {
+            function enterCarousel() {
                 rootElement.trigger(_st.ie); // _mch-carousel:enter-carousel
                 carousel.trigger(_ev.p); // carousel-enter
             }
 
-            function leaveCarousel(e) {
+            function leaveCarousel() {
                 rootElement.trigger(_st.ig); // _mch-carousel:leave-carousel
                 carousel.trigger(_ev.r); // carousel-leave
             }
@@ -829,7 +841,7 @@
             }
 
             function optionsChanged() {
-                switch(options.displayButtons) {
+                switch (options.displayButtons) {
                     case 'hover':
                         // Assume unhovered
                         isNotBeingHovered(subPane);
@@ -838,7 +850,7 @@
                     case 'never':
                         makeInvisible(subPane);
                         break;
-                    // case 'always':
+                        // case 'always':
                     default: // Show whether case is 'always', or some gibberish
                         isBeingHovered(subPane);
                         makeVisible(subPane);
@@ -856,7 +868,7 @@
                 if (options.displayButtons === 'hover')
                     isNotBeingHovered(subPane);
             }
-        }
+        };
 
         /*
          * The button pane.<br/>
@@ -868,8 +880,7 @@
             var buttonsPane = $('<div id="' + _st.Z + '"></div>'),
                 slideControlGroup = new SubPane(_st.Z1),
                 leftRightGroup = new SubPane(_st.Z2),
-                startEndGroup = new SubPane(_st.Z3),
-                panes = [ slideControlGroup, leftRightGroup, startEndGroup ];
+                startEndGroup = new SubPane(_st.Z3);
 
             addSCGButton(new CarouselButton('mch-pause', 'sc', eventManager.pauseAutoslide));
             addSCGButton(new CarouselButton('mch-restart', 'sc', eventManager.restartAutoslide));
@@ -945,11 +956,11 @@
 
             return btn;
 
-            function enterButton(e) {
+            function enterButton() {
                 btn.trigger(_ev.s); // enter-button
             }
 
-            function leaveButton(e) {
+            function leaveButton() {
                 btn.trigger(_ev.t); // leave-button
             }
 
@@ -1080,7 +1091,7 @@
 
             function optionsChanged() {
                 if (captionCntnr)
-                    switch(captionsWhen()) {
+                    switch (captionsWhen()) {
                         case 'hover':
                             // Assume unhovered
                             isNotBeingHovered(captionCntnr);
@@ -1089,7 +1100,7 @@
                         case 'never':
                             makeInvisible(captionCntnr);
                             break;
-                        // case 'always':
+                            // case 'always':
                         default: // Show whether case is 'always', or some gibberish
                             isBeingHovered(captionCntnr);
                             makeVisible(captionCntnr);
@@ -1107,7 +1118,7 @@
             // var dom = padding[0]; No methods to attach here.
 
             return padding;
-        }
+        };
 
         /*
          * The part of the carousel that contains the images. 
@@ -1118,7 +1129,6 @@
                 scrollableViewport = $('<div id="' + _st.Q + '"></div>'),
                 idx = 0,
                 imgCntnrs = [],
-                pads = [],
                 totalSize = 0,
                 prevPad = [],
                 nextPad = [],
@@ -1137,10 +1147,10 @@
 
             // Add the containers to the viewport, together with
             //   in-between padding
-            for(var i=0; i<imgCntnrs.length; i++) {
-                if(i!=0) {
+            for (var i = 0; i < imgCntnrs.length; i++) {
+                if (i !== 0) {
                     var pad = new Padding();
-                    pad.attr('data-img-before', i-1);
+                    pad.attr('data-img-before', i - 1);
                     pad.attr('data-img-after', i);
                     scrollableViewport.append(pad);
                 }
@@ -1377,6 +1387,7 @@
         this.slideFirst = eventManager.slideFirst;
         this.slideLast = eventManager.slideLast;
 
+        this.getCurrentOptions = getCurrentOptions;
         this.changeOptions = changeOptions;
         this.forceResize = windowResized; // TODO: check better responsiveness.
         this.getObject = getObject;

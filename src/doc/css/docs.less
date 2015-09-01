@@ -59,6 +59,15 @@ h1 {
   text-align: center;
 }
 
+.warning {
+  margin: @spacingBase 0 @spacingBase 0;
+  font-size: @h2FontSize;
+  font-weight: bold;
+  padding: 20px;
+  background-color: #EEE;
+  text-align: center;
+}
+
 article, header p {
   max-width: 960px;
   margin: (@bodyFontSize/2) 5% (@bodyFontSize*2) 5%;
@@ -192,7 +201,7 @@ code {
     height: 120px;
     padding: 0;
     font-family: @sourceCodeFont;
-    white-space: nowrap;
+    white-space: pre;
     overflow: auto;
   }
   /* The Ok button in a dialog box. */

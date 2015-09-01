@@ -1,0 +1,129 @@
+/** MCh Carousel Coloured Caption.
+  *
+  * Theme for styling up caption text with colours, without being too flashy...
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+@import 'https://fonts.googleapis.com/css?family=Roboto&subset=latin,greek';
+@import 'https://fonts.googleapis.com/css?family=Tinos&subset=hebrew';
+@import 'https://fonts.googleapis.com/css?family=Amiri&subset=arabic';
+
+@iconsFont: 'Roboto';
+@latinScriptFont: 'Roboto';
+@greekScriptFont: 'Roboto';
+@hebrewScriptFont: 'Tinos';
+@arabicScriptFont: 'Amiri';
+
+.mch-padding {
+    width: 6px;
+}
+
+.mch-caption-cntnr {
+	position: absolute;
+	top: 0;
+  	right: auto;
+  	bottom: auto;
+  	left: 0;
+    [dir="rtl"] & {
+        right: 0;
+        left: auto;
+    }
+	.odd-one-out & {
+	    top: auto;
+	    right: 0;
+	    bottom: 0;
+	    left: auto;
+        [dir="rtl"] & {
+            right: auto;
+            left: 0;
+        }
+	}
+}
+
+.mch-caption-background {
+  	position: absolute;
+  	top: 0;
+  	right: 0;
+  	bottom: 0;
+  	left: 0;
+  	background-color: white;
+    border-right: 2px solid deepskyblue;
+  	border-bottom: 2px solid deepskyblue;
+    border-left: none;
+  	border-radius: 0 0 4px 0;
+    [dir="rtl"] & {
+        border-right: none;
+        border-bottom: 2px solid deepskyblue;
+        border-left: 2px solid deepskyblue;
+        border-radius: 0 0 0 4px;
+    }
+  	opacity: 0.85;
+	.odd-one-out & {
+	    border-top: 2px solid deepskyblue;
+		border-right: none;
+	  	border-bottom: none;
+	  	border-left: 2px solid deepskyblue;
+	    border-radius: 4px 0 0 0;
+        [dir="rtl"] & {
+            border-right: 2px solid deepskyblue;
+            border-left: none;
+            border-radius: 0 4px 0 0;
+        }
+	}
+}
+
+
+/* Language-dependent font. */
+.mch-scripts() {
+    font-family: @latinScriptFont;
+    [lang="el"] & {
+        font-family: @greekScriptFont;
+    }
+    [lang="ar"] & {
+        font-family: @arabicScriptFont;
+    }
+    [lang="he"] & {
+        font-family: @hebrewScriptFont;
+    }
+    font-weight: bold;
+}
+
+.mch-caption-lines {
+  display: inline-block;
+  padding: 5px;
+  .mch-scripts();
+  font-size: 24px;
+	.odd-one-out & {
+  	font-size: 16px;
+	}
+}
+
+.mch-caption-line1 { /* Style for first line of caption. */
+	padding: 3px 9px;
+  font-size: 1em;
+  font-weight: bold;
+  color: dodgerblue;
+	.bw & {
+  	color: black;
+	}
+}
+
+.mch-caption-line2 { /* Style for second line of caption. */
+  padding: 3px 9px;
+  font-size: 0.75em;
+  color: darkmagenta;
+	.bw & {
+  	color: black;
+	}
+}
+
+.mch-caption-line3 { /* Style for third line of caption. */
+  	padding: 3px 9px;
+  	font-size: 0.75em;
+  	color: chocolate;
+	.bw & {
+  		color: black;
+	}
+}

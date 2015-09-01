@@ -13,7 +13,7 @@
     <div id="page-content" class="m-scene">
       <header class="scene_element">
         <h1>MCh Carousel: Styling up with CSS</h1>
-        <p>Here you will find information on how to style up your MCh Carousel, together with usable examples of styling. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="quick-start.html">Quick Start</a> first and take if from there [you will eventally land back onto this page...]</p>
+        <p>Here you will find information on how to style up your MCh Carousel, together with usable examples of styling. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="01-quick-start.html">Quick Start</a> first and take if from there [you will eventally land back onto this page...]</p>
         <p class="need-internet">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net.</p>
       </header class="scene_element">
       <article>
@@ -32,7 +32,7 @@
             <p>In general, you should be wary of styling the topmost layers; think of them a bit as the scaffolding that keeps MCh Carousel together and makes it what it is. They are styled in <code class="file-name inline">mch-carousel.css</code> and most of them should be left untouched.</p>
             <p> On the other hand, you have complete control over <code class="lang-html inline">div.mch-caption-cntnr</code> tags and their descendants [for styling your caption text] and on the <code class="lang-html inline">div#mch-buttons-pane</code> tag and its descendants [for styling the button panes].</p>
             <p>Other elements that might need your attention are highlighted in <strong>bold</strong>.</p>
-            <iframe id="dom-tree" src="dom-tree.html"></iframe>
+            <iframe class="mustBeWeb" id="dom-tree" src="03a-dom-tree.html"></iframe>
           </div>
         </section>
         <section>
@@ -54,14 +54,14 @@
             <p>There are 3 button panes available, each of which may be made visible or kept hidden independently:</p>
             <ul>
               <li><p class="list-title" id="slide-control-pane">Slide-control pane</p>
-              <p>This pane comprises 2 buttons: Pause and Start. Their function is self-explanatory: if the carousel is configured to slide images automatically, the former button will pause the automatic slide, while the latter button will restart it. Clicking on Pause when the carousel is paused, or clicking on Start while the carousel is sliding images, has no effect. If the carousel is not configured to slide images automatically, neither button will have any effect either.</p></li>
+              <p>This pane comprises 2 buttons: Pause and Start. Their function is self-explanatory: the former button will pause the automatic slide, while the latter button will [re]start it. Clicking on Pause when the carousel is paused, or clicking on Start while the carousel is sliding images, has no effect.</p></li>
               <li><p class="list-title" id="start-end-slide-page">Start-end-slide pane</p>
               <p>This pane consists of 4 buttons: Slide to first image, Slide to next image, Slide to previous image, plus Slide to the last image. The exact direction in which each button will slide the carousel depends on the value of the <code class="lang-html inline">dir</code> attribute, as discussed above. This pane is useful if you want to style the buttons up with elements that change their meaning depending on the reading direction; for example, using the text "Previous" or "Next" in the buttons.</p>
               <h3>YOU F**KING WHAT???</h3>
-              <p>Displaying this navigation pane is usually mutually exclusive with displaying the left-right-slide pane.</p></li>
+              <p>Displaying this navigation pane is usually mutually exclusive with displaying the left-right-slide pane, but nothing in MCh Carousel enforces this principle.</p></li>
               <li><p class="list-title" id="left-right-slide-pane">Left-right-slide pane</p>
               <p>This pane consists of 4 buttons: Slide to the leftmost image, Slide to the image to the left, Slide to the image to the right, and finally Slide to the rightmost image. The direction in which these button slide is not dependent on the value of the  <code class="lang-html inline">dir</code> attribute. This pane is useful in case you want to style the buttons up with elements that unambiguously mean "left" and "right", for example, images of arrows pointing left or right.</p>
-              <p>Displaying this navigation pane is usually mutually exclusive with displaying the start-end-slide pane.</p></li>
+              <p>Displaying this navigation pane is usually mutually exclusive with displaying the start-end-slide pane, but nothing in MCh Carousel enforces this principle.</p></li>
             </ul>
             <p>Both the Start-end-slide pane and the Left-right-slide pane might need direction-dependent CSS styling, if you intend to target both audiences, but the Start-end-slide may make matters a bit easier.</p>
           </div>

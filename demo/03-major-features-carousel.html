@@ -3,29 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
-  <meta name="description" content="MCh Carousel Documentation: An Outlandish Carousel">
-  <title>MCh Carousel Documentation: An Outlandish Carousel</title>
+  <meta name="description" content="MCh Carousel Documentation: Major Features Exposed">
+  <title>MCh Carousel Documentation: Major Features Exposed</title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
-  <script type="text/javascript" src="../../src/mch-carousel.js"></script>
-  <link rel="stylesheet" href="../../dist/mch-carousel.css">
+  <script type="text/javascript" src="../dist/mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="../dist/mch-carousel.css">
 
   <!-- Styling MCh Carousel -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="css/mch-carousel-coloured-caption.css">
-  <link rel="stylesheet" href="css/mch-carousel-dodgeblue-buttons.css">
-  <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../dist/style/mch-carousel-coloured-caption.css">
+  <link rel="stylesheet" href="../dist/style/mch-carousel-dodgerblue-buttons.css">
   <style type="text/css">
     /* Compulsory declaration of the height of the carousel... */
-    #mch-viewport {
-      height: 250px;
-    }
-    .mch-image-container {
+    #mch-viewport, .mch-image-container {
       height: 250px;
     }
     /* </declaration> */
 
-    /* Styling the page, just a little bit... */
+    /* Styling the page, just a little bit, to make it fit for demo purposes... */
     #my-carousel {
       max-width: 960px;
       background-color: white;
@@ -91,14 +86,15 @@
   </div>
   <script type="text/javascript">
     $(function() {
-      $('#my-carousel').mchCarousel({
+      // Set the carousel up
+      var carousel = $('#my-carousel').mchCarousel({
         automaticSlideOptions: {
           atStartup: true,
           pauseOnHoverButtons: true,
         },
         displayButtons: 'always',
-      	displayCaption: 'always', // Always display captions, default is 'hover'
-      }); /* This one line starts the carousel up */
+      	displayCaption: 'always'
+      });
     });
   </script>
 </body>

@@ -1,5 +1,12 @@
 window.onload = function() {
     $(function() {
+
+        // Warnings if page is not loaded via http[s]
+        if(!(document.origin.substr(0, 5)==='http:' || document.origin.substr(0, 6)==='https:')) {
+        console.log('starting');
+            $('.mustBeWeb').prev().append('<div class="warning"><p>WARNING: This page must be served via a web server for the following section to function correctly.<p></div>');
+        }
+
         // smoothState
         $('#page-content').smoothState();
 
