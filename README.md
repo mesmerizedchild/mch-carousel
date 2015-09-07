@@ -2,7 +2,7 @@
 
 ## What is MCh Carousel?
 
-A flexible, CSS styled, programmable, RTL aware carousel [a.k.a. slide show], this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
+A flexible, CSS styled, programmable, RTL aware carousel [a.k.a. slideshow], this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
 
 It displays any number of pictures in a horizontal strip, with the ability of scrolling left or right, plus a number of features [listed below].
 It is appropriate for when multiple pictures must be displayed side by side, but not all of them might fit into the navigator viewport.
@@ -18,7 +18,7 @@ It is appropriate for when multiple pictures must be displayed side by side, but
 * Up to 3 lines of caption for each image, that may be styled independently
 * Themes and styles included, useful as a starting point for your customisations
 * Custom jQuery events are emitted for significant visual events
-* Support for both left-to-right and right-to-left page flows
+* Support for both left-to-right and right-to-left carousel flows
 * Most options may be changed dynamically, after the carousel has loaded
 * [Simple] API for programmatic control of the carousel
 
@@ -60,6 +60,9 @@ The following [pseudo] HTML code gives an idea of the steps involved in creating
       // You may also slide programmatically using the object above:
       theCarousel.slideNext();
       theCarousel.slideLeftmost();
+      // or:
+      $('#whateverIdYouLike').data('mch-carousel').slideNext();
+      $('#whateverIdYouLike').data('mch-carousel').slideLeftmost();
     });
   </script>
   </pre>
@@ -73,7 +76,7 @@ Complete information in the [documentation](docs/index.html).
 * The following JavaScript library should be included if you need cross-browser support for mousewheel and trackpad in MCh Carousel:  
   * [**jQuery Mouse Wheel Plugin 3.1.13**](https://github.com/jquery/jquery-mousewheel)  
   
-If you need support for earlier versions of jQuery and/or the jQuery Mouse Wheel Plugin, let me know [although support for jQuery 1.x is out of the question...]  
+If you need support for earlier versions of jQuery and/or the jQuery Mouse Wheel Plugin, let me know [although explicit/official support of jQuery 1.x is out of the question...]  
 If you have successfully tested [or not!] the carousel with another version of jQuery and/or the mousewheel plugin, also let me know.  
 Support for later version of jQuery should be available shortly after they are released, and will be documented here.  
   

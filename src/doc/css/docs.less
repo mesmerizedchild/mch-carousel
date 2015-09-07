@@ -9,6 +9,12 @@
   margin-bottom: (@marginBottom * @times);
 }
 
+.mch-tablet(@rules) {
+  @media screen and (min-width: 800px) {
+    @rules();
+  }
+}
+
 header {
   p {
     margin-left: @spacingBase;
@@ -20,8 +26,8 @@ iframe {
   width: 100%;
   min-width: 320px;
   min-height: 250px;
-  &.with-small-buttons {
-    min-height: 295px;
+  &.with-blue-buttons {
+    min-height: 335px;
   }
   .margin-bottom(0.5);
 
@@ -32,6 +38,60 @@ iframe {
   &#outlandish-carousel {
     height: 300px;
   }
+  &#event-carousel {
+    height: 520px;
+    border: 1px dotted black;
+  }
+}
+
+table.button-table {
+  .margin-top();
+  .margin-bottom();
+  border-collapse: collapse;
+  border: 1px dotted #000;
+  p {
+    margin: 0;
+  }
+  thead {
+    tr {
+      padding: 2px;
+      font-weight: bold;
+      vertical-align: bottom;
+      border-bottom: 2px solid #000;
+    }
+  }
+  td {
+    padding: 2px;
+    vertical-align: top;
+  }
+  tbody {
+    tr {
+      border-bottom: 1px dotted #000;
+    }
+    tr:last-of-type {
+      border-bottom: none;
+    }
+  }
+  .name {
+    width: 5em;
+    .mch-tablet({
+      width: 8em;
+    });
+  }
+  .id {
+    width: 6em;
+    .mch-tablet({
+      width: 9em;
+    });
+    font-family: 'Source Code Pro';
+    border-left: 1px dotted #000;
+    border-right: 1px dotted #000;
+
+  }
+  .function {
+
+  }
+
 }
 
 .carousel-caption {
@@ -105,7 +165,7 @@ ul > li {
   }
 }
 
-.need-internet {
+.small-italic-caption {
   font-size: @smallerFontSize;
   font-style: italic;
 }

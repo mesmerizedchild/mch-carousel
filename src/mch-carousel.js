@@ -26,7 +26,7 @@
         };
     }
 
-    // On the other hand, I'm ruthless about messing with jQuery's prototype ;) ...
+    // On the other hand, let's mess with jQuery's prototype ;) ...
     $.fn.mchCarousel = function(options) {
         var retValue = [];
         $(this).each(function() {
@@ -53,6 +53,8 @@
 
             retValue.push(carousel);
         });
+
+        // Exact data type depends on the number of carousels passed.
         switch (retValue.length) {
             case 0:
                 return undefined;
@@ -143,6 +145,10 @@
             iz: '_mch-carousel:restart-auto-slide',
             iy: '_mch-carousel:reschedule-auto-slide',
             it: '_mch-carousel:cancel-auto-slide',
+            i1: '_mch-carousel:slide-left',
+            i2: '_mch-carousel:slide-right',
+            i3: '_mch-carousel:slide-leftmost',
+            i4: '_mch-carousel:slide-rightmost',
             i5: '_mch-carousel:slide-prev',
             i6: '_mch-carousel:slide-next',
             i7: '_mch-carousel:slide-first',
@@ -152,11 +158,11 @@
         _ev = {
             /* Public event names */
 
-            /* The following events receive the DOM for carousel [.mch-carousel]: */
+            /* The following events are triggered by the carousel [.mch-carousel]: */
             p: 'mch-carousel:enter-carousel',
             r: 'mch-carousel:leave-carousel',
 
-            /* The following events receive the DOM for viewport [#mch-scrollable-viewport]: */
+            /* The following events are triggered by the viewport [#mch-scrollable-viewport]: */
             c: 'mch-carousel:before-slide-left',
             d: 'mch-carousel:slide-left',
             e: 'mch-carousel:before-slide-right',
@@ -174,13 +180,15 @@
             I: 'mch-carousel:before-slide-last',
             J: 'mch-carousel:slide-last',
 
-            /* The following events receive the DOM for image container [.mch-image-container]: */
+            /* The following events are triggered by the image containers [.mch-image-container]: */
             a: 'mch-carousel:before-autocentre-image',
             b: 'mch-carousel:autocentre-image',
+            k: 'mch-carousel:click-image',
             l: 'mch-carousel:enter-image',
             n: 'mch-carousel:leave-image',
 
-            /* The following events receive the DOM for button [.mch-button]: */
+            /* The following events are triggered by the buttons [.mch-button]: */
+            u: 'mch-carousel:click-button',
             s: 'mch-carousel:enter-button',
             t: 'mch-carousel:leave-button',
         };
@@ -217,6 +225,22 @@
         // Result is the actual DOM element
         function getDomObject() {
             return rootElement[0];
+        }
+
+        function eachImageContainer(callback) {
+            carousel[0].getViewport().find('.mch-image-container').each(callback);
+        }
+
+        function eachImage(callback) {
+            carousel[0].getViewport().find('.mch-image-container img').each(callback);
+        }
+
+        function findImageContainer(selector) {
+            return carousel[0].getViewport().find(selector);
+        }
+
+        function findImage(selector) {
+            return carousel[0].getViewport().find(selector);
         }
 
         function buildImageList() {
@@ -395,219 +419,47 @@
             function slideLeft() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                triggerBeforeSlideLeft();
-                if (ltr = slidesLtr()) {
-                    triggerBeforeSlidePrev();
-                    triggerInternalSlidePrev();
-                } else {
-                    triggerBeforeSlideNext();
-                    triggerInternalSlideNext();
-                }
-                triggerSlideLeft();
-                if (ltr)
-                    triggerSlidePrev();
-                else
-                    triggerSlideNext();
+                rootElement.trigger(_st.i1);
             }
 
             function slideRight() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                triggerBeforeSlideRight();
-                if (ltr = slidesLtr()) {
-                    triggerBeforeSlideNext();
-                    triggerInternalSlideNext();
-                } else {
-                    triggerBeforeSlidePrev();
-                    triggerInternalSlidePrev();
-                }
-                triggerSlideRight();
-                if (ltr)
-                    triggerSlideNext();
-                else
-                    triggerSlidePrev();
+                rootElement.trigger(_st.i2);
             }
 
             function slideLeftmost() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                triggerBeforeSlideLeftmost();
-                if (ltr = slidesLtr()) {
-                    triggerBeforeSlideFirst();
-                    triggerInternalSlideFirst();
-                } else {
-                    triggerBeforeSlideLast();
-                    triggerInternalSlideLast();
-                }
-                triggerSlideLeftmost();
-                if (ltr)
-                    triggerSlideFirst();
-                else
-                    triggerSlideLast();
+                rootElement.trigger(_st.i3);
             }
 
             function slideRightmost() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                triggerBeforeSlideRightmost();
-                if (ltr = slidesLtr()) {
-                    triggerBeforeSlideLast();
-                    triggerInternalSlideLast();
-                } else {
-                    triggerBeforeSlideFirst();
-                    triggerInternalSlideFirst();
-                }
-                triggerSlideRightmost();
-                if (ltr)
-                    triggerSlideLast();
-                else
-                    triggerSlideFirst();
+                rootElement.trigger(_st.i4);
             }
 
             function slidePrev() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                if (ltr = slidesLtr())
-                    triggerBeforeSlideLeft();
-                else
-                    triggerBeforeSlideRight();
-                triggerBeforeSlidePrev();
-                triggerInternalSlidePrev();
-                if (ltr = slidesLtr())
-                    triggerSlideLeft();
-                else
-                    triggerSlideRight();
-                triggerSlidePrev();
+                rootElement.trigger(_st.i5);
             }
 
             function slideNext() {
                 var ltr;
-                triggerRescheduleAutoSlide();
-                if (ltr = slidesLtr())
-                    triggerBeforeSlideRight();
-                else
-                    triggerBeforeSlideLeft();
-                triggerBeforeSlideNext();
-                triggerInternalSlideNext();
-                if (ltr = slidesLtr())
-                    triggerSlideRight();
-                else
-                    triggerSlideLeft();
-                triggerSlideNext();
+                rootElement.trigger(_st.i6);
             }
 
             function slideFirst() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                if (ltr = slidesLtr())
-                    triggerBeforeSlideLeftmost();
-                else
-                    triggerBeforeSlideRightmost();
-                triggerBeforeSlideFirst();
-                triggerInternalSlideFirst();
-                if (ltr = slidesLtr())
-                    triggerSlideLeftmost();
-                else
-                    triggerSlideRightmost();
-                triggerSlideFirst();
+                rootElement.trigger(_st.i7);
             }
 
             function slideLast() {
                 var ltr;
                 triggerRescheduleAutoSlide();
-                if (ltr = slidesLtr())
-                    triggerBeforeSlideRightmost();
-                else
-                    triggerBeforeSlideLeftmost();
-                triggerBeforeSlideLast();
-                triggerInternalSlideLast();
-                if (ltr = slidesLtr())
-                    triggerSlideRightmost();
-                else
-                    triggerSlideLeftmost();
-                triggerSlideLast();
-            }
-
-            // These functions [with their self-descriptive names] help
-            //   understand what is going on in the functions above, and
-            //   also reduce the size of the code when minified.
-            function triggerBeforeSlideLeft() {
-                rootElement.trigger(_ev.c);
-            }
-
-            function triggerSlideLeft() {
-                rootElement.trigger(_ev.d);
-            }
-
-            function triggerBeforeSlideRight() {
-                rootElement.trigger(_ev.e);
-            }
-
-            function triggerSlideRight() {
-                rootElement.trigger(_ev.f);
-            }
-
-            function triggerBeforeSlideLeftmost() {
-                rootElement.trigger(_ev.g);
-            }
-
-            function triggerSlideLeftmost() {
-                rootElement.trigger(_ev.h);
-            }
-
-            function triggerBeforeSlideRightmost() {
-                rootElement.trigger(_ev.i);
-            }
-
-            function triggerSlideRightmost() {
-                rootElement.trigger(_ev.j);
-            }
-
-            function triggerBeforeSlidePrev() {
-                rootElement.trigger(_ev.C);
-            }
-
-            function triggerSlidePrev() {
-                rootElement.trigger(_ev.D);
-            }
-
-            function triggerBeforeSlideNext() {
-                rootElement.trigger(_ev.E);
-            }
-
-            function triggerSlideNext() {
-                rootElement.trigger(_ev.F);
-            }
-
-            function triggerBeforeSlideFirst() {
-                rootElement.trigger(_ev.G);
-            }
-
-            function triggerSlideFirst() {
-                rootElement.trigger(_ev.H);
-            }
-
-            function triggerBeforeSlideLast() {
-                rootElement.trigger(_ev.I);
-            }
-
-            function triggerSlideLast() {
-                rootElement.trigger(_ev.J);
-            }
-
-            function triggerInternalSlideFirst() {
-                rootElement.trigger(_st.i7);
-            }
-
-            function triggerInternalSlidePrev() {
-                rootElement.trigger(_st.i5);
-            }
-
-            function triggerInternalSlideNext() {
-                rootElement.trigger(_st.i6);
-            }
-
-            function triggerInternalSlideLast() {
                 rootElement.trigger(_st.i8);
             }
         };
@@ -797,12 +649,12 @@
 
             function enterCarousel() {
                 rootElement.trigger(_st.ie); // _mch-carousel:enter-carousel
-                carousel.trigger(_ev.p); // carousel-enter
+                carousel.trigger(_ev.p, getDomObject()); // carousel-enter
             }
 
             function leaveCarousel() {
                 rootElement.trigger(_st.ig); // _mch-carousel:leave-carousel
-                carousel.trigger(_ev.r); // carousel-leave
+                carousel.trigger(_ev.r, getDomObject()); // carousel-leave
             }
 
             function mouseWheelScroll() {
@@ -939,7 +791,7 @@
                 ' ' + (nav === 'sc' ? _st.O : _st.R) +
                 '" id="' + id + '"><div class="' + _st.G + '"></div><div class="' + _st.J + '"></div></div>');
             btn.on({
-                click: onClick,
+                click: wrapOnClick,
                 dblclick: ignoreDoubleClick,
                 mouseenter: enterButton,
                 mouseleave: leaveButton
@@ -952,9 +804,14 @@
             // Curiously, jQuery does not provide support for onselectstart...
             btn[0].onselectstart = ignoreDoubleClick;
 
-            // var dom = btn[0]; No methods to attach here.
+            var dom = btn[0];
 
             return btn;
+
+            function wrapOnClick() {
+                btn.trigger(_ev.u); // click-button
+                onClick();
+            }
 
             function enterButton() {
                 btn.trigger(_ev.s); // enter-button
@@ -976,10 +833,10 @@
         var ImageContainer = function(t) {
             // Take the information from the image [in #mch-image-list]
             //   and build a DOM element ready for the viewport [in #mch-scrollable-viewport]
-            var id = t.prop('id'),
-                clazz = t.prop('class'),
-                src = t.prop('src'),
-                alt = t.prop('alt'),
+            var id = t.attr('id'),
+                clazz = t.attr('class'),
+                src = t.attr('src'),
+                alt = t.attr('alt'),
                 imgOver = t.data('img-over'),
                 captionDisplay = t.data('caption-display'),
                 data = t.data('data'),
@@ -1031,7 +888,8 @@
             // Attach the events to the image container
             imgCntnr.on({
                 mouseenter: enterImage,
-                mouseleave: leaveImage
+                mouseleave: leaveImage,
+                click: clickImage
             });
             rootElement.on(_st.im, optionsChanged);
 
@@ -1040,7 +898,7 @@
                 hasImgOver = !!(img.data('img-over'));
             optionsChanged(); // Get the caption visibility in sync with the options
 
-            // var dom = imgCntnr[0]; No methods to attach here.
+            var dom = imgCntnr[0];
 
             return imgCntnr;
 
@@ -1067,6 +925,10 @@
                 imgCntnr.trigger(_st.ic); // _mch-carousel:leave-image
 
                 imgCntnr.trigger(_ev.n); // leave-image
+            }
+
+            function clickImage() {
+                imgCntnr.trigger(_ev.k); // click-image
             }
 
             function captionsOn() {
@@ -1160,12 +1022,17 @@
             // Attach events
             scrollableViewport.on({
                 mousewheel: mousewheelScroll,
-                scroll: triggerRescheduleAutoSlide
+                scroll: triggerRescheduleAutoSlide // FIXME, this should not be here.
+                // This should invoke an internal event, which in turn invokes triggerRescheduleAutoSlide
             });
             scrollableViewport.on(_st.ib, autoCentre);
 
             // Should be done better, by attaching the methods via
             //   the event manager
+            rootElement.on(_st.i1, slideLeft);
+            rootElement.on(_st.i2, slideRight);
+            rootElement.on(_st.i3, slideLeftmost);
+            rootElement.on(_st.i4, slideRightmost);
             rootElement.on(_st.i5, slidePrev);
             rootElement.on(_st.i6, slideNext);
             rootElement.on(_st.i7, slideFirst);
@@ -1178,11 +1045,148 @@
             //   some future version of jQuery.
             addScrollStart(scrollableViewport, options);
 
-            var dom = viewport[0];
+            var dom = scrollableViewport,
+                domV = viewport[0];
 
-            dom.totalWidth = totalWidth;
+            domV.totalWidth = totalWidth;
 
             return viewport;
+
+            function slideLeft() {
+                var ltr, retValue;
+                triggerBeforeSlideLeft();
+                if (ltr = slidesLtr()) {
+                    triggerBeforeSlidePrev();
+                    retValue = internalSlidePrev();
+                } else {
+                    triggerBeforeSlideNext();
+                    retValue = internalSlideNext();
+                }
+                triggerSlideLeft();
+                if (ltr)
+                    triggerSlidePrev();
+                else
+                    triggerSlideNext();
+                return retValue;
+            }
+
+            function slideRight() {
+                var ltr, retValue;
+                triggerBeforeSlideRight();
+                if (ltr = slidesLtr()) {
+                    triggerBeforeSlideNext();
+                    retValue = internalSlideNext();
+                } else {
+                    triggerBeforeSlidePrev();
+                    retValue = internalSlidePrev();
+                }
+                triggerSlideRight();
+                if (ltr)
+                    triggerSlideNext();
+                else
+                    triggerSlidePrev();
+                return retValue;
+            }
+
+            function slideLeftmost() {
+                var ltr, retValue;
+                triggerBeforeSlideLeftmost();
+                if (ltr = slidesLtr()) {
+                    triggerBeforeSlideFirst();
+                    retValue = internalSlideFirst();
+                } else {
+                    triggerBeforeSlideLast();
+                    retValue = internalSlideLast();
+                }
+                triggerSlideLeftmost();
+                if (ltr)
+                    triggerSlideFirst();
+                else
+                    triggerSlideLast();
+                return retValue;
+            }
+
+            function slideRightmost() {
+                var ltr, retValue;
+                triggerBeforeSlideRightmost();
+                if (ltr = slidesLtr()) {
+                    triggerBeforeSlideLast();
+                    retValue = internalSlideLast();
+                } else {
+                    triggerBeforeSlideFirst();
+                    retValue = internalSlideFirst();
+                }
+                triggerSlideRightmost();
+                if (ltr)
+                    triggerSlideLast();
+                else
+                    triggerSlideFirst();
+                return retValue;
+            }
+
+            function slidePrev() {
+                var ltr, retValue;
+                if (ltr = slidesLtr())
+                    triggerBeforeSlideLeft();
+                else
+                    triggerBeforeSlideRight();
+                triggerBeforeSlidePrev();
+                retValue = internalSlidePrev();
+                if (ltr = slidesLtr())
+                    triggerSlideLeft();
+                else
+                    triggerSlideRight();
+                triggerSlidePrev();
+                return retValue;
+            }
+
+            function slideNext() {
+                var ltr, retValue;
+                if (ltr = slidesLtr())
+                    triggerBeforeSlideRight();
+                else
+                    triggerBeforeSlideLeft();
+                triggerBeforeSlideNext();
+                retValue = internalSlideNext();
+                if (ltr = slidesLtr())
+                    triggerSlideRight();
+                else
+                    triggerSlideLeft();
+                triggerSlideNext();
+                return retValue;
+            }
+
+            function slideFirst() {
+                var ltr, retValue;
+                if (ltr = slidesLtr())
+                    triggerBeforeSlideLeftmost();
+                else
+                    triggerBeforeSlideRightmost();
+                triggerBeforeSlideFirst();
+                retValue = internalSlideFirst();
+                if (ltr = slidesLtr())
+                    triggerSlideLeftmost();
+                else
+                    triggerSlideRightmost();
+                triggerSlideFirst();
+                return retValue;
+            }
+
+            function slideLast() {
+                var ltr, retValue;
+                if (ltr = slidesLtr())
+                    triggerBeforeSlideRightmost();
+                else
+                    triggerBeforeSlideLeftmost();
+                triggerBeforeSlideLast();
+                retValue = internalSlideLast();
+                if (ltr = slidesLtr())
+                    triggerSlideRightmost();
+                else
+                    triggerSlideLeftmost();
+                triggerSlideLast();
+                return retValue;
+            }
 
             function calc(excludeArrays) {
                 var currLeft = prevPad.length = nextPad.length = startPx.length = endPx.length = 0;
@@ -1232,17 +1236,17 @@
                     return;
 
                 if (sp < sl) {
-                    t.trigger(_ev.a); // before-autocentre-image
+                    t.trigger(_ev.a, ic); // before-autocentre-image
                     animatedScrollToOneImage(sp);
-                    t.trigger(_ev.b); // autocentre-image
+                    t.trigger(_ev.b, ic); // autocentre-image
                 } else if (ep > sr) {
-                    t.trigger(_ev.a); // before-autocentre-image
+                    t.trigger(_ev.a, ic); // before-autocentre-image
                     animatedScrollToOneImage(ep - w);
-                    t.trigger(_ev.b); // autocentre-image
+                    t.trigger(_ev.b, ic); // autocentre-image
                 }
             }
 
-            function slidePrev() {
+            function internalSlidePrev() {
                 calc();
                 var sl = Math.round(scrollableViewport.scrollStart()),
                     t = options.advanced.slideTolerance;
@@ -1255,7 +1259,7 @@
                 }
             }
 
-            function slideNext() {
+            function internalSlideNext() {
                 calc();
                 var w = Math.round(containerWidth()),
                     sr = Math.round(scrollableViewport.scrollStart() + w),
@@ -1269,12 +1273,12 @@
                 }
             }
 
-            function slideFirst() {
+            function internalSlideFirst() {
                 // calc(); Not necessary
                 animatedScrollToAllImages(0);
             }
 
-            function slideLast() {
+            function internalSlideLast() {
                 calc();
                 animatedScrollToAllImages(endPx[endPx.length - 1] - containerWidth());
             }
@@ -1348,6 +1352,74 @@
                 scrollableViewport.scrollStart(scrollableViewport.scrollStart() + (delta * options.advanced.mousewheelMultiplier));
                 e.preventDefault();
             }
+
+
+            // These functions [with their self-descriptive names] help
+            //   understand what is going on in the functions above, and
+            //   also reduce the size of the code when minified.
+            function triggerBeforeSlideLeft() {
+                scrollableViewport.trigger(_ev.c);
+            }
+
+            function triggerSlideLeft() {
+                scrollableViewport.trigger(_ev.d);
+            }
+
+            function triggerBeforeSlideRight() {
+                scrollableViewport.trigger(_ev.e);
+            }
+
+            function triggerSlideRight() {
+                scrollableViewport.trigger(_ev.f);
+            }
+
+            function triggerBeforeSlideLeftmost() {
+                scrollableViewport.trigger(_ev.g);
+            }
+
+            function triggerSlideLeftmost() {
+                scrollableViewport.trigger(_ev.h);
+            }
+
+            function triggerBeforeSlideRightmost() {
+                scrollableViewport.trigger(_ev.i);
+            }
+
+            function triggerSlideRightmost() {
+                scrollableViewport.trigger(_ev.j);
+            }
+
+            function triggerBeforeSlidePrev() {
+                scrollableViewport.trigger(_ev.C);
+            }
+
+            function triggerSlidePrev() {
+                scrollableViewport.trigger(_ev.D);
+            }
+
+            function triggerBeforeSlideNext() {
+                scrollableViewport.trigger(_ev.E);
+            }
+
+            function triggerSlideNext() {
+                scrollableViewport.trigger(_ev.F);
+            }
+
+            function triggerBeforeSlideFirst() {
+                scrollableViewport.trigger(_ev.G);
+            }
+
+            function triggerSlideFirst() {
+                scrollableViewport.trigger(_ev.H);
+            }
+
+            function triggerBeforeSlideLast() {
+                scrollableViewport.trigger(_ev.I);
+            }
+
+            function triggerSlideLast() {
+                scrollableViewport.trigger(_ev.J);
+            }
         };
 
         // Main body resumes.
@@ -1392,6 +1464,10 @@
         this.forceResize = windowResized; // TODO: check better responsiveness.
         this.getObject = getObject;
         this.getDomObject = getDomObject;
+        this.eachImageContainer = eachImageContainer;
+        this.eachImage = eachImage;
+        this.findImageContainer = findImageContainer;
+        this.findImage = findImage;
 
         $(window).on('resize', windowResized);
 

@@ -23,6 +23,15 @@ $(function(){
 			var d,
 			    sd,
 			    ico;
+			// Blank out the icon first.
+			// Problem: if the server is slow at providing the new icon image,
+			//   the old icon will still appear with the new text for a consireable
+			//   amount of time, and this is quite confusing.
+			// Solution: clear the icon first thing, then, when the new icon arrives
+			//   from the server, it will be displayed correctly. It's definitely
+			//   preferrable to see an empty square for "a considerable amount of time",
+			//   than something that has nothing to do with the new content.
+			$('#dom-doc .dom-style-icon').prop('src', '');
 			if((d=data.node.data) && d.description) {
 				var sideBySide = $('#dom-doc').css('float')=='right';
 				$('#dom-doc .dom-description').html(d.description);

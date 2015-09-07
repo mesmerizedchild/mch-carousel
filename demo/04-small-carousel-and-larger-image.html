@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Demo: Small Carousel and Larger Image" />
+  <title>MCh Carousel Demo: Small Carousel and Larger Image</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="../src/mch-carousel.js"></script>
+  <link rel="stylesheet" href="../dist/mch-carousel.css" />
+  <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Lato:400,700' />
+  
+  <!-- Start off with a no-buttons theme -->
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport, .mch-image-container {
+      height: 100px;
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit... */
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Lato', sans-serif;
+    }
+    .mch-padding {
+      width: 5px;
+    }
+    #page-content {
+      width: 731px; /* Max width of a full-size image */
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #full-image {
+      position: relative;
+      display: table;
+      width: 100%;
+      height: 400px;
+      margin-bottom: 20px;
+    }
+    #full-image #click-container {
+      display: table-cell;
+      height: 100%;
+      vertical-align: middle;
+    }
+    #full-image #click-below {
+      position: relative;
+      font-size: 48px;
+      font-weight: bold;
+      text-align: center;
+      z-index: 0;
+    }
+    #full-image img {
+      position: relative;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      height: 100%;
+      border: 10px solid transparent;
+      transition: opacity 0.5s, border 0.2s;
+    }
+    #full-image img.clicked {
+      border: 10px solid red;
+    }
+    #full-image img.fadeIn {
+      z-index: 1;
+      opacity: 1;
+    }
+    #full-image img.fadeOut {
+      z-index: 0;
+      opacity: 0;
+    }
+    .image-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="page-content">
+    <div id="full-image">
+      <div id="click-container">
+        <div id="click-below">Click on the images below</div>
+      </div>
+    </div>
+    <div id="my-carousel">
+      <img src="images/image1.jpg"
+           alt="The first image"
+           data-data="images/image1.jpg" />
+      <img src="images/image2.jpg"
+           alt="The second image"
+           data-data="images/image2.jpg" />
+      <img src="images/image3.jpg"
+           alt="The third image"
+           data-data="images/image3.jpg" />
+      <img src="images/image4.jpg"
+           alt="The fourth image"
+           data-data="images/image4.jpg" />
+      <img src="images/image5.jpg"
+           alt="The fifth image"
+           data-data="images/image5.jpg" />
+      <img src="images/image6.jpg"
+           alt="The sixth image"
+           data-data="images/image6.jpg" />
+      <img src="images/image7.jpg"
+           alt="The seventh image"
+           data-data="images/image7.jpg" />
+      <img src="images/image8.jpg"
+           alt="The eigth image"
+           data-data="images/image8.jpg" />
+      <img src="images/image9.jpg"
+           alt="The nineth image"
+           data-data="images/image9.jpg" />
+      <img src="images/imageA.jpg"
+           alt="The tenth image"
+           data-data="images/imageA.jpg" />
+      <img src="images/imageB.jpg"
+           alt="The eleventh image"
+           data-data="images/imageB.jpg" />
+    </div>
+  </div>
+  <script type="text/javascript">
+    var carousel = $('#my-carousel'),
+        mchCarousel;
+    $(function() {
+      carousel.mchCarousel({
+        slideOneImageAnimation: '750px/s', // Hey, man! Slow down! Slow down!
+        slideAllImagesAnimation: '1500px/s', // Idiot! Slow down! Slow down!
+      });
+      // Put all images in #full-image as hidden [opacity=0]
+      var destination = $('#full-image');
+      carousel.data('mch-carousel').eachImage(function() {
+        destination.append('<div class="image-wrapper"><img class="fadeOut" src="' + $(this).attr('src') + '" /></div>');
+      });
+
+      // Attach events for fading images in and out
+      carousel.on('mch-carousel:enter-image', function(e) {
+        e.stopPropagation();
+        fadeIn($(e.target).data('data'));
+      });
+      carousel.on('mch-carousel:leave-image', function(e) {
+        fadeOut($(e.target).data('data'));
+      });
+      carousel.on('mch-carousel:click-image', function(e) {
+        click($(e.target).data('data'));
+      });
+
+    });
+
+    function fadeIn(src) {
+      var img = $('#full-image').find('img[src="' + src + '"]');
+      img.removeClass('clicked');
+      img.addClass('fadeIn');
+      img.removeClass('fadeOut');
+    }
+
+    function fadeOut(src) {
+      var img = $('#full-image').find('img[src="' + src + '"]');
+      $('#click-below').css('display', 'none');
+      img.removeClass('clicked');
+      img.addClass('fadeOut');
+      img.removeClass('fadeIn');
+    }
+
+    function click(src) {
+      var img = $('#full-image').find('img[src="' + src + '"]');
+      img.addClass('clicked');
+    }
+  </script>
+</body>
+</html>

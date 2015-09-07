@@ -55,7 +55,7 @@
             "title": "#mch-viewport",
             "description": "<p>This div wraps the scrollable elements, and actually is here to hide the scrollbar from the sole div inside of it: div.#mch-scrollable-viewport.</p>",
             "styleable": "warning",
-            "styleDetails": "<p>You must style the height of this element, telling it how tall MCh Carousel should be in your page; media queries may be used. See <a href='#the-height-of-mch-carousel'>The height of MCh Carousel</a> below for more information.</p><p>Do not style its width, do that on the root element if you need a specific width.</p>",
+            "styleDetails": "<p>You must style the height of this element, telling it how tall MCh Carousel should be in your page; media queries may be used. See <a href='javascript:parent.iFrameGoto(\"#the-height-of-mch-carousel\")'>The height of MCh Carousel</a> below for more information.</p><p>Do not style its width, do that on the root element if you need a specific width.</p>",
             "folder": true,
             "children": [
             {
@@ -67,7 +67,7 @@
                 "title": ".mch-image-container",
                 "description": "<p>This div wraps one image and the caption related to that image. There is one instance of this element for each image that you listed in your HTML.</p><p>Keep in mind that, if your img tag has a class and/or an ID, they will be assigned to <strong>this</strong> element.<p>",
                 "styleable": "warning",
-                "styleDetails": "<p>You must style the height of this element, with exactly the same directive as div#mch-viewport. See <a href='#the-height-of-mch-carousel'>The height of MCh Carousel</a> below for more information.</p><p>Beyond that, in general, it should be kept margin- and padding-free. If you need to add padding between images, you can style div#mch-padding to achieve that.</p><p>Because this element receives the class and/or ID from the original image, these may be used in the CSS for this element and any elements below.</p>",
+                "styleDetails": "<p>You must style the height of this element, with exactly the same directive as div#mch-viewport. See <a href='javascript:parent.iFrameGoto(\"#the-height-of-mch-carousel\")'>The height of MCh Carousel</a> below for more information.</p><p>Beyond that, in general, it should be kept margin- and padding-free. If you need to add padding between images, you can style div#mch-padding to achieve that.</p><p>Because this element receives the class and/or ID from the original image, these may be used in the CSS for this element and any elements below.</p>",
                 "folder": true,
                 "children": [
                 {
@@ -220,7 +220,7 @@
             "children": [
               {
                 "title": "#mch-slide-control-group",
-                "description": "<p>This div groups the buttons related to slide control: Start and Pause. See <a href='#slide-control-pane'>Slide-control pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-slide-control.</p>",
+                "description": "<p>This div groups the buttons related to slide control: Start and Pause. See <a href='javascript:parent.iFrameGoto(\"#slide-control-pane\")'>Slide-control pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-slide-control.</p>",
                 "styleable": "yes",
                 "styleDetails": "+<p>The same styling consideration as for div#mch-buttons-pane applies.</p>",
                 "children": [
@@ -254,7 +254,7 @@
               },
               {
                 "title": "#mch-left-right-group",
-                "description": "<p>This div groups the navigation buttons that navigate without regard for the layout direction [left-to-right or right-to-left] of the host page: leftmost, left, right and rightmost. See <a href='#left-right-slide-pane'>Left-right-slide pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-navigation.</p>",
+                "description": "<p>This div groups the navigation buttons that navigate without regard for the layout direction [left-to-right or right-to-left] of the host page: leftmost, left, right and rightmost. See <a href='javascript:parent.iFrameGoto(\"#left-right-slide-pane\")'>Left-right-slide pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-navigation.</p>",
                 "children": [
                   {
                     "title": ".mch-button#mch-leftmost",
@@ -310,7 +310,7 @@
               },
               {
                 "title": "#mch-start-end-group",
-                "description": "<p>This div groups the navigation buttons that do take into account the layout direction [left-to-right or right-to-left] of the host page: first, previous, next and last. See <a href='#start-end-slide-page'>Start-end-slide pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-navigation.</p>",
+                "description": "<p>This div groups the navigation buttons that do take into account the layout direction [left-to-right or right-to-left] of the host page: first, previous, next and last. See <a href='javascript:parent.iFrameGoto(\"#start-end-slide-page\")'>Start-end-slide pane</a> below for more details.</p><p>All buttons in this group belong to class mch-button and mch-navigation.</p>",
                 "children": [
                   {
                     "title": ".mch-button#mch-first",

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
-  <meta name="description" content="MCh Carousel Documentation: Major Features Exposed">
-  <title>MCh Carousel Documentation: Major Features Exposed</title>
+  <meta name="description" content="MCh Carousel Demo: Major Features Exposed">
+  <title>MCh Carousel Demo: Major Features Exposed</title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
   <script type="text/javascript" src="../dist/mch-carousel.min.js"></script>
@@ -28,6 +28,20 @@
     * {
       margin: 0;
       padding: 0;
+    }
+    #direction {
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      margin-top: 14px;
+    }
+    #direction input {
+      margin-left: 14px;
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+    #direction p {
+      display: inline;
+      vertical-align: middle;
     }
   </style>
 </head>
@@ -84,6 +98,10 @@
            data-open-in-new-window="true" />
     </div>
   </div>
+  <div id="direction">
+    <input type="radio" name="dir" value="ltr" /><p>Left-to-right language [English, Spanish, German, etc]</p>
+    <input type="radio" name="dir" value="rtl" /><p>Right-to-left language [Arabic and Hebrew]</p>
+  </div>
   <script type="text/javascript">
     $(function() {
       // Set the carousel up
@@ -96,6 +114,12 @@
       	displayCaption: 'always'
       });
     });
+
+    // The following is for the radio button, not for the carousel...
+    $('#direction [name="dir"][value="' + $('#my-carousel').css('direction') + '"]').prop('checked', 'checked');
+    $('#direction').on('change', function() {
+      $('#my-carousel').prop('dir', $('#direction').find(':checked').val());
+    })
   </script>
 </body>
 </html>
