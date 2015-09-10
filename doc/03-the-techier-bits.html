@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes" />
+    <meta name="description" content="MCh Carousel Documentation: The techie[r] bits..." />
+    <title>MCh Carousel Documentation: The techie[r] bits...</title>
+    <link href='css/pageTransitions.css' rel='stylesheet' type='text/css' />
+    <link href='https://cdn.rawgit.com/daneden/animate.css/master/animate.min.css' rel='stylesheet' type='text/css' />
+    <link href='css/docs.css' rel='stylesheet' type='text/css' />
+  </head>
+  <body>
+    <div id="page-content" class="m-scene">
+      <header class="scene_element">
+        <h1>MCh Carousel: The Techie[r] Bits</h1>
+        <p>This page describes the structure of the DOM tree so that you can customise your CSS to meet your needs, how to listen to events triggered by MCh Carousel, how to programmatically slide pages, and more. If this page is your very first encounter with MCh Carousel, you might want to read the <a href="01-quick-start.html">Quick Start</a> first and take if from there [you will eventally land back onto this page...]</p>
+        <p class="small-italic-caption">Please note that, in order to display this page and other documentation pages correctly, you will need an active Internet connection, as some resources are downloaded live from the net. Also, some pages will display correctly only if served via a web server.</p>
+      </header>
+      <article class="scene_element">
+        <section>
+          <h2 id="the-dom-tree-and-the-css">The DOM tree and the CSS</h2>
+          <div class="doc">
+            <p>MCh Carousel reorganises the DOM heavily; starting from the simple <code class="lang-html inline">div</code> element with a handful of child <code class="lang-html inline">img</code> elements that you define in your HTML, it generates an articulated DOM tree [or a lush DOM forest, if you prefer...]</p>
+            <p>Understanding the DOM structure is essential to styling MCh Carousel, as it's not immediately obvious where each piece of information [that is, captions, buttons, hyperlinks, etc] ends up at run-time.</p>
+            <p>The view below represents the DOM tree that MCh Carousel builds at run-time. Select each node to read a description of what it is for and whether you can style it; expand the nodes to dig into the tree.</p>
+            <p>It may look scary, but fear not, for it's not rocket science after all... and if even after this explanation you still have doubts, the files in the directories <code class="file-name inline">styles</code> and <code class="file-name inline">themes</code> should help shed light on the subject...</p>
+            <p>In general, you should be wary of styling the topmost layers; think of them a bit as the scaffolding that keeps MCh Carousel together and makes it what it is. They are styled in <code class="file-name inline">mch-carousel.css</code> and most of them are to be left untouched.</p>
+            <p> On the other hand, you have complete control over <code class="lang-html inline">div.mch-caption-cntnr</code> tags and their descendants [for styling your caption text] and on the <code class="lang-html inline">div#mch-buttons-pane</code> tag and its descendants [for styling the button panes].</p>
+            <p>Other elements that might need your attention are highlighted in <strong>bold</strong>.</p>
+            <iframe class="mustBeWeb" id="dom-tree" src="03a-dom-tree.html"></iframe>
+          </div>
+        </section>
+        <section>
+          <h2 id="the-height-of-mch-carousel">The Height of MCh Carousel</h2>
+          <div class="doc">
+            <p>Due to how Firefox handles [resized] images and the <code class="lang-html inline">div</code> containing them, we are forced to use a double declaration in order to set the height of the viewport.</p>
+            <p class="small-italic-caption">Ideally, we would be able to set the height only on the outermost element of the carousel and then the inner elements would all go: 'height: 100%', but that has proven extremely problematic in Firefox when images need to be scaled down or up in order to match a specific height; this is the solution I've come up with... I'll try to come up with another, more-elegant solution in the next version.</p>
+            <p>For example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;style type="text/css"&gt;
+    #mch-viewport, .mch-image-container {
+      height: 360px;
+    }
+    @media (min-width: 800px) {
+      #mch-viewport, .mch-image-container {
+        height: 720px;
+      }
+    }
+  &lt;/style&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>The height may be specified in "absolute" units [px, pt, mm, etc...] without any problems whatsoever.</p>
+            <p>On the other hand, care should be taken when using "relative" units:</p>
+            <table class="units-for-height">
+              <thead>
+                <tr>
+                  <th class="units"><p>Units</p></th>
+                  <th class="comment"><p>Comment</p></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="units"><p>em, ex, ch</p></td>
+                  <td class="comment"><p>They are relative to the current font, and the "current font" may mean different things across different DOM elements of the carousel. Careful!!</p></td>
+                </tr>
+                <tr>
+                  <td class="units"><p>rem, vw, vh, vmin, vmax</p></td>
+                  <td class="comment"><p>Although "relative" units, they are relative to elements outside of the carousel, so they are fine.</p></td>
+                </tr>
+                <tr>
+                  <td class="units"><p>%</p></td>
+                  <td class="comment"><p>Definitely a bad idea; the same percentage [for example: 25%] will mean completely different things when applied to different DOM elements within the carousel, and the heights won't match. This cannot be used at all!</p>
+                  <p>If you don't need support for Internet Explorer 8 or earlier, then consider using <code class="lang-js inline">vw</code> and/or <code class="lang-js inline">vh</code> instead.</p></td>
+                </tr>
+              </tbody>
+            </table>
+            <p class="small-italic-caption">If you use LESS, then a mix-in may be used; see <code class="file-name inline">src/mch-viewport-height.less</code> for more details. This may provide a future-proof way of setting the height for MCh Carousel, because once I manage to fix the height I will also change the LESS mix-in and you'll only have to recompile your LESS files.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="the-button-panes">The button panes</h2>
+          <div class="doc">
+            <p>MCh Carousel has a set of built-in buttons that allow you to take control over the sideways flow of images; these buttons are <strong>always</strong> generated in the HTML code, but if CSS does not style them up, they are just hidden.</p>
+            <p>There are 3 button panes available, each of which may be made visible or kept hidden independently:</p>
+            <ul>
+              <li><p class="list-title" id="slide-control-pane">Slide-control pane</p>
+              <p>This pane comprises 2 buttons, quite easy to understand:</p>
+              <table class="button-table">
+                <thead>
+                  <tr>
+                    <th class="name"><p>Button name</p></th>
+                    <th class="id"><p>ID</p></th>
+                    <th class="function"><p>Function</p></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name"><p>Pause</p></td>
+                    <td class="id">#mch-pause</td>
+                    <td class="function"><p>This button will pause the automatic sliding. Clicking on Pause when the carousel is already paused, has no effect.</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>[Re]Start</p></td>
+                    <td class="id">#mch-restart</td>
+                    <td class="function">This button will [re]start the automatic sliding. Clicking on Start when the automatic sliding is already running, has no effect.</td>
+                  </tr>
+                </tbody>
+              </table></li>
+              <li><p class="list-title" id="left-right-slide-pane">Left-right-slide pane</p>
+              <p>This pane consists of 4 buttons; their sliding direction does <strong>not</strong> depend on the language direction of the current page.</p>
+              <table class="button-table">
+                <thead>
+                  <tr>
+                    <th class="name"><p>Sliding direction</p></th>
+                    <th class="id"><p>ID</p></th>
+                    <th class="function"><p>Function</p></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name"><p>Leftmost image</p></td>
+                    <td class="id"><p>#mch-leftmost</p></td>
+                    <td class="function"><p>Slide the carousel to the leftmost image, <strong>regardless</strong> of the language direction of the current page.</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>Left</p></td>
+                    <td class="id"><p>#mch-left</p></td>
+                    <td class="function"><p>Slide the carousel to the left by "one image".</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>Right</p></td>
+                    <td class="id"><p>#mch-right</p></td>
+                    <td class="function"><p>Slide the carousel to the right by "one image".</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>Rightmost image</p></td>
+                    <td class="id"><p>#mch-rightmost</p></td>
+                    <td class="function"><p>Slide the carousel to the rightmost image.</p></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>This pane is useful in case you want to style the buttons up with elements that unambiguously mean "left" and "right", that is, whose interpretation won't change depending on the language direction of the page. For example, images of arrows pointing left or right.</p>
+              <p>Displaying this navigation pane is usually mutually exclusive with displaying the start-end-slide pane [below], but nothing in MCh Carousel enforces this principle.</p></li>
+              <li><p class="list-title" id="start-end-slide-page">Start-end-slide pane</p>
+              <p>This pane consists of 4 buttons; their sliding direction <strong>does</strong> depend on the language direction of the current page, so the physical outcome of clicking on each of these buttons will depend on whether the current language is left-to-right [LTR for short: English, Spanish, German, etc.] or right-to-left [RTL for short: mostly Arabic and Hebrew]; see <a href="02-adding-up-features.html#last-but-not-least-bidi">Last but not least: BiDi</a> for more details.</p>
+              <table class="button-table">
+                <thead>
+                  <tr>
+                    <th class="name"><p>Sliding direction</p></th>
+                    <th class="id"><p>ID</p></th>
+                    <th class="function"><p>Function</p></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name"><p>First image</p></td>
+                    <td class="id"><p>mch-first</p></td>
+                    <td class="function"><p>Slide the carousel to the first image; this will translate to "slide to the leftmost image" for LTR languages, and to "slide to the rightmost image" for RTL languages.</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>Previous image</p></td>
+                    <td class="id"><p>#mch-prev</p></td>
+                    <td class="function"><p>Slide the carousel to the previous image; this will translate to "slide by one image to the left" for LTR languages, and to "slide by one image to the right" for RTL languages.</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>Next image</p></td>
+                    <td class="id"><p>#mch-next</p></td>
+                    <td class="function"><p>Slide the carousel to the next image; this will translate to "slide by one image to the right" for LTR languages, and to "slide by one image to the left" for RTL languages.</p></td>
+                  </tr>
+                  <tr>
+                    <td class="name"><p>Last image</p></td>
+                    <td class="id"><p>#mch-last</p></td>
+                    <td class="function"><p>Slide the carousel to the last image; this will translate to "slide to the rightmost image" for LTR languages, and to "slide to the leftmost image" for RTL languages.</p></td>
+                  </tr>
+                </tbody>
+              </table>
+              <p>As an example, the buttons styled in <code class="file-name inline">dist/styles/mch-carousel-dodgerblue-buttons.css</code> read "First", "Prev", etc, so they appear in this pane.</p>
+              <p>Displaying this navigation pane is usually mutually exclusive with displaying the left-right-slide pane [above], but nothing in MCh Carousel enforces this principle.</p></li>
+            </ul>
+          </div>
+        </section>
+        <section>
+          <h2 id="events-101">Events 101...</h2>
+          <div class="doc">
+            <p>As MCh Carousel slides images and the user interacts with it, it emits events that may be caught via jQuery, as in the following example. </p>
+            <iframe id="event-carousel" src="../demo/04-small-carousel-and-larger-image.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">demo/04-small-carousel-and-larger-image.html</code>. It can also be run standalone by clicking <a href="../demo/04-small-carousel-and-larger-image.html" target="_blank">here</a>.</p>
+            <p>Hover the mouse over the images, and click/tap on them to see the result. The code for displaying the images in the upper part, is external to MCh Carousel, and reacts to events generated by the carousel at the bottom.</p>
+            <p>The full list of events may be obtained via:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;script type="text/javascript"&gt;
+    alert($.fn.mchCarousel.eventNames);
+  &lt;/script&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>Εvent names all start with <code class="lang-js inline">mch-carousel:</code>, followed by a self-descriptive string, telling what the event is about.</p>
+            <p>When you subscribe to an MCh Carousel event, the attribute <code class="lang-js inline">target</code> of the incoming event object references the element within MCh Carousel that originated the event, as you would expect. The possible classes of event sources are:</p>
+            <ul>
+            <li><p>The carousel itself [enter and leave events].</p></li>
+            <li><p>The scrollable viewport [slide-related events].</p></li>
+            <li><p>Any one of the image containers [enter, leave, click and auto-centre events].</p></li>
+            <li><p>Any one of the buttons [enter, leave and click events].</p></li>
+            </ul>
+            <p>Returning <code class="lang-js inline">false</code> from an event handler, or invoking <code class="lang-js inline">stopPropagation()</code> on the event object, will not have any effect on the carousel.</p>
+            <p>Check the source code in <code class="file-name inline">src/mch-carousel.js</code>, where it reads: <code class="lang-js inline">/* Public event names */</code>, for more details.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="and-api-101">...and API 101</h2>
+          <div class="doc">
+          <p>MCh Carousel supports methods that let you:<p>
+          <ul>
+            <li><p>Pause and [re]start the automatic sliding:</p>
+            <ul>
+            <table class="methods-table">
+              <thead>
+                <tr>
+                  <th class="method-name">Method name</th>
+                  <th class="arguments">Arguments</th>
+                  <th class="function">Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="method-name">pause<span class="allows-word-break"> </span>Autoslide</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-pause</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">restart<span class="allows-word-break"> </span>Autoslide</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-restart</span></td>
+                </tr>
+              </tbody>
+            </table>
+            </ul></li>
+            <li><p>Slide images, via methods whose function recall that of the buttons in the navigation panes:</p>
+            <ul>
+            <table class="methods-table">
+              <thead>
+                <tr>
+                  <th class="method-name">Method name</th>
+                  <th class="arguments">Arguments</th>
+                  <th class="function">Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>Left</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-left</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>Right</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-right</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>Leftmost</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-leftmost</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slideRightmost</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-rightmost</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>Next</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-next</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>Prev</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-prev</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>First</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-first</span></td>
+                </tr>
+                <tr>
+                  <td class="method-name">slide<span class="allows-word-break"> </span>Last</td>
+                  <td class="arguments">-</td>
+                  <td class="function">Same function as the button <span class="button-name">#mch-last</span></td>
+                </tr>
+              </tbody>
+            </table>
+            </ul></li>
+            <li><p>Change one or more options dynamically:</p>
+            <ul>
+            <table class="methods-table">
+              <thead>
+                <tr>
+                  <th class="method-name">Method name</th>
+                  <th class="arguments">Arguments</th>
+                  <th class="function">Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="method-name">change<span class="allows-word-break"> </span>Options</td>
+                  <td class="arguments">The new options, as a JS object</td>
+                  <td class="function">Change the carousel options dynamically. See <a href="../demo/03a-major-features-carousel-with-control-panel.html" target="_blank">the demo Carousel with a Control Panel</a> for a concrete example.</td>
+                </tr>
+              </tbody>
+            </table>
+            </ul></li>
+            <li><p>Perform basic traversal of the DOM tree:</p>
+            <ul>
+            <table class="methods-table">
+              <thead>
+                <tr>
+                  <th class="method-name">Method name</th>
+                  <th class="arguments">Arguments</th>
+                  <th class="function">Function</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="method-name">each<span class="allows-word-break"> </span>Image</td>
+                  <td class="arguments">function</td>
+                  <td class="function">The given function is invoked once for each image [element with class <code class="lang-html inline">.mch-image</code>]. Within the context of the function, <code class="lang-js inline">this</code> refers to the image.</td>
+                </tr>
+                <tr>
+                  <td class="method-name">each<span class="allows-word-break"> </span>Image<span class="allows-word-break"> </span>Container</td>
+                  <td class="arguments">function</td>
+                  <td class="function">The given function is invoked once for each image container [element with class <code class="lang-html inline">.mch-image-container</code>]. Within the context of the function, <code class="lang-js inline">this</code> refers to the image container.</td>
+                </tr>
+                <tr>
+                  <td class="method-name">find<span class="allows-word-break"> </span>Image</td>
+                  <td class="arguments">selector</td>
+                  <td class="function">Retrieves the images in the carousel, filtered by the given selector. This function operates similarly to jQuery's <code class="lang-js inline">find()</code>, but it's faster as it will avoid those parts of the DOM tree that do not contain images; it may be followed by jQuery's <code class="lang-js inline">each()</code>.</td>
+                </tr>
+                <tr>
+                  <td class="method-name">find<span class="allows-word-break"> </span>Image<span class="allows-word-break"> </span>Container</td>
+                  <td class="arguments">selector</td>
+                  <td class="function">Retrieves the image containers in the carousel, filtered by the given selector. This function operates similarly to jQuery's <code class="lang-js inline">find()</code>, but it's faster as it will avoid those parts of the DOM tree that do not contain image containers; it may be followed by jQuery's <code class="lang-js inline">each()</code>.</td>
+                </tr>
+              </tbody>
+            </table>
+            </ul></li>
+          </ul>
+          <p>The methods above must be invoked on the MChCarousel object, which may be obtained as follows:</p>
+          <pre class="prettyprint"><code class="lang-html">  &lt;script type="text/javascript"&gt;
+    $('my-carousel').mchCarousel();
+    var mchCarousel = $('my-carousel').data('mch-carousel');
+    mchCarousel.slideLast();
+  &lt;/script&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>The object obtained via <code class="lang-js inline">data()</code> does not change over the lifetime of the carousel, so it's safe to store it in a variable for later use.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="captions-and-languages">Captions and languages</h2>
+          <div class="doc">
+            <p>You may specify the language of each caption by adding the attribuge <code class="lang-html inline">data-caption-lang</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag. This is useful, for example, to select different fonts for scripts other than Latin, via CSS.</p>
+            <p>Note that caption lines for any one image all share the same language, but each image may have a different language, as in the following example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!-- Language of caption below is 
+         English [who would have guessed!], lang="en" --&gt;
+  &lt;img src=&quot;images/image1.jpg&quot;
+       data-caption-line1="Text in English"
+       data-caption-lang="en" /&gt;
+  &lt;!-- Language of caption below is French, lang="fr" --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="Texte en français"
+       data-caption-lang="fr" /&gt;
+  &lt;!-- Language of caption below is Greek, lang="el" --&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="<span lang="el">κείμενο στην ελληνική γλοσσα</span>"
+       data-caption-lang="el" /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>When styling the carousel, your CSS might then include something like the following:</p>
+            <pre class="prettyprint"><code class="lang-css">  .mch-caption-line1 {
+    /* Source Code Pro is a very nice monospaced font,
+         but it does not support the Greek script... */ 
+    font-family: 'Source Code Pro' ;
+  }
+  [lang="el"] .mch-caption-line1 {
+    /* ... whereas Roboto Mono does support it. */
+    font-family: 'Roboto Mono';
+  }
+</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>See <a href="http://www.w3.org/International/questions/qa-lang-why.en">Why use the language attribute?</a> for more information on this topic.</p>
+          </div>
+        </section>
+        <!--section>
+
+          Commented, as I feel it would have made the documentation way too long and way too detailed...
+          Uncomment if you wish, and if you find these sections useful, then let me know, and I'll make them available publicly.
+
+          <h2 id="captions-and-languages">Captions and languages</h2>
+          <div class="doc">
+            <p>You may specify the language of each caption by adding the attribuge <code class="lang-html inline">data-caption-lang</code> to the <code class="lang-html inline">&lt;img&gt;</code> tag. This is useful, for example, to select different fonts for scripts other than Latin, via CSS.</p>
+            <p>Note that caption lines for any one image all share the same language, but each image may have a different language, as in the following example:</p>
+            <pre class="prettyprint"><code class="lang-html">  &lt;!- - Language of caption below is 
+         English [who would have guessed!], lang="en" - -&gt;
+  &lt;img src=&quot;images/image1.jpg&quot;
+       data-caption-line1="Text in English"
+       data-caption-lang="en" /&gt;
+  &lt;!- - Language of caption below is French, lang="fr" - -&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="Texte en français"
+       data-caption-lang="fr" /&gt;
+  &lt;!- - Language of caption below is Greek, lang="el" - -&gt;
+  &lt;img src=&quot;images/image2.jpg&quot;
+       data-caption-line1="<span lang="el">κείμενο στην ελληνική γλοσσα</span>"
+       data-caption-lang="el" /&gt;</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>When styling the carousel, your CSS might then include something like the following:</p>
+            <pre class="prettyprint"><code class="lang-css">  .mch-caption-line1 {
+    /* Source Code Pro is a very nice monospaced font,
+         but it does not support the Greek script... */ 
+    font-family: 'Source Code Pro' ;
+  }
+  [lang="el"] .mch-caption-line1 {
+    /* ... whereas Roboto Mono does support it. */
+    font-family: 'Roboto Mono';
+  }
+</code></pre>
+            <div class="copy-to-clipboard"></div>
+            <p>See <a href="http://www.w3.org/International/questions/qa-lang-why.en">Why use the language attribute?</a> for more information on this topic.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="bidi-ii-the-return">BiDi II, The Return</h2>
+          <div class="doc">
+            <p>The section <a href="02-adding-up-features.html#last-but-not-least-bidi">Last but not least: BiDi</a> explains that MCh Carousel is sensitive to the language direction of its host page [best by specifying the attribute <code class="lang-html inline">dir</code> somewhere in the HTML].</p>
+            <p>Be aware, though, that CSS really is not BiDi-aware; most of the times CSS has attributes such as <code class="lang-css inline">margin-left</code> or <code class="lang-css inline">margin-right</code>, but not <code class="lang-css inline">margin-start</code> nor <code class="lang-css inline">margin-end</code>; better said, some browsers may support such options via browser-specific prefixes [for example <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/-moz-margin-start"><code class="lang-css inline">-moz-margin-start</code></a> for Firefox], but these are not part of any CSS standard yet, and as such cannot be relied upon for cross-browser, BiDi-aware development.</p>
+            <p>The net effect is that if you want something in the carousel to appear "close to the start" or "close to the end", then you will need to specify both options explicitly in your CSS, with a selector such as <code class="lang-css inline">[dir="rtl"]</code>:</p>
+            <pre class="prettyprint"><code class="lang-css">  /* Caption line aligned to the "start" of the image: */
+  .mch-caption-line1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* line-height: 125px; etc... */
+  }
+  [dir="rtl"] .mch-caption-line1 {
+    /* For RTL languages, reset 'left' and set 'right'. */
+    left: auto;
+    right: 0;
+  }
+
+  /* Similarly, for a button aligned to the "end" of the viewport: */
+  #mch-last {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    /* line-height: 32px; etc... */
+  }
+  [dir="rtl"] #mch-last {
+    /* For RTL languages, reset 'right' and set 'left'. */
+    left: 0;
+    right: auto;
+  }</code></pre>
+            <div class="copy-to-clipboard"></div>
+          </div>
+        </section-->
+        <section>
+          <h2 id="dynamic-options">Dynamic options</h2>
+          <div class="doc">
+            <p>Last but not least, the following carousel portraits the ability of changing [most of] the options dynamically:</p>
+            <iframe id="control-panel" src="../demo/03a-major-features-carousel-with-control-panel.html"></iframe>
+            <p class="carousel-caption">The source code for the carousel above is in <code class="file-name inline">demo/03a-major-features-carousel-with-control-panel.html</code>. It can also be run standalone by clicking <a href="../demo/03a-major-features-carousel-with-control-panel.html" target="_blank">here</a>.</p>
+            <p>Check the JavaScript code in the carousel to understand how this works.</p>
+          </div>
+        </section>
+        <section>
+          <h2 id="the-end">The End?</h2>
+          <div class="doc">
+            <p>This should be enough to get you started with developing with MCh Carousel.</p>
+            <p>The files in the directories <code class="file-name inline">styles</code> and <code class="file-name inline">themes</code> provide concrete examples of CSS styling [which is possibly the most complex point in MCh Carousel], and you can use them as a starting point of your customisations.</p>
+            <p>Thank you for reading the documentation [if you did not just skip to the end, that is :-) ...], I hope it was informative, and feel free to contact me at <a href="mailto:rg@mesmerizedchild.eu">rg@mesmerizedchild.eu</a> or tweet at <a href="https://twitter.com/mesmerizedChild" target="_blank">@mesmerizedChild</a>.</p>
+            <p>Thanks for watching and <span class="good-luck">Good luck!</span></p>
+          </div>
+        </section>
+      </article>
+      </article>
+      <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?skin=sons-of-obsidian"></script>
+      <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/lang-css.js"></script>
+      <!--script type="text/javascript" src="https://cdn.rawgit.com/miguel-perez/smoothState.js/master/jquery.smoothState.min.js"></script-->
+      <script type="text/javascript" src="js/docs.min.js"></script>
+    </div>
+  </body>
+</html>

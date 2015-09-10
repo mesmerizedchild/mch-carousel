@@ -7,7 +7,7 @@
   <title>MCh Carousel Demo: Small Carousel and Larger Image</title>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
-  <script type="text/javascript" src="../src/mch-carousel.js"></script>
+  <script type="text/javascript" src="../dist/mch-carousel.min.js"></script>
   <link rel="stylesheet" href="../dist/mch-carousel.css" />
   <link rel='stylesheet' type='text/css' href='http://fonts.googleapis.com/css?family=Lato:400,700' />
   
@@ -63,14 +63,14 @@
       border: 10px solid transparent;
       transition: opacity 0.5s, border 0.2s;
     }
-    #full-image img.clicked {
+    #full-image .clicked {
       border: 10px solid red;
     }
-    #full-image img.fadeIn {
+    #full-image .fadeIn {
       z-index: 1;
       opacity: 1;
     }
-    #full-image img.fadeOut {
+    #full-image .fadeOut {
       z-index: 0;
       opacity: 0;
     }
@@ -87,7 +87,7 @@
   <div id="page-content">
     <div id="full-image">
       <div id="click-container">
-        <div id="click-below">Click on the images below</div>
+        <div id="click-below">Click/Tap on the images below</div>
       </div>
     </div>
     <div id="my-carousel">
@@ -127,14 +127,14 @@
     </div>
   </div>
   <script type="text/javascript">
-    var carousel = $('#my-carousel'),
-        mchCarousel;
     $(function() {
+      var carousel = $('#my-carousel');
       carousel.mchCarousel({
         slideOneImageAnimation: '750px/s', // Hey, man! Slow down! Slow down!
         slideAllImagesAnimation: '1500px/s', // Idiot! Slow down! Slow down!
       });
-      // Put all images in #full-image as hidden [opacity=0]
+
+      // Copy all images from the carousel to #full-image, but hidden [class="fadeOut"]
       var destination = $('#full-image');
       carousel.data('mch-carousel').eachImage(function() {
         destination.append('<div class="image-wrapper"><img class="fadeOut" src="' + $(this).attr('src') + '" /></div>');
@@ -142,36 +142,29 @@
 
       // Attach events for fading images in and out
       carousel.on('mch-carousel:enter-image', function(e) {
-        e.stopPropagation();
-        fadeIn($(e.target).data('data'));
+        $('#click-below').addClass('fadeOut');
+        var img = $('#full-image').find('img[src="' + fromEventToImageName(e) + '"]');
+        img.removeClass('clicked');
+        img.addClass('fadeIn');
+        img.removeClass('fadeOut');
       });
+
       carousel.on('mch-carousel:leave-image', function(e) {
-        fadeOut($(e.target).data('data'));
+        var img = $('#full-image').find('img[src="' + fromEventToImageName(e) + '"]');
+        img.removeClass('clicked');
+        img.addClass('fadeOut');
+        img.removeClass('fadeIn');
       });
+
       carousel.on('mch-carousel:click-image', function(e) {
-        click($(e.target).data('data'));
+        var img = $('#full-image').find('img[src="' + fromEventToImageName(e) + '"]');
+        img.addClass('clicked');
       });
 
     });
 
-    function fadeIn(src) {
-      var img = $('#full-image').find('img[src="' + src + '"]');
-      img.removeClass('clicked');
-      img.addClass('fadeIn');
-      img.removeClass('fadeOut');
-    }
-
-    function fadeOut(src) {
-      var img = $('#full-image').find('img[src="' + src + '"]');
-      $('#click-below').css('display', 'none');
-      img.removeClass('clicked');
-      img.addClass('fadeOut');
-      img.removeClass('fadeIn');
-    }
-
-    function click(src) {
-      var img = $('#full-image').find('img[src="' + src + '"]');
-      img.addClass('clicked');
+    function fromEventToImageName(e) {
+      return $(e.target).find('img').attr('src');
     }
   </script>
 </body>

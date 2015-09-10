@@ -11,12 +11,16 @@
   <link rel="stylesheet" href="../dist/mch-carousel.css">
 
   <!-- Styling MCh Carousel -->
-  <link rel="stylesheet" href="../dist/style/mch-carousel-coloured-caption.css">
-  <link rel="stylesheet" href="../dist/style/mch-carousel-dodgerblue-buttons.css">
+  <link rel="stylesheet" href="../dist/themes/mch-carousel-basic-theme.css">
   <style type="text/css">
     /* Compulsory declaration of the height of the carousel... */
     #mch-viewport, .mch-image-container {
-      height: 250px;
+      height: 150px;
+    }
+    @media screen and (min-width: 550px) {
+      #mch-viewport, .mch-image-container {
+        height: 250px;
+      }
     }
     /* </declaration> */
 
@@ -28,20 +32,6 @@
     * {
       margin: 0;
       padding: 0;
-    }
-    #direction {
-      font-family: 'Roboto', sans-serif;
-      font-size: 14px;
-      margin-top: 14px;
-    }
-    #direction input {
-      margin-left: 14px;
-      margin-right: 2px;
-      vertical-align: middle;
-    }
-    #direction p {
-      display: inline;
-      vertical-align: middle;
     }
   </style>
 </head>
@@ -98,14 +88,10 @@
            data-open-in-new-window="true" />
     </div>
   </div>
-  <div id="direction">
-    <input type="radio" name="dir" value="ltr" /><p>Left-to-right language [English, Spanish, German, etc]</p>
-    <input type="radio" name="dir" value="rtl" /><p>Right-to-left language [Arabic and Hebrew]</p>
-  </div>
   <script type="text/javascript">
     $(function() {
       // Set the carousel up
-      var carousel = $('#my-carousel').mchCarousel({
+      $('#my-carousel').mchCarousel({
         automaticSlideOptions: {
           atStartup: true,
           pauseOnHoverButtons: true,
@@ -114,12 +100,6 @@
       	displayCaption: 'always'
       });
     });
-
-    // The following is for the radio button, not for the carousel...
-    $('#direction [name="dir"][value="' + $('#my-carousel').css('direction') + '"]').prop('checked', 'checked');
-    $('#direction').on('change', function() {
-      $('#my-carousel').prop('dir', $('#direction').find(':checked').val());
-    })
   </script>
 </body>
 </html>

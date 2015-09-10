@@ -2,6 +2,8 @@
 @import 'common.less';
 
 @breakWidth: 800px;
+@fontFamilyText: 'Lato';
+@fontSize: 15px;
 
 body {
     overflow-y: hidden;
@@ -9,9 +11,9 @@ body {
 
 .mch-icon {
     position: relative;
-    top: -1px;
+    //top: -1px;
     font-family: 'Source Code Pro', monospace;
-    font-size: 15px;
+    font-size: @fontSize;
     padding: 1px 2px;
 }
 
@@ -21,8 +23,10 @@ body {
 }
 
 ul.fancytree-container {
+    font-family: @fontFamilyText;
     border: none;
-    font-size: 15px;
+    font-size: @fontSize;
+    line-height: 23px;
 }
 
 .mch-normal-icon {
@@ -75,24 +79,53 @@ ul.fancytree-container {
     max-height: 45vh;
     overflow-y: auto;
     @media screen and (min-width: @breakWidth) {
-        width: 50%;
-        max-height: initial;
+        max-height: none;
         float: left;
     }
+}
+
+.dom-doc-responsive-width {
+    width: 100%;
+    @media screen and (min-width: @breakWidth) {
+        width: 50%;
+    }
+}
+
+#expand-all {
+    &::before {
+        content: 'Expand all';
+    }
+    position: absolute;
+    top: 3px;
+    right: 20px;
+    padding: 2px 5px;
+    font-family: @fontFamilyText;
+    font-size: @fontSize;
+    color: white;
+    background-color: #FFB0A0;
+    border: 1px solid #FFC0A8;
+    &:hover {
+        background-color: #E05050;
+        border: 1px solid #D04040;
+    }
+}
+
+#dom-tree-and-button {
+    position: relative;
+    &:extend(.dom-doc-responsive-width);
 }
 
 #dom-doc {
     position: relative;
     display: none; // Initially hidden, dom-tree.js will change to block when needed.
-    width: 100%;
+    &:extend(.dom-doc-responsive-width);
     max-height: 45vh;
     margin: 10px 0;
     box-sizing: border-box;
     overflow-y: auto;
     transition: height 2.5s;
     @media screen and (min-width: @breakWidth) {
-        width: 50%;
-        max-height: initial;
+        max-height: none;
         float: right;
         margin: 0;
         padding: 0 10px;
@@ -149,7 +182,7 @@ ul.fancytree-container {
             top: 20px;
             left: 40px;
             width: 50%;
-            max-height: initial;
+            max-height: none;
         }
     }
 }

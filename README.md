@@ -1,10 +1,10 @@
-# MCh Carousel -- Beta 2, still not production-ready
+# MCh Carousel
 
 ## What is MCh Carousel?
 
-A flexible, CSS styled, programmable, RTL aware carousel [a.k.a. slideshow], this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
+A flexible, CSS styled, programmable, right-to-left aware carousel [a.k.a. slideshow], this time by some [obscure developer](https://www.linkedin.com/in/robertogiuntoli) in Barcelona, Spain...
 
-It displays any number of pictures in a horizontal strip, with the ability of scrolling left or right, plus a number of features [listed below].
+It displays any number of pictures in a horizontal strip, with the ability of sliding left or right, plus a number of features [listed below].
 It is appropriate for when multiple pictures must be displayed side by side, but not all of them might fit into the navigator viewport.
 
 ## Features
@@ -15,24 +15,28 @@ It is appropriate for when multiple pictures must be displayed side by side, but
 * Styled entirely via CSS, including the buttons
 * Each image may be wrapped in a hyperlink, which may open in a new window
 * On-mouse-hover image [obviously, only for devices with a mouse]
-* Up to 3 lines of caption for each image, that may be styled independently
+* For each image, up to 3 lines of caption that may be styled independently
 * Themes and styles included, useful as a starting point for your customisations
-* Custom jQuery events are emitted for significant visual events
+* Custom jQuery events are emitted for significant visual events and user interaction
 * Support for both left-to-right and right-to-left carousel flows
 * Most options may be changed dynamically, after the carousel has loaded
 * [Simple] API for programmatic control of the carousel
 
-Here is a fully-fledged [**demo page**](http://www.mesmerizedchild.eu/mch-carousel/mch-carousel-demo/).
+See the demo pages in the demo subdirectory and also the documentation in the doc subdirectory.
 
 ## Sample usage
 The following [pseudo] HTML code gives an idea of the steps involved in creating an MCh Carousel:
 ```html
-  <!-- Bring in your stylesheet. -->
-  <link rel="stylesheet" href="dist/themes/mch-carousel-basic-theme.css">
-  <!-- Set the carousel height [could be included in the stylesheet as well]. -->
+  <!-- Set the carousel height. -->
   <style type="text/css">
     #mch-viewport, .mch-image-container {
-      height: 393px;
+      height: 320px;
+    }
+    /* Works with media queries. */
+    @media (min-width: 600px) {
+      #mch-viewport, .mch-image-container {
+        height: 580px;
+      }
     }
   </style>
   <!-- Define a container for your images -->
@@ -47,20 +51,17 @@ The following [pseudo] HTML code gives an idea of the steps involved in creating
   <script type="text/javascript">
     $(function() {
       // This one line starts the carousel up
-      var theCarousel = $('#whateverIdYouLike').mchCarousel({
+      $('#whateverIdYouLike').mchCarousel({
         // Optionally, list here the options that you want to change
         //   [with respect to the default ones], for example:
         slideEasingFunction: 'linear',
         displayImageCaptionOptions: {
-          when: 'always'
+          when: 'hover'
         }
       });
       ...
       // Now the carousel is up [and running, if you left the auto-slide option on].
-      // You may also slide programmatically using the object above:
-      theCarousel.slideNext();
-      theCarousel.slideLeftmost();
-      // or:
+      // You may also slide programmatically using:
       $('#whateverIdYouLike').data('mch-carousel').slideNext();
       $('#whateverIdYouLike').data('mch-carousel').slideLeftmost();
     });
@@ -68,7 +69,9 @@ The following [pseudo] HTML code gives an idea of the steps involved in creating
   </pre>
 ```
 
-Complete information in the [documentation](docs/index.html).
+Of course, some CSS and JavaScript also needs to be linked...
+
+Complete information in the documentation [at docs/index.html].
   
 ## Dependencies
 * The following JavaScript library must be included for MCh Carousel to work properly:  
@@ -89,7 +92,7 @@ It has been tested successfully on the latest versions [as of September 2015] of
 * Microsoft Edge [Windows 10]
 * Opera [Windows 7, Windows 10, Mac OS X Yosemite, Ubuntu 14.02 and Android]
 * Safari [Mac OS X Yosemite]
-* UC Browser [Windows 7, Windows 10 and Android]
+* UC Browser [Windows 7, Windows 10 and Android]  
 If your experience is [quite] different, then let me know.  
   
 ## FAQ, Good-To-Know and Trivia
@@ -101,8 +104,9 @@ Consider using [RawGit](https://rawgit.com/), who "serves raw files directly fro
   
 * **Is MCh Carousel responsive?**  
 Mostly.  
-MCh Carousel is fully responsive to changes of height, when triggered via CSS media queries [see ***** for an example]. It's also fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
-At the moment MCh Carousel is not responsive to events triggered by Javascript, such as changing the width and/or height of the DOM elements that contain the carousel. You may call ```MChCarousel.forceResize()``` to force the carousel to sync its height with the rest of the DOM [see the API file [*****] for a complete reference].
+It's fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
+MCh Carousel is responsive to changes of height, when triggered via CSS media queries. See 'The Techie[r] Bits' in the documentation for more details.  
+At the moment MCh Carousel is not responsive to changes of height triggered via Javascript. I'm working on fixing these quirks.  
   
 * **I'm having problems with Google Chrome and other Chromium-based browsers [Opera and UC Browser]; do you know anything about it?**  
     There are two known problems with Chromium that may affect an MCh Carousel:  
@@ -125,7 +129,7 @@ Contains [adapted] code from the following sources:
 The documentation pages use:
 * [smoothState.js](https://github.com/miguel-perez/smoothState.js/) for page transitions;
 * [fancytree](https://github.com/mar10/fancytree/) for the visualisation of the DOM tree.
-* Icons by [h0us3s](https://openclipart.org/user-detail/h0us3s), (dominiquechappard)[https://openclipart.org/user-detail/dominiquechappard] and [davidblyons](https://openclipart.org/user-detail/davidblyons) at openclipart.org.
+* Images [sometimes modified] by [h0us3s](https://openclipart.org/user-detail/h0us3s), [dominiquechappard](https://openclipart.org/user-detail/dominiquechappard), [ryanlerch](https://openclipart.org/user-detail/ryanlerch), [libberry](https://openclipart.org/user-detail/libberry) and [davidblyons](https://openclipart.org/user-detail/davidblyons) at openclipart.org.
   
 Many thanks to [David Ferrando](mailto:ferr@weareanimals.eu) at [We Are Animals](http://www.weareanimals.eu/) for his input, ideas, creativity and constant support.
 
@@ -140,4 +144,5 @@ This is free, open-source software, so donations are completely voluntary, but o
 ## Th-Th-Th-Th-That's All Folks!
 ...and **Thank You** for your interest!  
   
-Roberto Giuntoli [the [mesmerizedChild](https://twitter.com/mesmerizedChild)].
+Yours Sincerely,
+  Roberto Giuntoli [a [mesmerizedChild](https://twitter.com/mesmerizedChild)].

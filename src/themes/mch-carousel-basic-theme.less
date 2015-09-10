@@ -8,14 +8,15 @@
   * TODO make it responsive, like the blue buttons.
   */
 
-@import '../style/mch-carousel-dodgerblue-buttons.css';
-@import '../style/mch-carousel-coloured-caption.css';
+@import '../styles/mch-carousel-dodgerblue-buttons.css';
+@import '../styles/mch-carousel-coloured-caption.css';
 
 @imageHorizontalGap: 5px;
 
 .mch-image-container {
     opacity: 1;
-    transition: 0.2s;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
     &:hover {
         opacity: 0.8;
     }
@@ -26,6 +27,7 @@
 }
 
 .mch-no-hover {
+    -webkit-transition: 0.2s;
     transition: 0.2s;
     opacity: 0;
 }

@@ -15,7 +15,6 @@
 // TODO: Internal events emitted on rootElement should be emitted and listened
 //   on to something else.... event manager, perhaps, or even better make 
 //   rootElement.trigger() a method of the event manager...
-// FIXME: at startup, no slide, then image-hover and the slide starts....
 (function($) {
     "use strict";
 
@@ -28,17 +27,13 @@
 
     // On the other hand, let's mess with jQuery's prototype ;) ...
     $.fn.mchCarousel = function(options) {
-        var retValue = [];
-        $(this).each(function() {
+        return this.each(function() {
             var t = $(this),
                 data,
                 carousel;
-            if (!t[0]) // Reference to non-existent element
+            if (!t[0] || // Reference to non-existent element
+                (data = t.data(_st.f)))  // Element already associated to a carousel
                 return;
-            if (data = t.data(_st.f)) { // Element already associated to a carousel
-                retValue.push(data);
-                return;
-            }
 
             // A new carousel is born...
             carousel = new MChCarousel(t, options);
@@ -50,22 +45,11 @@
             // This one is needed for intra-HTML communication, where the carousel
             //   is in an iframe, and the container needs to access this object.
             t.prop('data-' + _st.f, carousel);
-
-            retValue.push(carousel);
         });
-
-        // Exact data type depends on the number of carousels passed.
-        switch (retValue.length) {
-            case 0:
-                return undefined;
-            case 1:
-                return retValue[0];
-        }
-        return retValue;
     };
 
     var _df = {
-            // Default options
+            // Default start-up options
             automaticSlideOptions: {
                 atStartup: true, // Evaluated only at startup
                 direction: null,
@@ -77,9 +61,9 @@
             slideAllImagesAnimation: '3236px/s',
             slideEasingFunction: 'swing',
             autoCenterOnHover: true,
-            displayButtons: 'hover', // never, hover, always
-            displayCaption: 'hover', // never, hover, always
-            captureArrowKeys: true,
+            displayButtons: 'always', // never, hover, always
+            displayCaption: 'always', // never, hover, always
+            captureArrowKeys: false,
             captureArrowKeysOptions: {
                 selector: 'body'
             },
@@ -133,6 +117,8 @@
             Q: 'mch-scrollable-viewport',
             R: 'mch-navigation',
             O: 'mch-slide-control',
+            y: '#mch-dodgy-fix',
+            Y: 'mch-dodgy-fix',
 
             // Internal event names
             ia: '_mch-carousel:enter-image',
@@ -269,6 +255,18 @@
 
         function windowResized() {
             domCarousel.carouselResized();
+        }
+
+        function setHeight(height) {
+            // There is a problem: when the carousel is resized, 
+            //   the *height* of the images is resized accordingly,
+            //   but the width is *not* resized in Chrome and IE
+            //   [it works fine in Firefox].
+
+                          // #mch-viewport,.mch-image-container
+            rootElement.find(_st.c + ',' + _st.k).each(function() {
+                $(this).css('height', height);
+            });
         }
 
         // Returns a **clone** of the current options.
@@ -417,48 +415,40 @@
             }
 
             function slideLeft() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i1);
             }
 
             function slideRight() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i2);
             }
 
             function slideLeftmost() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i3);
             }
 
             function slideRightmost() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i4);
             }
 
             function slidePrev() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i5);
             }
 
             function slideNext() {
-                var ltr;
                 rootElement.trigger(_st.i6);
             }
 
             function slideFirst() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i7);
             }
 
             function slideLast() {
-                var ltr;
                 triggerRescheduleAutoSlide();
                 rootElement.trigger(_st.i8);
             }
@@ -591,7 +581,7 @@
                 return buttonsPane;
             }
 
-            // FIXME: this is BAAAAAADDD!!!!!
+            // FIXME: this is not the right place...
             function enteredImage(e) {
                 if (canViewportAutoCentre())
                     $(e.target).trigger(_st.ib, e.target); // _mch-carousel:auto-centre
@@ -649,12 +639,12 @@
 
             function enterCarousel() {
                 rootElement.trigger(_st.ie); // _mch-carousel:enter-carousel
-                carousel.trigger(_ev.p, getDomObject()); // carousel-enter
+                rootElement.trigger(_ev.p, getDomObject()); // carousel-enter
             }
 
             function leaveCarousel() {
                 rootElement.trigger(_st.ig); // _mch-carousel:leave-carousel
-                carousel.trigger(_ev.r, getDomObject()); // carousel-leave
+                rootElement.trigger(_ev.r, getDomObject()); // carousel-leave
             }
 
             function mouseWheelScroll() {
@@ -804,7 +794,7 @@
             // Curiously, jQuery does not provide support for onselectstart...
             btn[0].onselectstart = ignoreDoubleClick;
 
-            var dom = btn[0];
+            // var dom = btn[0]; Not needed
 
             return btn;
 
@@ -898,7 +888,7 @@
                 hasImgOver = !!(img.data('img-over'));
             optionsChanged(); // Get the caption visibility in sync with the options
 
-            var dom = imgCntnr[0];
+            // var dom = imgCntnr[0]; Not needed
 
             return imgCntnr;
 
@@ -1045,10 +1035,9 @@
             //   some future version of jQuery.
             addScrollStart(scrollableViewport, options);
 
-            var dom = scrollableViewport,
-                domV = viewport[0];
+            var dom = viewport[0];
 
-            domV.totalWidth = totalWidth;
+            dom.totalWidth = totalWidth;
 
             return viewport;
 
@@ -1306,16 +1295,13 @@
             }
 
             // Handle mouse wheel
-            // TODO: is this the right place, considering the EventManager?
+            // FIXME: is this the right place, considering the EventManager?
             function mousewheelScroll(e) {
                 if (!options.slideWithMouseWheel)
                     return;
 
                 // Disable auto-slide while 'wheeling'
                 rootElement.trigger(_st.it); // cancel-auto-slide
-
-                // FIXME; this could be what breaks Safari 6!!!
-                e = window.event || e;
 
                 // In the following, delta is normalised based solely on
                 //   the scrolling direction [up/down or left/right].
@@ -1327,9 +1313,8 @@
                 var mult = e.originalEvent && (typeof e.originalEvent.detail !== 'undefined') ? -1 : 1,
                     // This is a workaround for Safari 6, which for some reason does not
                     //   work find with jquery-mousewheel.
-                    useWheelDelta = (typeof e.deltaX === 'undefined'),
-                    dX = useWheelDelta ? e.wheelDeltaX : e.deltaX,
-                    dY = useWheelDelta ? e.wheelDeltaY : e.deltaY,
+                    dX = e.deltaX,
+                    dY = e.deltaY,
                     delta;
                 // For trackpads and Magic Mouse, which direction should I take into account?
                 if (Math.abs(dY) > Math.abs(dX)) {
@@ -1461,7 +1446,8 @@
 
         this.getCurrentOptions = getCurrentOptions;
         this.changeOptions = changeOptions;
-        this.forceResize = windowResized; // TODO: check better responsiveness.
+        this.setHeight = setHeight;
+        this.forceResize = windowResized;
         this.getObject = getObject;
         this.getDomObject = getDomObject;
         this.eachImageContainer = eachImageContainer;

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Demo: A Carousel with language-direction control">
+  <title>MCh Carousel Demo: A Carousel with language-direction control</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <!-- Styling MCh Carousel -->
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      max-width: 960px;
+      margin: 10px;
+      font-family: 'Lato';
+      font-size: 15px;
+    }
+    #embedded-carousel {
+      width: 100%;
+      height: 220px;
+      background-color: white;
+      border: none;
+    }
+    @media screen and (min-width: 590px) {
+      #embedded-carousel {
+        height: 320px;
+      }
+    }
+    @media screen and (min-width: 700px) {
+      #separator {
+        display: none;
+      }
+    }
+    .warning {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 20px 0;
+      text-align: center;
+    }
+    #direction {
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      margin-top: 14px;
+    }
+    #direction input {
+      margin-left: 14px;
+      margin-right: 2px;
+      vertical-align: middle;
+    }
+    #direction p {
+      display: inline;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <iframe id="embedded-carousel" src="03-major-features-carousel.html"></iframe>
+  <div id="direction">
+    <input type="radio" name="dir" value="ltr" /><p>Left-to-right language [English, Spanish, German, etc]</p><div id="separator"></div>
+    <input type="radio" name="dir" value="rtl" /><p>Right-to-left language [Arabic and Hebrew]</p>
+  </div>
+  <script type="text/javascript">
+    // Add a warning if page was not loaded via http[s]
+    $(function() {
+      if(!(document.origin.substr(0, 5)==='http:' || document.origin.substr(0, 6)==='https:')) {
+        $('body').prepend('<div class="warning"><p>WARNING: This page must be served via a web server to function correctly.<p></div>');
+      }
+    });
+
+    // Attach the radio buttons only after the HTML in the iframe has finished loading
+    $('#embedded-carousel').on('load', function() {
+
+      // The following is for the radio button, not for the carousel...
+      $('#direction [name="dir"][value="' + getCarousel().css('direction') + '"]').prop('checked', 'checked');
+      $('#direction').on('change', function() {
+        getCarousel().prop('dir', $('#direction').find(':checked').val());
+      });
+
+      // This page is complicated by the fact that the carousel
+      //   actually lives in an iframe.
+      // In an ordinary situation, $('#my-carousel') would suffice to retrieve
+      //   an instance of MCh Carousel.
+      function getCarousel() {
+        return $('#embedded-carousel').contents().find('#my-carousel');
+      }
+    });
+  </script>
+</body>
+</html>

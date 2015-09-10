@@ -11,10 +11,11 @@
   * Typical usage in a LESS file:
   *
   * @import 'mch-carousel.less';
+  * @import 'mch-carousel-height.less';
   * @import 'mch-carousel-basic-theme.less'; // If you want to use a theme
   *
   * #some-carousel-id, .or-some-carousel-class {
-  *     // See below for notes on setting the carousel's height
+  *     // See mch-carousel.less for notes on setting the carousel's height
   *     .mch-viewport-height({ height: 560px });
   *     // Now, the customisations for the speficic theme/instance 
   *     #mch-buttons-pane {
@@ -22,7 +23,7 @@
   *     }
   * }
   * #some-other-carousel-id, .or-some-other-carousel-class {
-  *     // See below for notes on setting the carousel's height
+  *     // See mch-carousel.less for notes on setting the carousel's height
   *     .mch-viewport-height({ height: 483px });
   *     // Other customisations for the speficic theme/instance 
   *     .mch-button-background {
@@ -30,64 +31,21 @@
   *     }
   * }
   *
-  * The following reduces pollution in the CSS namespace, although all selectors
+  * The following eliminates conflicts with other CSS elements [although all selectors
   *   in this LESS file begin with 'mch' and, as such, name conflicts are
-  *   unlikely:
+  *   unlikely]:
   * 
   * #some-carousel-id, .or-some-carousel-class {
   *     @import 'mch-carousel.less'; // No possibility of selector name conflicts,
   *                                  //   as all element in this import will be
-  *                                  //   qualified with the carousel ID or class. 
-  *     // See below for notes on setting the carousel's height
+  *                                  //   "qualified" with the carousel ID or class. 
+  *     // See mch-carousel.less for notes on setting the carousel's height
   *     .mch-viewport-height({ height: 560px });
   *     #mch-buttons-pane {
   *         max-width: 800px;
   *     }
   * }
   *
-  * Note that, due to how Firefox handles [resized] images and the <div> containing
-  *   them, we are forced to use a mix-in in order to set the height of the viewport.
-  *   The mix-in enforces the specified height on a handful of elements within the
-  *   carousel, and this may affect how responsive the carousel may be [ideally, 
-  *   we would be able to set the height only on one of the outer elements 
-  *   of the carousel and then the inner elements would all go: 'height: 100%', 
-  *   but that has proven to fail in Firefox when images need to be scaled down or
-  *   up in order to match the specified height, and this mix-in is the solution
-  *   I've come up with...]
-  *
-  * So... the mix-in is .mch-viewport-height(). How do we use it?
-  *
-  * @import 'mch-carousel.less';
-  * #some-carousel-id, .or-some-carousel-class {
-  *     // Specify a fixed height of 280px
-  *     .mch-viewport-height({
-  *         height: 280px;
-  *     });
-  * }
-  *
-  * Media queries do work with the mix-in:
-  *
-  * @import 'mch-carousel.less';
-  * .mch-viewport-height({
-  *     // Specify a responsive height
-  *     height: 26em;
-  *     @media screen and (min-width: 600px) {
-  *         height: 36em;
-  *     }
-  * });
-  *
-  * The height may be specified using "absolute" units [px, pt, mm, etc...] without
-  *   any problem whatsoever.
-  * On the other hand, care should be taken when using "relative" units:
-  *   em, ex, ch:    they are relative to the current font, and the "current font"
-  *                    may be different across different DOM elements of the
-  *                    carousel. Careful!!
-  *   rem, vw, vh,   although "relative" units, they are relative to elements
-  *   vmin, vmax:      outside of the carousel, so they may be used.
-  *
-  *   %              definitely a bad idea; '25%' means completely different things
-  *                    when applied to different DOM elements of the carousel.
-  *                    This cannot be used at all!
   */
 
 #mch-visible-carousel {
@@ -139,6 +97,7 @@
   box-sizing: border-box !important;
   img {
     height: 100%;
+    width: auto;
     z-index: 0;
     max-width: none;
     margin: 0 !important; /* Use padding if you need spacing between images. */
@@ -146,10 +105,12 @@
 }
 
 .mch-caption-cntnr {
+  position: relative;
   z-index: 1;
 }
 
 .mch-caption-background {
+  position: relative;
   z-index: 2;
 }
 
@@ -162,9 +123,11 @@
 }
 
 .mch-button {
+    position: relative;
   /* Above the viewport [if they overlap it], by default */
   z-index: 1;
   .mch-button-background {
+    position: relative;
     z-index: 0;
   } 
   .mch-button-graphics {

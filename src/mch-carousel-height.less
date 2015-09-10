@@ -3,9 +3,30 @@
   *
   * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
   * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
+  * 
+  * So, how do we use it?
+  *
+  * @import 'mch-carousel.less';
+  * #some-carousel-id, .or-some-carousel-class {
+  *     // Specify a fixed height of 280px
+  *     .mch-viewport-height({
+  *         height: 280px;
+  *     });
+  * }
+  *
+  * Media queries do work with the mix-in:
+  *
+  * @import 'mch-carousel.less';
+  * .mch-viewport-height({
+  *     // Specify a responsive height
+  *     height: 26vw;
+  *     @media screen and (min-width: 600px) {
+  *         height: 36vw;
+  *     }
+  * });
+  *
   */
 
-/* Mix-in for setting the height of the carousel. */
 .mch-viewport-height(@rules) {
   #mch-viewport, .mch-image-container {
     @rules();

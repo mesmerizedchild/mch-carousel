@@ -6,23 +6,12 @@
   *
   */
 
-@imageHorizontalGap: 6px;
+@import url(https://fonts.googleapis.com/css?family=Roboto&subset=latin,greek);
 
 @latinScriptFont: 'Roboto';
 @greekScriptFont: 'Roboto';
 @hebrewScriptFont: 'Tinos';
 @arabicScriptFont: 'Amiri';
-
-.mch-padding {
-  width: @imageHorizontalGap;
-}
-
-/* Best padding when caption is "end-aligned" [right-aligned for
-      left-to-right languages, and left-aligned for right-to-left
-      languages]. */
-.mch-image-container {
-    opacity: 1;
-}
 
 .mch-caption-cntnr {
     position: absolute;
@@ -41,20 +30,14 @@
     right: 0px;
     bottom: 0px;
     left: 0px;
+    background-color: ivory;
 }
 
 .mch-caption-lines {
+    margin-right: 16px;
+    margin-bottom: 10px;
     text-align: left;
-    [dir="rtl"] & {
-        text-align: right;
-    }
-    p {
-        font-weight: inherit;
-    }
-}
-
-/* Language-dependent font. */
-.mch-scripts() {
+    /* Language-dependent font. */
     font-family: @latinScriptFont;
     [lang="el"] & {
         font-family: @greekScriptFont;
@@ -66,21 +49,24 @@
         font-family: @hebrewScriptFont;
     }
     font-weight: bold;
+    [dir="rtl"] & {
+        text-align: right;
+    }
+    p {
+        font-weight: inherit;
+    }
 }
 
 .mch-caption-line1 {
-    display: inline-block;
-    .mch-scripts();
-    font-size: 12px;
+    font-size: 16px;
+    margin: 10px 0 10px 10px;
 }
 .mch-caption-line2 {
-    display: inline-block;
-    .mch-scripts();
+    margin-left: 16px;
     font-size: 12px;
 }
 .mch-caption-line3 {
-    display: inline-block;
-    .mch-scripts();
+    margin-left: 16px;
     font-size: 12px;
 }
 

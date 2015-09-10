@@ -14,7 +14,22 @@
   <style type="text/css">
     /* Compulsory declaration of the height of the carousel... */
     #mch-viewport, .mch-image-container {
-      height: 250px;
+      height: 150px;
+    }
+    @media screen and (min-width: 360px) {
+      #mch-viewport, .mch-image-container {
+        height: 200px;
+      }
+    }
+    @media screen and (min-width: 550px) {
+      #mch-viewport, .mch-image-container {
+        height: 225px;
+      }
+    }
+    @media screen and (min-width: 800px) {
+      #mch-viewport, .mch-image-container {
+        height: 250px;
+      }
     }
     /* </declaration> */
 
@@ -31,18 +46,15 @@
 </head>
 <body>
   <div id="my-carousel"><!-- this div may have whatever id and/or class you want -->
-    <img src="images/image1.jpg"
-         alt="The first image" />
-    <img src="images/image2.jpg"
-         alt="The second image" />
-    <img src="images/image3.jpg"
-         alt="The third image" />
-    <img src="images/image4.jpg"
-         alt="The fourth image" />
-    <img src="images/image5.jpg"
-         alt="The fifth image" />
-    <img src="images/image6.jpg"
-         alt="The sixth image" />
+    <img src="images/image1.jpg" />
+    <img src="images/image2.jpg" />
+    <img src="images/image3.jpg" />
+    <img src="images/image4.jpg" />
+    <img src="images/image5.jpg" />
+    <img src="images/image6.jpg" />
+    <img src="images/image7.jpg" />
+    <img src="images/image8.jpg" />
+    <img src="images/image9.jpg" />
   </div>
   <script type="text/javascript">
     $(function() {

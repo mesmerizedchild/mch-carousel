@@ -1,5 +1,6 @@
 // common.less
 @import url(http://fonts.googleapis.com/css?family=Source+Code+Pro|Lato:400,700);
+@import url(https://fonts.googleapis.com/css?family=Roboto+Mono&subset=greek);
 
 @bodyFont: 'Lato';
 @h1Font:  'Lato';
@@ -34,3 +35,14 @@ body {
   font-size: @bodyFontSize;
   line-height: 1.4;
 }
+
+code {
+  font-family: @sourceCodeFont;
+  &.lang-html.inline, &.lang-css.inline, &.lang-js.inline, &.file-name {
+    white-space: nowrap;
+    background-color: #f0f2f4;
+    padding-left: 0.15em;
+    padding-right: 0.15em;
+  }
+}
+

@@ -1,1 +1,1 @@
-@import '../style/mch-carousel-dodgerblue-buttons.css';@import '../style/mch-carousel-coloured-caption.css';.mch-image-container{opacity:1;transition:.2s}.mch-image-container:hover{opacity:.8}.mch-padding{width:5px}.mch-no-hover{transition:.2s;opacity:0}
+@import '../styles/mch-carousel-dodgerblue-buttons.css';@import '../styles/mch-carousel-coloured-caption.css';.mch-image-container{opacity:1;-webkit-transition:opacity .2s;transition:opacity .2s}.mch-image-container:hover{opacity:.8}.mch-padding{width:5px}.mch-no-hover{-webkit-transition:.2s;transition:.2s;opacity:0}
