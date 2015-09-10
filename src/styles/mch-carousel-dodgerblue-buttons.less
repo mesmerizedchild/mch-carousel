@@ -1,0 +1,157 @@
+/** MCh Carousel Dodgerblue Buttons.
+  *
+  * Theme for styling up the buttoms [no images].
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+@import 'mch-responsive-tiny.less';
+
+@buttonHeightTiny: 20px;
+@buttonWidthTiny: 40px;
+@buttonFontSizeTiny: 8px;
+@borderSpacingTiny: 3px;
+@offset1Tiny: 0;
+@offset2Tiny: @buttonWidthTiny + @borderSpacingTiny;
+@offset3Tiny: ((@buttonWidthTiny + @borderSpacingTiny)*2);
+@offset4Tiny: ((@buttonWidthTiny + @borderSpacingTiny)*3);
+
+@buttonHeightMobile: 25px;
+@buttonWidthMobile: 50px;
+@buttonFontSizeMobile: 10px;
+@borderSpacingMobile: 4px;
+@offset1Mobile: 0;
+@offset2Mobile: @buttonWidthMobile + @borderSpacingMobile;
+@offset3Mobile: ((@buttonWidthMobile + @borderSpacingMobile)*2);
+@offset4Mobile: ((@buttonWidthMobile + @borderSpacingMobile)*3);
+
+@buttonHeightTablet: 35px;
+@buttonWidthTablet: 80px;
+@buttonFontSizeTablet: 15px;
+@borderSpacingTablet: 4px;
+@offset1Tablet: 0;
+@offset2Tablet: @buttonWidthTablet + @borderSpacingTablet;
+@offset3Tablet: ((@buttonWidthTablet + @borderSpacingTablet)*2);
+@offset4Tablet: ((@buttonWidthTablet + @borderSpacingTablet)*3);
+
+@buttonHeightDesktop: 45px;
+@buttonWidthDesktop: 105px;
+@buttonFontSizeDesktop: 20px;
+@borderSpacingDesktop: 5px;
+@offset1Desktop: 0;
+@offset2Desktop: @buttonWidthDesktop + @borderSpacingDesktop;
+@offset3Desktop: ((@buttonWidthDesktop + @borderSpacingDesktop)*2);
+@offset4Desktop: ((@buttonWidthDesktop + @borderSpacingDesktop)*3);
+
+@iconsFont: 'Roboto';
+@latinScriptFont: 'Roboto';
+@greekScriptFont: 'Roboto';
+@hebrewScriptFont: 'Tinos';
+@arabicScriptFont: 'Amiri';
+
+#mch-buttons-pane {
+    position: relative;
+    .mch-rule(height, buttonHeight);
+    .mch-rule(margin, borderSpacing zero zero zero);
+}
+
+/* Style for the navigation buttons */
+.mch-button {
+    display: table;
+    color: dodgerblue;
+    font-family: @iconsFont;
+    .mch-rule(font-size, buttonFontSize);
+    font-weight: bold;
+    .mch-rule(width, buttonWidth);
+    .mch-rule(height, buttonHeight);
+    position: absolute;
+    cursor: pointer; 
+    .mch-button-graphics {
+        display: table-cell;
+        vertical-align: middle;
+        font-family: @latinScriptFont;
+        text-align: center;
+        width: 100%;
+        border: 1px dodgerblue solid;
+        border-radius: 4px;
+        background-color: transparent;
+        -webkit-transition: background-color 0.1s;
+        transition: background-color 0.1s;
+        &:hover {
+            background-color: lighten(dodgerblue, 40%);
+        }
+    }
+    &#mch-first {
+        .mch-rule(left, offset1);
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            .mch-rule(right, offset1);
+        }
+        .mch-button-graphics::after {
+            content: 'First';
+        }
+    }
+    &#mch-prev {
+        .mch-rule(left, offset2);
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            .mch-rule(right, offset2);
+        }
+        .mch-button-graphics::after {
+            content: 'Previous';
+        }
+    }
+    &#mch-next {
+        .mch-rule(left, offset3);
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            .mch-rule(right, offset3);
+        }
+        .mch-button-graphics::after {
+            content: 'Next';
+        }
+    }
+    &#mch-last {
+        .mch-rule(left, offset4);
+        right: auto;
+        [dir="rtl"] & {
+            left: auto;
+            .mch-rule(right, offset4);
+        }
+        .mch-button-graphics::after {
+            content: 'Last';
+        }
+    }
+    &#mch-pause {
+        left: auto;
+        .mch-rule(right, offset1);
+        [dir="rtl"] & {
+            .mch-rule(left, offset1);
+            right: auto;
+        }
+        .mch-button-graphics::after {
+            content: 'Pause';
+        }
+    }
+    &#mch-restart {
+        left: auto;
+        .mch-rule(right, offset2);
+        [dir="rtl"] & {
+            .mch-rule(left, offset2);
+            right: auto;
+        }
+        .mch-button-graphics::after {
+            content: 'Start';
+        }
+    }
+}
+
+/* Not interested in displaying the left-right navigation buttons. */
+#mch-left-right-group {
+    display: none;
+}

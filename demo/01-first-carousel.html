@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Demo: The Very First Carousel" />
+  <title>MCh Carousel Demo: The Very First Carousel</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="../dist/mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="../dist/mch-carousel.css" />
+  
+  <!-- Start off with a no-buttons theme -->
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport, .mch-image-container {
+      height: 150px;
+    }
+    @media screen and (min-width: 360px) {
+      #mch-viewport, .mch-image-container {
+        height: 200px;
+      }
+    }
+    @media screen and (min-width: 550px) {
+      #mch-viewport, .mch-image-container {
+        height: 225px;
+      }
+    }
+    @media screen and (min-width: 800px) {
+      #mch-viewport, .mch-image-container {
+        height: 250px;
+      }
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit... */
+    #my-carousel {
+      max-width: 960px;
+      background-color: #F0F4C3;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="my-carousel"><!-- this div may have whatever id and/or class you want -->
+    <img src="images/image1.jpg" />
+    <img src="images/image2.jpg" />
+    <img src="images/image3.jpg" />
+    <img src="images/image4.jpg" />
+    <img src="images/image5.jpg" />
+    <img src="images/image6.jpg" />
+    <img src="images/image7.jpg" />
+    <img src="images/image8.jpg" />
+    <img src="images/image9.jpg" />
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $('#my-carousel').mchCarousel(); /* This one line starts the carousel up */
+    });
+  </script>
+</body>
+</html>

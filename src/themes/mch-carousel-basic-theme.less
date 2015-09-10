@@ -1,0 +1,33 @@
+/** MCh Carousel Basic Theme.
+  *
+  * A simple, responsive, direction- and language-sensitive theme.
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
+  *
+  * TODO make it responsive, like the blue buttons.
+  */
+
+@import '../styles/mch-carousel-dodgerblue-buttons.css';
+@import '../styles/mch-carousel-coloured-caption.css';
+
+@imageHorizontalGap: 5px;
+
+.mch-image-container {
+    opacity: 1;
+    -webkit-transition: opacity 0.2s;
+    transition: opacity 0.2s;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+.mch-padding {
+    width: @imageHorizontalGap;
+}
+
+.mch-no-hover {
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    opacity: 0;
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Demo: Major Features Exposed">
+  <title>MCh Carousel Demo: Major Features Exposed</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="../dist/mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="../dist/mch-carousel.css">
+
+  <!-- Styling MCh Carousel -->
+  <link rel="stylesheet" href="../dist/themes/mch-carousel-basic-theme.css">
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport, .mch-image-container {
+      height: 150px;
+    }
+    @media screen and (min-width: 550px) {
+      #mch-viewport, .mch-image-container {
+        height: 250px;
+      }
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit, to make it fit for demo purposes... */
+    #my-carousel {
+      max-width: 960px;
+      background-color: white;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="my-carousel">
+    <div id="mch-image-list">
+      <img src="images/image1.jpg" 
+           alt="The first image"
+           data-caption-line1="The first line of caption,"
+           data-caption-line2="the second line of caption,"
+           data-caption-line3="and the third line..."
+           data-link="http://www.freestockphotos.name/wallpaper/6990/wallpapers-nature-images-photography.html"
+           data-open-in-new-window="true"
+           data-img-over="images/image1-over.jpg" />
+      <img src="images/image2.jpg" 
+           alt="The second image"
+           data-caption-line1="Each line of"
+           data-caption-line2="caption is styled"
+           data-caption-line3="differently..."
+           data-link="http://www.freestockphotos.name/wallpaper/90/nature-green-grass-high-definition-images-photography.html"
+           data-open-in-new-window="true"
+           data-img-over="images/image2-over.jpg" />
+      <img class="odd-one-out bw"
+           src="images/image3.jpg" 
+           alt="The third image"
+           data-caption-line1="This caption text is feeling a bit... down..."
+           data-caption-line2="and colourless... but I'm sure it's temporary,"
+           data-caption-line3="nothing serious..."
+           data-link="http://www.freestockphotos.name/wallpaper/5843/five-flowers-on-the-stem-to-download-images-photography.html"
+           data-open-in-new-window="true"
+           data-img-over="images/image3-over.jpg" />
+      <img class="odd-one-out"
+           src="images/image4.jpg" 
+           alt="The fourth image"
+           data-caption-line1="Have you noticed"
+           data-caption-line2="the slightly-transparent"
+           data-caption-line3="caption background?"
+           data-link="http://www.freestockphotos.name/wallpaper/3592/cute-baby-monkey-images-photography.html"
+           data-open-in-new-window="true"
+           data-img-over="images/image4-over.jpg" />
+      <img src="images/image5.jpg" 
+           alt="The fifth image"
+           data-caption-line1="This hyperlink opens"
+           data-caption-line2="in this window, so get ready"
+           data-caption-line3="to use the Back button..."
+           data-link="http://www.freestockphotos.name/wallpaper/5522/sea-shells-on-the-sand-as-wallpaper-images-photography.html"
+           data-img-over="images/image5-over.jpg" />
+      <img src="images/image6.jpg" 
+           alt="The sixth image"
+           data-caption-line1="This image has"
+           data-caption-line2="no mouse-over"
+           data-caption-line3="effect..."
+           data-link="http://www.freestockphotos.name/wallpaper/212/water-droplets-on-green-apple-nature-images-photography.html"
+           data-open-in-new-window="true" />
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      // Set the carousel up
+      $('#my-carousel').mchCarousel({
+        automaticSlideOptions: {
+          atStartup: true,
+          pauseOnHoverButtons: true,
+        },
+        displayButtons: 'always',
+      	displayCaption: 'always'
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+/** MCh Carousel European Buttons.
+  *
+  * Theme for styling up the buttoms [no images], for use in the docs.
+  *
+  * This theme depends on Roboto for the buttons, hence the import.
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+@buttonHeight: 43px;
+@buttonWidth: 86px;
+
+/* #mch-buttons-pane is not styled, as the buttons overlay the images
+     and need 'position: relative' directly on #mch-visible-carousel. */
+
+/* Style for the navigation buttons */
+.mch-button {
+    display: table;
+	color: white;
+	font-family: 'Roboto';
+	font-size: 35px;
+	font-weight: bold;
+    width: @buttonWidth;
+    height: @buttonHeight;
+    position: absolute;
+    bottom:  0;
+    cursor: pointer; 
+    border: 1px #003399 solid;
+    &:hover {
+    	color: #FFCC00;
+    }
+    /* Thanks to the arrangement of z-order's and position's,
+         we can have semi-transparent background... */
+    .mch-button-background {
+    	background-color: #003399;
+    	opacity: .75;
+    	position: absolute;
+    	top: 0;
+    	right: 0;
+    	bottom: 0;
+    	left: 0;
+    }
+    /* ... together with fully-opaque text. */
+    .mch-button-graphics {
+    	display: table-cell;
+    	vertical-align: middle;
+    	text-align: center;
+    	width: 100%;
+      direction: ltr;
+    }
+    &#mch-leftmost {
+    	left: 0;
+    	.mch-button-graphics::after {
+    		content: '«';
+    	}
+    }
+    &#mch-left {
+    	left: @buttonWidth;
+    	.mch-button-graphics::after {
+    		content: '‹';
+    	}
+    }
+    &#mch-right {
+    	right: @buttonWidth;
+    	.mch-button-graphics::after {
+    		content: '›';
+    	}
+    }
+    &#mch-rightmost {
+    	right: 0;
+    	.mch-button-graphics::after {
+    		content: '»';
+    	}
+    }
+}
+
+/* Not interested in displaying the start-end navigation buttons,
+     nor the slide-control buttons. */
+#mch-start-end-group, #mch-slide-control-group {
+    display: none;
+}

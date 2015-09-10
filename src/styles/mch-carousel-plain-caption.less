@@ -1,0 +1,72 @@
+/** MCh Carousel Plain Caption.
+  *
+  * Theme for styling up the caption alone [no buttons], for use in the docs.
+  *
+  * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu] 
+  *
+  */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto&subset=latin,greek);
+
+@latinScriptFont: 'Roboto';
+@greekScriptFont: 'Roboto';
+@hebrewScriptFont: 'Tinos';
+@arabicScriptFont: 'Amiri';
+
+.mch-caption-cntnr {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: initial;
+    [dir="rtl"] & {
+        left: initial;
+        right: 0;
+    }
+}
+
+.mch-caption-background {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: ivory;
+}
+
+.mch-caption-lines {
+    margin-right: 16px;
+    margin-bottom: 10px;
+    text-align: left;
+    /* Language-dependent font. */
+    font-family: @latinScriptFont;
+    [lang="el"] & {
+        font-family: @greekScriptFont;
+    }
+    [lang="ar"] & {
+        font-family: @arabicScriptFont;
+    }
+    [lang="he"] & {
+        font-family: @hebrewScriptFont;
+    }
+    font-weight: bold;
+    [dir="rtl"] & {
+        text-align: right;
+    }
+    p {
+        font-weight: inherit;
+    }
+}
+
+.mch-caption-line1 {
+    font-size: 16px;
+    margin: 10px 0 10px 10px;
+}
+.mch-caption-line2 {
+    margin-left: 16px;
+    font-size: 12px;
+}
+.mch-caption-line3 {
+    margin-left: 16px;
+    font-size: 12px;
+}
+

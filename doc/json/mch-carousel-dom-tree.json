@@ -1,0 +1,436 @@
+[
+  {
+    "title": ".mch-carousel",
+    "description": "<p>This is the <code class='lang-html inline'>div</code> in which you put your <code class='lang-html inline'>img</code> tags for your images.</p>",
+    "styleable": "warning",
+    "styleDetails": "<p>Any margin that you want to apply to MCh Carousel may be applied on this element. Width-related CSS directives are also fine here; media queries may be used. On the other hand, height-related CSS directives should be used with div#mch-viewport and div.mch-image-container [see children elements for a description] and avoided altogether on this element.</p>",
+    "expanded": true,
+    "children": [
+      {
+        "title": "#mch-image-list",
+        "styleable": "dont",
+        "description": "<p>This <code class='lang-html inline'>div</code> contains the original <code class='lang-html inline'>img</code> tags that you listed in your HTML.</p><p>They have been moved here, and are kept hidden; what you actually see in MCh Carousel are brand new <code class='lang-html inline'>img</code> tags, created dynamically based on your images and the information that you provided in the data attributes.</p>",
+        "children": [
+          {
+            "title": "the first image from your HTML",
+            "description": "<p>This is the original <code class='lang-html inline'>img</code> tag from your HTML.</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          },
+          {
+            "title": "the second image from your HTML",
+            "description": "<p>This is the original <code class='lang-html inline'>img</code> tag from your HTML.</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          },
+          {
+            "title": "the third image from your HTML",
+            "description": "<p>This is the original <code class='lang-html inline'>img</code> tag from your HTML.</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          },
+          {
+            "title": "... and so on...",
+            "description": "<p>ZZZZZzzzzz<span style='font-size: 0.6em;'>zzzz</span>...</p>",
+            "styleable": "dont",
+            "data": {
+              "tag": "img"
+            }
+          }
+        ]
+      },
+      {
+        "title": "#mch-visible-carousel",
+        "description": "<p>This <code class='lang-html inline'>div</code> contains all the visible elements of the carousel: sliding images and button panes.</p>",
+        "styleable": "no",
+        "expanded": true,
+        "children": [
+          {
+            "title": "#mch-viewport",
+            "description": "<p>This <code class='lang-html inline'>div</code> wraps the scrollable elements. Its sole function is to hide the scrollbar of the <code class='lang-html inline'>div</code> inside of it: <code class='lang-html inline'>div.#mch-scrollable-viewport.</code></p>",
+            "styleable": "warning",
+            "styleDetails": "<p>You must style the height of this element, telling it how tall MCh Carousel should be in your page; media queries may be used. See <a href='javascript:parent.iFrameGoto(\"#the-height-of-mch-carousel\")'>The height of MCh Carousel</a> below for more information.</p><p>If you need a specific width, style the root element, not this one.</p>",
+            "folder": true,
+            "children": [
+            {
+              "title": "#mch-scrollable-viewport",
+              "description": "<p>This <code class='lang-html inline'>div</code> contains all the image elements and is what does the actual scrolling.</p>",
+              "styleable": "no",
+              "children": [
+              {
+                "title": ".mch-image-container",
+                "description": "<p>This <code class='lang-html inline'>div</code> wraps one image and the caption related to that image. There is one instance of this element for each image that you listed in your HTML.</p><p>If your original, now-hidden <code class='lang-html inline'>img</code> tag has a class and/or an ID, they will be assigned to this element. This is so that you may style your image <strong>and</strong> its caption based on the specified class and/or ID.</p>",
+                "styleable": "warning",
+                "styleDetails": "<p>You must style the height of this element, with exactly the same directive as <code class='lang-html inline'>div#mch-viewport</code>. See <a href='javascript:parent.iFrameGoto(\"#the-height-of-mch-carousel\")'>The height of MCh Carousel</a> below for more information.</p><p>Beyond that, in general, it should be kept margin- and padding-free. If you need to add padding between images, you can style <code class='lang-html inline'>div.mch-padding</code> to achieve that.</p><p>Because this element receives the class and/or ID from the original image, these may be used as selectors in the CSS for this element and any elements below.</p>",
+                "folder": true,
+                "children": [
+                {
+                  "title": ".mch-hyperlink",
+                  "description": "<p>This node is present if the image has a hyperlink.</p><p>If the image has no hyperlink, then this node is skipped and the underlying nodes are parented directly to <code class='lang-html inline'>div.mch-image-container</code>.</p>",
+                  "styleable": "no",
+                  "folder": true,
+                  "expanded": true,
+                  "data": {
+                    "tag": "a"
+                  },
+                  "children": [
+                  {
+                    "title": ".mch-image",
+                    "description": "<p>This is an <code class='lang-html inline'>img</code> tag created based on your original, now-hidden image.</p><p>Note that, if your <code class='lang-html inline'>img</code> tag had a class and/or an ID, they will be assigned to the containing <code class='lang-html inline'>div.mch-image-container</code> element.",
+                    "styleable": "warning",
+                    "styleDetails": "<p>Usually, width and height need not be styled.</p><p>Padding and other attributes may be styled if particular effects need to be achieved [as in the <a href='../demo/02-outlandish-carousel.html'>outlandish carousel</a>] presented in the previous pages].</p>",
+                    "folder": true,
+                    "data": {
+                      "tag": "img"
+                    }
+                  },
+                  {
+                    "title": ".mch-caption-cntnr",
+                    "description": "<p>This element wraps all caption lines and their background.</p><p>If the image has no caption text, this element and all the elements below will be missing.</p>",
+                    "styleable": "yes",
+                    "styleDetails": "<p>You may style this element and all its child elements as you see fit.</p><p>Usually this element will be sized so that it contains all caption text and its background, but, if you are going to use absolute positioning on the child elements, that won't necessarily be the case.</p>",
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-caption-background",
+                        "description": "<p>This element may be used as background for the caption text.</p>",
+                        "styleable": "yes",
+                        "styleDetails": "+<p>You might use this element to place some special decoration underneath, or away, from the caption text: a semi-transparent background, a logo, another image [picture-in-picture?], a visual effect with animation. The same effects could probably be achieved by styling div.mch-caption-cntnr [the parent], but having an extra element that is not directly 'related' to the caption lines, might give some extra degree of freedom.</p>"
+                      },
+                      {
+                        "title": ".mch-caption-lines",
+                        "description": "<p>This <code class='lang-html inline'>div</code> is the parent of all caption lines.</p>",
+                        "styleable": "yes",
+                        "styleDetails": "+<p>It may be used to style all 3 caption lines in one go; often caption lines share font and text colour, and these may be styled here, and then inherited by the elements underneath.</p>",
+                        "expanded": true,
+                        "children": [
+                          {
+                            "title": ".mch-caption-line1",
+                            "description": "<p>This <code class='lang-html inline'>div</code> wraps the first line of caption text.</p>",
+                            "styleable": "yes",
+                            "expanded": true,
+                            "children": [
+                            {
+                              "title": "The first line of caption",
+                              "description": "The very text of the first line of caption text.",
+                              "styleable": "yes",
+                              "data": {
+                                "tag": "p"
+                              }
+                            }
+                            ]
+                          },
+                          {
+                            "title": ".mch-caption-line2",
+                            "description": "<p>This <code class='lang-html inline'>div</code> wraps the second line of caption text.</p>",
+                            "styleable": "yes",
+                            "expanded": true,
+                            "children": [
+                            {
+                              "title": "the second line of caption",
+                              "description": "The very text of the second line of caption text.",
+                              "styleable": "yes",
+                              "data": {
+                                "tag": "p"
+                              }
+                            }
+                            ]
+                          },
+                          {
+                            "title": ".mch-caption-line3",
+                            "description": "<p>This <code class='lang-html inline'>div</code> wraps the third line of caption text.</p>",
+                            "styleable": "yes",
+                            "expanded": true,
+                            "children": [
+                            {
+                              "title": "the third line of caption",
+                              "description": "The very text of the third line of caption text.",
+                              "styleable": "yes",
+                              "data": {
+                                "tag": "p"
+                              }
+                            }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }]
+                }
+                ]
+              },
+              {
+                "title": ".mch-padding",
+                "description": "<p>One instance of this <code class='lang-html inline'>div</code> exists between two other instances of div.mch-image-container</p>",
+                "styleable": "yes",
+                "styleDetails": "+<p>You will usually only need to style the width in order to create a padding between the carousel images, but if you want to add some decoration between images, this is the element that you need to style.</p>"
+              },
+              {
+                "title": ".mch-image-container",
+                "children": [
+                {
+                  "title": "same structure as above",
+                  "data": {
+                    "tag": "same"
+                  },
+                  "children": []
+                }
+                ]
+              },
+              {
+                "title": ".mch-padding"
+              },
+              {
+                "title": ".mch-image-container",
+                "children": [
+                {
+                  "title": "same structure as above",
+                  "data": {
+                    "tag": "same"
+                  },
+                  "children": []
+                }
+                ]
+              },
+              {
+                "title": ".mch-padding"
+              },
+              {
+                "title": "... and so on...",
+                "children": [
+                  {
+                    "title": "... and on and on..."
+                  }
+                ]
+              }
+              ]
+            }]
+          },
+          {
+            "title": "#mch-buttons-pane",
+            "description": "<p>This <code class='lang-html inline'>div</code> groups all button panels.</p>",
+            "styleable": "yes",
+            "styleDetails": "+<p>You may use it to provide a background for all buttons, or you can leave it without a CSS style.</p>",
+            "children": [
+              {
+                "title": "#mch-slide-control-group",
+                "description": "<p>This <code class='lang-html inline'>div</code> groups the buttons related to slide control: Start and Pause. See <a href='javascript:parent.iFrameGoto(\"#slide-control-pane\")'>Slide-control pane</a> below for more details.</p><p>All buttons in this group belong to classes <code class='lang-html inline'>mch-button</code> and <code class='lang-html inline'>mch-navigation</code>.</p>",
+                "styleable": "yes",
+                "styleDetails": "+<p>The same styling considerations as for <code class='lang-html inline'>div#mch-buttons-pane</code> apply.</p>",
+                "children": [
+                  {
+                    "title": ".mch-button#mch-pause",
+                    "description": "<p>The button for pausing the automatic sliding.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "key": "mch-button-background-desc",
+                        "description": "<p>Each and every button in MCh Carousel has two layers for styling; this is the background layer.</p><p>By default, the content of this <code class='lang-html inline'>div</code> appears below [i.e. it has a lower <code class='lang-html css'>z-index</code> than] the content of <code class='lang-html inline'>.mch-button-graphics</code>.</p>",
+                        "styleable": "yes",
+                        "styleDetails": "+<p>Possible applications include: a special button shadow that cannot be achieved on a single element via CSS; or a semi-transparent background [while the caption is completely opaque], etc.</p><p>You can also style the containing <code class='lang-html inline'>div</code> element [that is, <code class='lang-html inline'>.mch-button#mch-pause</code> in this point of the DOM tree], effectively giving you 3 layers for your niftiest buttons!</p>"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "key": "mch-button-graphics-desc",
+                        "description": "<p>Each and every button in MCh Carousel has two layers for styling; this is the foreground layer.</p><p>By default, the content of this <code class='lang-html inline'>div</code> appears above [i.e. it has a higher <code class='lang-html css'>z-index</code> than] the content of <code class='lang-html inline'>.mch-button-background</code>.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-restart",
+                    "description": "<p>The button for [re]starting the automatic sliding.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "#mch-left-right-group",
+                "description": "<p>This <code class='lang-html inline'>div</code> groups the navigation buttons that navigate without regard for the layout direction [left-to-right or right-to-left] of the host page: leftmost, left, right and rightmost. See <a href='javascript:parent.iFrameGoto(\"#left-right-slide-pane\")'>Left-right-slide pane</a> below for more details.</p><p>All buttons in this group belong to classes <code class='lang-html inline'>mch-button</code> and <code class='lang-html inline'>mch-navigation</code>.</p>",
+                "styleable": "yes",
+                "children": [
+                  {
+                    "title": ".mch-button#mch-leftmost",
+                    "description": "<p>The button for sliding the carousel to the leftmost image.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-left",
+                    "description": "<p>The button for sliding the carousel to the image to the left.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "expanded": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-right",
+                    "description": "<p>The button for sliding the carousel to the image to the right.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-rightmost",
+                    "description": "<p>The button for sliding the carousel to the rightmost image.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "title": "#mch-start-end-group",
+                "description": "<p>This <code class='lang-html inline'>div</code> groups the navigation buttons that do take into account the layout direction [left-to-right or right-to-left] of the host page: first, previous, next and last. See <a href='javascript:parent.iFrameGoto(\"#start-end-slide-page\")'>Start-end-slide pane</a> below for more details.</p><p>All buttons in this group belong to classes <code class='lang-html inline'>mch-button</code> and <code class='lang-html inline'>mch-navigation</code>.</p>",
+                "styleable": "yes",
+                "children": [
+                  {
+                    "title": ".mch-button#mch-first",
+                    "description": "<p>The button for sliding the carousel to the first image.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-prev",
+                    "description": "<p>The button for sliding the carousel to the previous image.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-next",
+                    "description": "<p>The button for sliding the carousel to the next image.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  },
+                  {
+                    "title": ".mch-button#mch-last",
+                    "description": "<p>The button for sliding the carousel to the last image.</p>",
+                    "styleable": "yes",
+                    "folder": true,
+                    "children": [
+                      {
+                        "title": ".mch-button-background",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-background-desc\")'><code class='lang-css inline'>.mch-button-background</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      },
+                      {
+                        "title": ".mch-button-graphics",
+                        "description": "<p>Refer to <a href='javascript:gotoNode(\"mch-button-graphics-desc\")'><code class='lang-css inline'>.mch-button-graphics</code></a> inside button <code class='lang-css inline'>.mch-button#mch-pause</code> for information.</p>",
+                        "styleable": "yes"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

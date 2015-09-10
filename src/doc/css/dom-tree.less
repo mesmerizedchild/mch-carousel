@@ -1,0 +1,189 @@
+// dom-tree.less
+@import 'common.less';
+
+@breakWidth: 800px;
+@fontFamilyText: 'Lato';
+@fontSize: 15px;
+
+body {
+    overflow-y: hidden;
+}
+
+.mch-icon {
+    position: relative;
+    //top: -1px;
+    font-family: 'Source Code Pro', monospace;
+    font-size: @fontSize;
+    padding: 1px 2px;
+}
+
+.mch-highlight-icon {
+    color: #000;
+    border: 1px solid #000;
+}
+
+ul.fancytree-container {
+    font-family: @fontFamilyText;
+    border: none;
+    font-size: @fontSize;
+    line-height: 23px;
+}
+
+.mch-normal-icon {
+    color: #A4A6A3;
+    border: 1px solid #A4A6A3;
+}
+
+.div-highlight::before {
+    &:extend(.mch-icon);
+    &:extend(.mch-highlight-icon);
+    content: 'div';
+}
+.div::before {
+    &:extend(.mch-icon);
+    &:extend(.mch-normal-icon);
+    content: 'div';
+}
+
+.image-highlight::before {
+    &:extend(.mch-icon);
+    &:extend(.mch-highlight-icon);
+    content: 'img';
+}
+.image::before {
+    &:extend(.mch-icon);
+    &:extend(.mch-normal-icon);
+    content: 'img';
+}
+
+.hyperlink::before {
+    &:extend(.mch-icon);
+    &:extend(.mch-highlight-icon);
+    content: '\00a0 a\00a0';
+}
+
+.paragraph::before {
+    &:extend(.mch-icon);
+    &:extend(.mch-highlight-icon);
+    content: '\00a0 p\00a0';
+}
+
+#dom-container::after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+#dom-tree {
+    width: 100%;
+    max-height: 45vh;
+    overflow-y: auto;
+    @media screen and (min-width: @breakWidth) {
+        max-height: none;
+        float: left;
+    }
+}
+
+.dom-doc-responsive-width {
+    width: 100%;
+    @media screen and (min-width: @breakWidth) {
+        width: 50%;
+    }
+}
+
+#expand-all {
+    &::before {
+        content: 'Expand all';
+    }
+    position: absolute;
+    top: 3px;
+    right: 20px;
+    padding: 2px 5px;
+    font-family: @fontFamilyText;
+    font-size: @fontSize;
+    color: white;
+    background-color: #FFB0A0;
+    border: 1px solid #FFC0A8;
+    &:hover {
+        background-color: #E05050;
+        border: 1px solid #D04040;
+    }
+}
+
+#dom-tree-and-button {
+    position: relative;
+    &:extend(.dom-doc-responsive-width);
+}
+
+#dom-doc {
+    position: relative;
+    display: none; // Initially hidden, dom-tree.js will change to block when needed.
+    &:extend(.dom-doc-responsive-width);
+    max-height: 45vh;
+    margin: 10px 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+    transition: height 2.5s;
+    @media screen and (min-width: @breakWidth) {
+        max-height: none;
+        float: right;
+        margin: 0;
+        padding: 0 10px;
+    }
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.dom-doc-header {
+    display: block;
+    padding: 5px 10px;
+    font-weight: bold; 
+    text-align: center;
+    color: white;
+    background-color: black;
+}
+
+.dom-description {
+    &::before {
+        &:extend(.dom-doc-header);
+        content: 'Element description';
+    }
+}
+
+.dom-style-info {
+    margin-top: 30px;
+    &::before {
+        &:extend(.dom-doc-header);
+        content: 'Styling information';
+    }
+}
+
+.dom-style-icon {
+    float: left;
+    width: 7.2em;
+    height: 7.2em;
+    margin: 3px 7px 3px 3px;
+}
+
+.dom-explanation {
+    position: relative;
+    height: 100%;
+    p {
+        position: relative;
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-height: 50vh;
+        overflow-y: auto;
+        @media screen and (min-width: @breakWidth) {
+            top: 20px;
+            left: 40px;
+            width: 50%;
+            max-height: none;
+        }
+    }
+}
+

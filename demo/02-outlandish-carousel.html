@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Demo: An Outlandish Carousel">
+  <title>MCh Carousel Demo: An Outlandish Carousel</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+  <script type="text/javascript" src="../dist/mch-carousel.min.js"></script>
+  <link rel="stylesheet" href="../dist/mch-carousel.css">
+
+  <!-- Styling MCh Carousel -->
+  <link rel="stylesheet" href="../dist/styles/mch-carousel-outlandish-caption.css">
+  <style type="text/css">
+    /* Compulsory declaration of the height of the carousel... */
+    #mch-viewport, .mch-image-container {
+      height: 300px;
+    }
+    /* </declaration> */
+
+    /* Styling the page, just a little bit... */
+    #my-carousel {
+      max-width: 960px;
+      background-color: white;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="my-carousel">
+    <div id="mch-image-list">
+      <img src="images/oImage1.jpg" 
+           alt="The first image"
+           data-caption-line1="The first line of caption,"
+           data-caption-line2="the second line of caption,"
+           data-caption-line3="and the third line..." />
+      <img src="images/oImage2.jpg" 
+           alt="The second image"
+           data-caption-line1="Hey, this is most definitely"
+           data-caption-line2="an unusual way of"
+           data-caption-line3="captioning images!" />
+      <img src="images/oImage3.jpg" 
+           alt="The third image"
+           data-caption-line1="But... I would say that"
+           data-caption-line2="This is fun, innit :-) ?"
+           data-caption-line3="The sky's the limit!" />
+      <img src="images/oImage4.jpg" 
+           alt="The fourth image"
+           data-caption-line1="By the way, you don't have to"
+           data-caption-line2="use all caption lines" />
+      <img src="images/oImage5.jpg" 
+           alt="The fifth image"
+           data-caption-line2="just pick the one[s]"
+           data-caption-line3="that you really need..." />
+      <img src="images/oImage6.jpg" 
+           alt="The sixth image"
+           data-caption-line1="Lonely caption line..." />
+      <img src="images/oImage7.jpg" 
+           alt="The seventh image"
+           data-caption-line3="Lonely caption line..." />
+    </div>
+  </div>
+  <script type="text/javascript">
+    $(function() {
+      $('#my-carousel').mchCarousel({
+      	displayCaption: 'always' // Always display captions, default is 'hover'
+      });
+    });
+  </script>
+</body>
+</html>

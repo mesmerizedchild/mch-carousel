@@ -1,0 +1,325 @@
+// docs.less
+@import 'common.less';
+
+.margin-top(@times: 1) {
+  margin-top: (@marginTop * @times);
+}
+
+.margin-bottom(@times: 1) {
+  margin-bottom: (@marginBottom * @times);
+}
+
+.mch-tablet(@rules) {
+  @media screen and (min-width: 800px) {
+    @rules();
+  }
+}
+
+article, header {
+  margin-bottom: (@bodyFontSize*2);
+}
+
+article, header p {
+  max-width: 960px;
+  margin-left: 5%;
+  margin-right: 5%;
+  @media screen and (min-width: 1056px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+article {
+  margin-top: (@bodyFontSize/2);
+}
+
+.carousel-caption {
+  display: block;
+  font-size: @smallerFontSize;
+  font-style: italic;
+  text-align: right;
+  .margin-bottom(1.5);
+}
+
+.mch-h() {
+  font-weight: @headersFontWeight;
+  font-family: @bodyFont;
+}
+
+h1 {
+  font-size: @h1FontSize;
+  .mch-h();
+  font-family: @h1Font;
+  .margin-bottom(2);
+  display: block;
+  background-color: black;
+  color: white;
+  padding: (@marginTop*2.5) @marginTop (@marginTop*3) @marginTop;
+  text-align: center;
+}
+
+.warning {
+  margin: @spacingBase 0 @spacingBase 0;
+  font-size: @h2FontSize;
+  font-weight: bold;
+  padding: 20px;
+  background-color: #EEE;
+  text-align: center;
+}
+
+h2 {
+  font-size: @h2FontSize;
+  .mch-h();
+  .margin-top(2);
+  .margin-bottom();
+  margin-left: @subheadersIndentation;
+}
+
+div.doc {
+  margin-left: @textIndentation;
+}
+
+p {
+  .margin-bottom();
+  strong {
+    font-weight: @boldBodyFontWeight;
+  }
+}
+
+ul > li {
+  .margin-bottom();
+  & > p {
+    margin: 0;
+    &.list-title {
+      font-weight: @boldBodyFontWeight;
+    }
+  }
+}
+
+.small-italic-caption {
+  font-size: @smallerFontSize;
+  font-style: italic;
+}
+
+/* Tweaks to the theme 'Sons of Obsidian'. */
+pre.prettyprint {
+	white-space: pre-wrap;
+  border-radius: @borderRadius;
+  padding: (@spacingBase/4);
+  .margin-bottom();
+  margin-left: @spacingBase;
+  margin-right: @spacingBase;
+  > code {
+    font-family: @sourceCodeFont;
+    [lang='el'] {
+      font-family: @sourceCodeFontGreek;
+    }
+  }
+}
+
+.button {
+  font-family: @sourceCodeFont;
+  background-color: #ccc;
+  border: 1px solid @textColour;
+  border-radius: @borderRadius;
+  padding: 0.3em 0.5em;
+}
+
+/* The button Copy to Clipboard */
+.copy-to-clipboard {
+  &:extend(.button);
+  position: relative;
+  display: inline-block;
+  margin-left: @buttonExtraIndentation;
+  .margin-bottom(1.5);
+  &::before {
+    content: 'Copy to clipboard';
+  }
+}
+
+/* Makes the window modal by covering all of it. */
+.dialog-opaque {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  background-color: #E0E0E0;
+  opacity: 0.75;
+}
+
+/* The actual dialog box. */
+.dialog-outer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 20%;
+  left: 0;
+  width: 300px;
+  @media (min-width: 600px) {
+    width: 500px;
+  }
+  height: 210px;
+  margin: auto;
+  padding: @spacingBase;
+  z-index: 102;
+  border: 1px solid black;
+  background-color: #E0E0E0;
+  border-radius: @borderRadius;
+  &::before {
+    display: block;
+    height: (@bodyFontSize*2);
+    margin-bottom: @spacingBase/2;
+    font-size: @copyToClipboardTextFontSize;
+    text-align: center;
+    content: 'Press CTRL-C to copy the text below, then \A hit Enter or click on the button below.';
+    white-space: pre;
+  }
+  textarea {
+    display: block;
+    width: 100%;
+    height: 120px;
+    padding: 0;
+    font-family: @sourceCodeFont;
+    white-space: pre;
+    overflow: auto;
+  }
+  /* The Ok button in a dialog box. */
+  .dialog-button {
+    &:extend(.button);
+    position: absolute;
+    display: inline-block;
+    left: @spacingBase;
+    bottom: @spacingBase;
+    &::before {
+      content: 'I\'m done. \A Thanks!';
+    }
+  }
+}
+
+iframe {
+  .margin-top(1.5);
+  width: 100%;
+  min-width: 320px;
+  min-height: 250px;
+  &.with-blue-buttons {
+    min-height: 380px;
+    border: 1px dotted #AAA;
+  }
+  .margin-bottom(0.5);
+
+  &#dom-tree {
+    min-height: 10px;
+    overflow-y: hidden;
+  }
+  &#outlandish-carousel {
+    height: 300px;
+  }
+  &#event-carousel {
+    height: 520px;
+    border: 1px dotted #AAA;
+  }
+  &#control-panel {
+    height: 680px;
+    border: 1px dotted #AAA;
+  }
+}
+
+table {
+  .margin-top();
+  .margin-bottom();
+  border-collapse: collapse;
+  border: 1px dotted #000;
+  p {
+    margin: 0;
+  }
+  thead {
+    tr {
+      padding: 2px;
+      font-weight: bold;
+      vertical-align: bottom;
+      border-bottom: 2px solid #000;
+    }
+  }
+  td {
+    padding: 2px;
+    vertical-align: top;
+  }
+  tbody {
+    tr {
+      border-bottom: 1px dotted #000;
+    }
+    tr:last-of-type {
+      border-bottom: none;
+    }
+  }
+  &.units-for-height {
+    .units {
+      width: 6em;
+      .mch-tablet({
+        width: 9em;
+      });
+      font-family: 'Source Code Pro';
+      border-right: 1px dotted #000;
+    }
+  }
+  &.button-table {
+    .name {
+      width: 5em;
+      .mch-tablet({
+        width: 8em;
+      });
+    }
+    .id {
+      width: 6em;
+      .mch-tablet({
+        width: 9em;
+      });
+      font-family: 'Source Code Pro';
+      border-left: 1px dotted #000;
+      border-right: 1px dotted #000;
+    }
+    .function {
+      // Nothing
+    }
+  }
+  &.methods-table {
+    .method-name {
+      width: 5em;
+      .mch-tablet({
+        width: 10em;
+      });
+    }
+    .arguments {
+      width: 6em;
+      .mch-tablet({
+        width: 7.5em;
+      });
+      font-family: 'Source Code Pro';
+      border-left: 1px dotted #000;
+      border-right: 1px dotted #000;
+
+    }
+    .function {
+      // Nothing
+    }
+  }
+}
+
+span.allows-word-break {
+  font-size: 0;
+}
+
+span.reg {
+  &::before {
+    font-size: 0.6em;
+    vertical-align: super;
+    content: '®';
+  }
+}
+
+.good-luck {
+  font-size: 1.2em;
+  font-weight: bold;
+}

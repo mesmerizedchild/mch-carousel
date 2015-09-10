@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes" />
+  <meta name="description" content="MCh Carousel Demo: A Carousel with a Control Panel">
+  <title>MCh Carousel Demo: A Carousel with a Control Panel</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  <!-- Styling this page. -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      max-width: 960px;
+      margin: 10px;
+      font-family: 'Roboto';
+      font-size: 15px;
+    }
+    h1 {
+      padding-bottom: 10px;
+    }
+    #embedded-carousel {
+      width: 100%;
+      height: 220px;
+      background-color: white;
+      border: none;
+    }
+    @media screen and (min-width: 590px) {
+      #embedded-carousel {
+        height: 320px;
+      }
+    }
+    .warning {
+      font-size: 24px;
+      font-weight: bold;
+      padding: 20px 0;
+      text-align: center;
+    }
+    .option {
+      display: inline-block;
+      width: 250px;
+      margin: 10px;
+      padding: 10px;
+      vertical-align: top;
+      border: 1px solid dodgerblue;
+      border-radius: 4px;
+    }
+    #control-panel {
+    }
+    #control-panel::before {
+      display: block;
+      font-size: 24px;
+      font-weight: bold;
+      content: 'Control Panel';
+    }
+    #dirOption::before,
+    #displayButtons::before,
+    #displayCaption::before,
+    #intervalOption::before,
+    #slideOneImageOption::before,
+    #slideAllImagesOption::before {
+      display: block;
+      padding-bottom: 0.2em;
+      font-weight: bold;
+    }
+    #dirOption::before {
+      content: 'Language direction:';
+    }
+    #displayButtons::before {
+      content: 'Display buttons:';
+    }
+    #displayCaption::before {
+      content: 'Display caption text:';
+    }
+    #intervalOption::before {
+      content: 'Interval between slides';
+    }
+    #slideOneImageOption::before {
+      content: 'Intra-image slide speed:';
+    }
+    #slideAllImagesOption::before {
+      content: 'End-to-end slide speed:';
+    }
+    .currentValue {
+      display: block;
+    }
+    .currentValue.sliding {
+      color: #CCC;
+    }
+    input[type="range"] {
+      /* IE 11 needs this, or else the sliders will bleed through the div border... */
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>MCh Carousel [in an iframe] with a control panel</h1>
+  <iframe id="embedded-carousel" src="03-major-features-carousel.html"></iframe>
+  <div id="control-panel">
+    <div class="option" id="dirOption">
+      <p><input type="radio" name="dir" value="ltr" />Left to Right</p>
+      <p><input type="radio" name="dir" value="rtl" />Right to Left</p>
+    </div>
+    <div class="option" id="displayCaption">
+      <p><input type="radio" name="captions" value="always" />Always</p>
+      <p><input type="radio" name="captions" value="hover" />On hover</p>
+      <p><input type="radio" name="captions" value="never" />Never</p>
+    </div>
+    <div class="option" id="displayButtons">
+      <p><input type="radio" name="buttons" value="always" />Always</p>
+      <p><input type="radio" name="buttons" value="hover" />On hover</p>
+      <p><input type="radio" name="buttons" value="never" />Never</p>
+    </div>
+    <div class="option" id="intervalOption">
+      <p><input type="range" name="interval" min="500" max="5000"/></p><p class="currentValue"></p>
+    </div>
+    <div class="option" id="slideOneImageOption">
+      <p><input type="radio" name="slideOneImageUnit" value="px/s" />Pixels per second</p>
+      <p><input type="radio" name="slideOneImageUnit" value="ms" />Milliseconds</p>
+      <p><input type="range" name="slideOneImageValue" min="500" max="5000" /></p><p class="currentValue"></p>
+    </div>
+    <div class="option" id="slideAllImagesOption">
+      <p><input type="radio" name="slideAllImagesUnit" value="px/s" />Pixels per second</p>
+      <p><input type="radio" name="slideAllImagesUnit" value="ms" />Milliseconds</p>
+      <p><input type="range" name="slideAllImagesValue" min="500" max="5000" /></p><p class="currentValue"></p>
+    </div>
+  </div>
+  <script type="text/javascript">
+    // Add a warning if page was not loaded via http[s]
+    $(function() {
+      if(!(location.origin.substr(0, 5)==='http:' || location.origin.substr(0, 6)==='https:')) {
+        $('body').prepend('<div class="warning"><p>WARNING: This page must be served via a web server to function correctly.<p></div>');
+      }
+    });
+
+    // Attach control panel only after the HTML in the iframe has finished loading
+    $('#embedded-carousel').on('load', function() {
+      // Attach event listeners:
+      //   Direction:
+      $('#dirOption').on('change', function(e) {
+        getCarousel().attr('dir', ticked('dir'));
+        displayCurrentOptions();
+      })
+
+      //   Display Caption
+      $('#displayCaption').on('change', function(e) {
+        changeOpts({
+          displayCaption: ticked('captions')
+        });
+        displayCurrentOptions();
+      });
+
+      //   Display Buttons
+      $('#displayButtons').on('change', function(e) {
+        changeOpts({
+          displayButtons: ticked('buttons')
+        });
+        displayCurrentOptions();
+      });
+
+      // Slide Interval
+      $('#intervalOption').on('change', function(e) {
+        changeOpts({
+          automaticSlideOptions: {
+            pauseMs: slid('interval')
+          }
+        });
+        displayCurrentOptions();
+      });
+
+      // Intra-image slide speed
+      $('#slideOneImageOption').on('change', function(e) {
+        changeOpts({
+          slideOneImageAnimation: (slid('slideOneImageValue') + ticked('slideOneImageUnit'))
+        });
+        displayCurrentOptions();
+      });
+
+      // End-to-end slide speed
+      $('#slideAllImagesOption').on('change', function(e) {
+        changeOpts({
+          slideAllImagesAnimation: (slid('slideAllImagesValue') + ticked('slideAllImagesUnit'))
+        });
+        displayCurrentOptions();
+      });
+
+      // Nifty things: grey out text while sliding [for those browsers
+      //   that generate 'oninput' while sliding]...
+      $('#intervalOption').on('input', function(e) {
+        var cv = cvOf('interval');
+        cv.addClass('sliding');
+        cv.text(slid('interval'));
+      });
+
+      $('#slideOneImageOption').on('input', function(e) {
+        var cv = cvOf('slideOneImageValue');
+        cv.addClass('sliding');
+        cv.text(slid('slideOneImageValue'));
+      });
+
+      $('#slideAllImagesOption').on('input', function(e) {
+        var cv = cvOf('slideAllImagesValue');
+        cv.addClass('sliding');
+        cv.text(slid('slideAllImagesValue'));
+      });
+
+      // Put the current option values on the screen.
+      displayCurrentOptions();
+
+      // This page is complicated by the fact that the carousel
+      //   actually lives in an iframe.
+      // In an ordinary situation, $('#my-carousel') would suffice to retrieve
+      //   an instance of MCh Carousel.
+      function getCarousel() {
+        return $('#embedded-carousel').contents().find('#my-carousel');
+      }
+
+      // Invoking MCh Carousel methods must be done on the object
+      //   returned by .data('mch-carousel'), or by
+      //   .prop('data-mch-carousel')
+      // With iframes, the latter must be used.
+      function changeOpts(newOpts) {
+        getCarousel().prop('data-mch-carousel').changeOptions(newOpts);
+      }
+
+      function displayCurrentOptions() {
+        var carousel = getCarousel();
+
+        // Get layout direction from the element and select option accordingly
+        var dir = carousel.css('direction');
+        tick('dir', carousel.css('direction'));
+
+        // Get the other carousel options and display them.
+        var options = carousel.prop('data-mch-carousel').getCurrentOptions();
+
+        // Display captions
+        tick('captions', options.displayCaption);
+
+        // Display buttons
+        tick('buttons', options.displayButtons);
+
+        // Slide interval
+        slide('interval', options.automaticSlideOptions.pauseMs);
+
+        // Intra-image slide speed
+        var iiss = options.slideOneImageAnimation
+            val = iiss.match(/[0-9]+/)[0],
+            unit = iiss.substr(val.length);
+        tick('slideOneImageUnit', unit);
+        slide('slideOneImageValue', val);
+
+        // End-to-end slide speed
+        var eess = options.slideAllImagesAnimation;
+        val = eess.match(/[0-9]+/)[0];
+        unit = eess.substr(val.length);
+        tick('slideAllImagesUnit', unit);
+        slide('slideAllImagesValue', val);
+      }
+
+      // Set a radio set
+      function tick(name, value) {
+        $('input[name="' + name + '"][value="' + value + '"]').prop('checked', 'checked');
+      }
+
+      // Set a slider
+      function ticked(name) {
+        return $('input[name="' + name + '"]:checked').val();
+      }
+
+      // Get the value of a radio set
+      function slide(name, value) {
+        $('input[name="' + name + '"]').val(value);
+        var cv = cvOf(name);
+        cv.text(value);
+        cv.removeClass('sliding');
+      }
+
+      // Get the value of a slider
+      function slid(name) {
+        return $('input[name="' + name + '"]').val();
+      }
+
+      // Who is the .currentValue element next to a given slider?
+      function cvOf(name) {
+        return $('input[name="' + name + '"]').parent().parent().find('.currentValue');
+      }
+    });
+  </script>
+</body>
+</html>
