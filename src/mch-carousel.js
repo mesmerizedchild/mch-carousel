@@ -826,8 +826,10 @@
             var id = t.attr('id'),
                 clazz = t.attr('class'),
                 src = t.attr('src'),
+                srcset = t.attr('srcset'),
+                sizes = t.attr('sizes'),
                 alt = t.attr('alt'),
-                imgOver = t.data('img-over'),
+                imgOver = t.data('src-hover') ? t.data('src-hover') : t.data('img-over'), // Backward compatibility
                 captionDisplay = t.data('caption-display'),
                 data = t.data('data'),
                 captionLang = t.data('caption-lang'),
@@ -870,7 +872,7 @@
             forAppend.append('<img class="' + _st.F + '" src="' + src +
                 '" data-src="' + src + '" ' +
                 (alt ? ' alt="' + alt + '" ' : '') +
-                (imgOver ? ' data-img-over="' + imgOver + '" ' : '') +
+                (imgOver ? ' data-src-hover="' + imgOver + '" ' : '') +
                 (captionDisplay ? ' data-caption-display="' + captionDisplay + '" ' : '') +
                 //'style="height: 100%;" ' +
                 '></img>');
@@ -885,7 +887,7 @@
 
             // Save some more data for the methods...
             var img = imgCntnr.find('img'),
-                hasImgOver = !!(img.data('img-over'));
+                hasImgOver = !!(imgOver);
             optionsChanged(); // Get the caption visibility in sync with the options
 
             // var dom = imgCntnr[0]; Not needed
