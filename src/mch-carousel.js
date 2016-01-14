@@ -67,6 +67,9 @@
             captureArrowKeysOptions: {
                 selector: 'body'
             },
+            picturefill: {
+                integration: true
+            },
             slideWithMouseWheel: true,
             advanced: {
                 slideTolerance: 5,
@@ -284,7 +287,7 @@
             var hid = options._h || (options._h = {}),
                 one = options.slideOneImageAnimation,
                 all = options.slideAllImagesAnimation;
-            // These options are hidden, so they don't need meaningful names, but here we go:
+            // These options are hidden, so they need not have meaningful names, but here we go:
             //   oau = Speed unit for one-image sliding: px/s or ms
             //   oav = Value for one-image sliding
             //   aau = Unit for all-left or all-right sliding: px/s or ms
@@ -330,6 +333,17 @@
             element.addClass(_st.h);
         }
 
+        /* Accepts a single DOM element or an array of DOM elements. */
+        function srcsetChanged(img) {
+            var pfm = options.picturefill.integration && window.picturefill ? window.picturefill : null;
+            if(pfm) {
+                var el = img.constructor===Array ? img : [ img ];
+                pfm({
+                    reevaluate: true,
+                    elements: el
+                });
+            }
+        }
         /*
          * Very basic timer implementation.
          * @constructor
@@ -826,8 +840,13 @@
             var id = t.attr('id'),
                 clazz = t.attr('class'),
                 src = t.attr('src'),
+                srcset = t.attr('srcset'),
+                sizes = t.attr('sizes'),
                 alt = t.attr('alt'),
-                imgOver = t.data('img-over'),
+                title = t.attr('title'),
+                srcHover = t.data('src-hover') ? t.data('src-hover') : t.data('img-over'),
+                srcsetHover = t.data('srcset-hover'),
+                sizesHover = t.data('sizes-hover'),
                 captionDisplay = t.data('caption-display'),
                 data = t.data('data'),
                 captionLang = t.data('caption-lang'),
@@ -867,13 +886,19 @@
             }
 
             // Add the image...
-            forAppend.append('<img class="' + _st.F + '" src="' + src +
-                '" data-src="' + src + '" ' +
+            var img = $('<img class="' + _st.F + '"' + 
+                (src ? ' src="' + src + '" data-src="' + src + '" ' : '') +
+                (srcHover ? ' data-src-hover="' + srcHover + '" ' : '') +
+                (srcset ? ' srcset="' + srcset + '" data-srcset="' + srcset + '" ' : '') +
+                (srcsetHover ? ' data-srcset-hover="' + srcsetHover + '" ' : '') +
+                (sizes ? ' sizes="' + sizes + '" data-sizes="' + sizes + '" ' : '') +
+                (sizesHover ? ' data-sizes-hover="' + sizesHover + '" ' : '') +
                 (alt ? ' alt="' + alt + '" ' : '') +
-                (imgOver ? ' data-img-over="' + imgOver + '" ' : '') +
+                (title ? ' title="' + title + '" ' : '') +
                 (captionDisplay ? ' data-caption-display="' + captionDisplay + '" ' : '') +
                 //'style="height: 100%;" ' +
                 '></img>');
+            forAppend.append(img);
 
             // Attach the events to the image container
             imgCntnr.on({
@@ -884,18 +909,32 @@
             rootElement.on(_st.im, optionsChanged);
 
             // Save some more data for the methods...
-            var img = imgCntnr.find('img'),
-                hasImgOver = !!(img.data('img-over'));
+            var hasHover = !!(srcHover) || !!(srcsetHover),
+                hasSrcset = !!(srcset) || !!(srcsetHover),
+                targetSrc = (src ? src : ''),
+                targetSrcset = (srcset ? srcset : ''),
+                targetSizes = (sizes ? sizes : ''),
+                targetSrcHover = (srcHover ? srcHover : targetSrc),
+                targetSrcsetHover = (srcsetHover ? srcsetHover : targetSrcset),
+                targetSizesHover = (sizesHover ? sizesHover : targetSizes);
             optionsChanged(); // Get the caption visibility in sync with the options
 
             // var dom = imgCntnr[0]; Not needed
 
+            // At this point the image container is not attached to anything yet.
+            // picturefill() cannot be invoked until everything is in place.
             return imgCntnr;
 
             function enterImage() {
                 // If an overlay image is defined, change the image now
-                if (hasImgOver)
-                    img.prop('src', imgOver);
+                if (hasHover) {
+                    img.attr('src', targetSrcHover);
+                    if(hasSrcset) {
+                        img.attr('srcset', targetSrcsetHover);
+                        img.attr('sizes', targetSizesHover);
+                        srcsetChanged(img[0]);
+                    }
+                }
 
                 // Display the caption
                 captionsOn();
@@ -907,8 +946,14 @@
 
             function leaveImage() {
                 // If an overlay image is defined, restore the original image now
-                if (hasImgOver)
-                    img.prop('src', src);
+                if (hasHover) {
+                    img.attr('src', targetSrc);
+                    if(hasSrcset) {
+                        img.attr('srcset', targetSrcset);
+                        img.attr('sizes', targetSizes);
+                        srcsetChanged(img[0]);
+                    }
+                }
 
                 captionsOff();
 
@@ -981,6 +1026,7 @@
                 scrollableViewport = $('<div id="' + _st.Q + '"></div>'),
                 idx = 0,
                 imgCntnrs = [],
+                imgs = [],
                 totalSize = 0,
                 prevPad = [],
                 nextPad = [],
@@ -995,6 +1041,7 @@
                 //   while imgCntnr.data('idx', idx++) just won't?
                 imgCntnr.attr('data-idx', idx++);
                 imgCntnrs.push(imgCntnr);
+                imgs.push(imgCntnr.find('img')[0]);
             });
 
             // Add the containers to the viewport, together with
@@ -1008,6 +1055,9 @@
                 }
                 scrollableViewport.append(imgCntnrs[i]);
             }
+
+            // Invoke picturefill integration over the images in this viewport
+            srcsetChanged(imgs);
 
             // Attach events
             scrollableViewport.on({
