@@ -75,17 +75,18 @@ Complete information in the documentation [at docs/index.html].
   
 ## Dependencies
 * The following JavaScript library must be included for MCh Carousel to work properly:  
-  * [**jQuery 2.1.4**](https://jquery.com/)  
+  * [**jQuery 2.2.0**](https://jquery.com/)  
 * The following JavaScript library should be included if you need cross-browser support for mousewheel and trackpad in MCh Carousel:  
   * [**jQuery Mouse Wheel Plugin 3.1.13**](https://github.com/jquery/jquery-mousewheel)  
   
-If you need support for earlier versions of jQuery and/or the jQuery Mouse Wheel Plugin, let me know [although explicit/official support of jQuery 1.x is out of the question...]  
+If you need support for earlier versions of jQuery and/or the jQuery Mouse Wheel Plugin, let me know [although explicit/official support for jQuery 1.x is out of the question...]  
 If you have successfully tested [or not!] the carousel with another version of jQuery and/or the mousewheel plugin, also let me know.  
-Support for later version of jQuery should be available shortly after they are released, and will be documented here.  
+Support for later versions of jQuery should be available shortly after they are released, and will be documented here.  
+Note that MCh Carousel 1.0 was tested against jQuery 2.1.4; because this new version does not introduce any major changes, MCh Carousel 1.1 should not have any problems working with jQuery 2.1.4 either, but I have not tested this personally.  
   
 ## Browser support  
-As a rule of thumb, MCh Carousel will work on any browser supported by jQuery 2.1.4 [see [https://jquery.com/browser-support/](https://jquery.com/browser-support/) for more information]. See the [list of supported browsers](docs/supported-browsers.html) for more information.  
-It has been tested successfully on the latest versions [as of September 2015] of:
+As a rule of thumb, MCh Carousel will work on any browser supported by jQuery 2.2.0 [see [https://jquery.com/browser-support/](https://jquery.com/browser-support/) for more information].  
+It has been tested successfully on the latest versions [as of January 2016] of:
 * Google Chrome [Windows 7, Windows 10, Mac OS X Yosemite, Ubuntu 14.02 and Android]
 * Mozilla Firefox [Windows 7, Windows 10, Mac OS X Yosemite, Ubuntu 14.02 and Android]
 * Internet Explorer [Windows 7 and Windows 10]
@@ -100,13 +101,12 @@ If your experience is [quite] different, then let me know.
 This software is released under the MIT licence; see LICENCE.txt.
   
 * **Is there a CDN for MCh Carousel?**  
-Consider using [RawGit](https://rawgit.com/), who "serves raw files directly from GitHub with proper Content-Type headers". You may choose between pointing to files that sit in the master branch [which are always up-to-date to the latest version of MCh Carousel], or to files  in the release branches [which are stable and never change].
+Consider using [RawGit](https://rawgit.com/), who "serves raw files directly from GitHub with proper Content-Type headers". You may choose between pointing to files that sit in the master branch [which are always up-to-date to the latest version of MCh Carousel], or to files in the release branches [which are stable and never change].  
   
 * **Is MCh Carousel responsive?**  
 Mostly.  
-It's fully responsive to changes of width triggered by CSS media queries, or by resizing the window.  
-MCh Carousel is responsive to changes of height, when triggered via CSS media queries. See 'The Techie[r] Bits' in the documentation for more details.  
-At the moment MCh Carousel is not responsive to changes of height triggered via Javascript. I'm working on fixing these quirks.  
+Changes to width and height caused by CSS media queries, usage of relative units, and/or resizing the window, should pose no problems.
+At the moment MCh Carousel is not responsive to changes done via Javascript. The method forceResize() needs to be invoked on the carousel to ensure that MCh Carousel responds correctly to this type of size changes.  
   
 * **I'm having problems with Google Chrome and other Chromium-based browsers [Opera and UC Browser]; do you know anything about it?**  
     There are two known problems with Chromium that may affect an MCh Carousel:  

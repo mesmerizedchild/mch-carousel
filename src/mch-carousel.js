@@ -265,6 +265,7 @@
             //   the *height* of the images is resized accordingly,
             //   but the width is *not* resized in Chrome and IE
             //   [it works fine in Firefox].
+            // FIXME: Is the above still valid after the line-height workaround in carouselResized() ??
 
                           // #mch-viewport,.mch-image-container
             rootElement.find(_st.c + ',' + _st.k).each(function() {
@@ -300,6 +301,7 @@
             hid.aav = all ? parseInt(all) : 1500;
         }
 
+        /* Do we slide left-to-right or right-to-left ? */
         function slidesLtr() {
             // Imposed by the options...
             switch (options.automaticSlideOptions.direction) {
@@ -325,11 +327,11 @@
             element.removeClass(_st.a);
         }
 
-        function isBeingHovered(element) {
+        function makeHovered(element) {
             element.removeClass(_st.h);
         }
 
-        function isNotBeingHovered(element) {
+        function makeUnhovered(element) {
             element.addClass(_st.h);
         }
 
@@ -344,6 +346,7 @@
                 });
             }
         }
+
         /*
          * Very basic timer implementation.
          * @constructor
@@ -714,7 +717,7 @@
                 switch (options.displayButtons) {
                     case 'hover':
                         // Assume unhovered
-                        isNotBeingHovered(subPane);
+                        makeUnhovered(subPane);
                         makeVisible(subPane);
                         break;
                     case 'never':
@@ -722,7 +725,7 @@
                         break;
                         // case 'always':
                     default: // Show whether case is 'always', or some gibberish
-                        isBeingHovered(subPane);
+                        makeHovered(subPane);
                         makeVisible(subPane);
                 }
             }
@@ -730,13 +733,13 @@
             function hoveredButtons() {
                 // Show the buttons if needed
                 if (options.displayButtons === 'hover')
-                    isBeingHovered(subPane);
+                    makeHovered(subPane);
             }
 
             function unhoveredButtons() {
                 // Hide the button if needed
                 if (options.displayButtons === 'hover')
-                    isNotBeingHovered(subPane);
+                    makeUnhovered(subPane);
             }
         };
 
@@ -922,7 +925,7 @@
             });
             rootElement.on(_st.im, optionsChanged);
 
-            // Save some more data for the methods...
+            // Cache some more data for the methods...
             var hasHover = !!(srcHover) || !!(srcsetHover),
                 hasSrcset = !!(srcset) || !!(srcsetHover),
                 targetSrc = (src ? src : ''),
@@ -983,13 +986,13 @@
             function captionsOn() {
                 // Show the caption if needed
                 if (captionCntnr && captionsWhen() === 'hover')
-                    isBeingHovered(captionCntnr);
+                    makeHovered(captionCntnr);
             }
 
             function captionsOff() {
                 // Hide the caption if needed
                 if (captionCntnr && captionsWhen() === 'hover')
-                    isNotBeingHovered(captionCntnr);
+                    makeUnhovered(captionCntnr);
             }
 
             function captionsWhen() {
@@ -1005,15 +1008,15 @@
                     switch (captionsWhen()) {
                         case 'hover':
                             // Assume unhovered
-                            isNotBeingHovered(captionCntnr);
+                            makeUnhovered(captionCntnr);
                             makeVisible(captionCntnr);
                             break;
                         case 'never':
                             makeInvisible(captionCntnr);
                             break;
-                            // case 'always':
+                        // case 'always':
                         default: // Show whether case is 'always', or some gibberish
-                            isBeingHovered(captionCntnr);
+                            makeHovered(captionCntnr);
                             makeVisible(captionCntnr);
                     }
             }

@@ -110,7 +110,7 @@ $(function(){
 			notifyParentIFrame();
 		},
 
-		iconClass: function(event, data){
+		icon: function(event, data){
 			var t = data.node.data.tag;
 			if(!t) 
 				return def();
