@@ -1,7 +1,7 @@
 /**
- * MCh Carousel 1.0
+ * MCh Carousel 1.1
  *
- * © 2015 Roberto Giuntoli [rg@mesmerizedchild.eu]
+ * © 2015-2016 Roberto Giuntoli [rg@mesmerizedchild.eu]
  * More information at https://github.com/mesmerizedchild/mch-carousel/blob/master/README.md
  *
  * Dependencies:
