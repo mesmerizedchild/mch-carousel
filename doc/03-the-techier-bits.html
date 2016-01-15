@@ -340,12 +340,15 @@
           </ul>
           <p>The methods above must be invoked on the MChCarousel object, which may be obtained as follows:</p>
           <pre class="prettyprint"><code class="lang-html">  &lt;script type="text/javascript"&gt;
-    $('my-carousel').mchCarousel();
+    /* Start MCh Carousel on the element with id 'my-carousel' */
+    $('#my-carousel').mchCarousel();
+    /* Retrieve the MChCarousel object behind the carousel. */
     var mchCarousel = $('my-carousel').data('mch-carousel');
+    /* Invoke a method on said object. */
     mchCarousel.slideLast();
   &lt;/script&gt;</code></pre>
             <div class="copy-to-clipboard"></div>
-            <p>The object obtained via <code class="lang-js inline">data()</code> does not change over the lifetime of the carousel, so it's safe to store it in a variable for later use.</p>
+            <p>The object obtained via <code class="lang-js inline">data('mch-carousel')</code> does not change over the lifetime of the carousel, so it's safe to store it in a variable for later use.</p>
           </div>
         </section>
         <section>
