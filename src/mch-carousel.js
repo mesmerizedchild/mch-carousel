@@ -642,13 +642,27 @@
             }
 
             function carouselResized() {
-                if (!buttonsPane)
-                    return;
-                // Show or hide the buttons, depending on the options and on the current width
-                if (options.displayButtons !== 'never' && carousel.width() < viewport[0].totalWidth())
-                    buttonsPane[0].showNavigationButtons();
-                else
-                    buttonsPane[0].hideNavigationButtons();
+                // Workaround for relative heights for Internet Explorer and Edge.
+                // Toggling line-height between 0 and 1px forces these browser
+                //   to correctly recalculate the image width, without affecting
+                //   how the image looks [and thus avoiding the flickering that
+                //   would occur if we changed another attribute such as padding].
+                $(this).find('img.mch-image').each(function() { 
+                    var t = $(this);
+                    var l = parseInt(t.css('line-height'));
+                    if(l===0)
+                        t.css('line-height', '1px');
+                    else
+                        t.css('line-height', '0');
+                });
+
+                if (buttonsPane) {
+                    // Show or hide the buttons, depending on the options and on the current width
+                    if (options.displayButtons !== 'never' && carousel.width() < viewport[0].totalWidth())
+                        buttonsPane[0].showNavigationButtons();
+                    else
+                        buttonsPane[0].hideNavigationButtons();
+                }
             }
 
             function enterCarousel() {
